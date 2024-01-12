@@ -3,11 +3,6 @@ class Movable {
     x = 100;
     y = 100;
 
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;

@@ -1,23 +1,29 @@
 class World {
+    canvas;
     ctx;
-    character = new Character(100, 100);
+    character = new Character();
     enemies = [
-        new Pufferfish(300, 300),
-        new Pufferfish(320, 280),
-        new Pufferfish(340, 340)
+        new Pufferfish(),
+        new Pufferfish(),
+        new Pufferfish()
     ];
 
     constructor(canvas) {
         this.ctx = canvas.getContext('2d');
+        this.canvas = canvas;
         this.draw();
     }
 
     draw() {
-            const char = this.character;
-            this.ctx.drawImage(char.img, char.x, char.y, char.width, char.height);
-            for (let i = 0; i < this.enemies.length; i++) {
-                const enemy = this.enemies[i];
-                this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
-            }
+        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const char = this.character;
+        this.ctx.drawImage(char.img, char.x, char.y, char.width, char.height);
+        this.enemies.forEach(e => {
+            this.ctx.drawImage(e.img, e.x, e.y, e.width, e.height)
+        });
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
     }
 }
