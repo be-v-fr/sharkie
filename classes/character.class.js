@@ -1,9 +1,13 @@
 class Character extends Movable {
-    constructor(name, img, posX, posY, width, height) {
-        super(name, img, posX, posY, width, height);
+    width = 150;
+    height = 225;
+
+    constructor(x, y) {
+        super(x, y);
+        super.loadImage('../img/sharkie/1.IDLE/1.png');
     }
 
     jump() {
-        
+
     }
 }
