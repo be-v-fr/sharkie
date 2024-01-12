@@ -2,10 +2,10 @@ class World {
     canvas;
     ctx;
     backdrop = [
-        new Movable(),
-        new Movable(),
-        new Movable(),
-        new Movable()
+        new Backdrop('./img/background/Layers/5.Water/D.png'),
+        new Backdrop('./img/background/Layers/4.Fondo/D.png'),
+        new Backdrop('./img/background/Layers/2.Floor/D.png'),
+        new Backdrop('./img/background/Layers/1.Light/D.png')
     ]
     character = new Character();
     enemies = [
@@ -17,26 +17,27 @@ class World {
     constructor(canvas) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        this.backdrop[0].loadImage('./img/background/Layers/5.Water/D.png');
-        this.backdrop[1].loadImage('./img/background/Layers/4.Fondo/D.png');
-        this.backdrop[2].loadImage('./img/background/Layers/2.Floor/D.png');
-        this.backdrop[3].loadImage('./img/background/Layers/1.Light/D.png');
         this.draw();
     }
 
+
+
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.backdrop.forEach(b => {
-            this.ctx.drawImage(b.img, b.x, b.y, 1440, 480)
-        });
-        const char = this.character;
-        this.ctx.drawImage(char.img, char.x, char.y, char.width, char.height);
-        this.enemies.forEach(e => {
-            this.ctx.drawImage(e.img, e.x, e.y, e.width, e.height)
-        });
+        this.addObjectsToMap(this.backdrop);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.enemies);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
+    }
+
+    addObjectsToMap(obj) {
+        obj.forEach(o => { this.addToMap(o) });
+    }
+
+    addToMap(mo) {
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
 }
