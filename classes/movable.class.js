@@ -18,10 +18,6 @@ class Movable extends Visible {
         super();
     }
 
-    constructor() {
-        super();
-    }
-
     loadImages(name, dir, numberOfSprites) {
         this.imageCache[name] = [];
         for (let i = 1; i <= numberOfSprites; i++) {
