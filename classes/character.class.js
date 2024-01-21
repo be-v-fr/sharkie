@@ -1,8 +1,9 @@
 class Character extends Movable {
     width = 150;
     height = 225;
-    speed = 3;
     world;
+    poison = 40;
+    speed = 3;
     idleSince;
 
     constructor() {
@@ -10,6 +11,8 @@ class Character extends Movable {
         this.xStart = 140;
         this.x = this.xStart;
         this.y = 100;
+        this.initFrame(30, 108, 90, 60);
+        this.swimAndSinkY();
         this.loadImages('idle', '../img/sharkie/1.IDLE/', 18);
         this.loadImages('rest', '../img/sharkie/2.LONG_IDLE/I', 14);
         this.loadImages('swim', '../img/sharkie/3.SWIM/', 6);
@@ -83,7 +86,12 @@ class Character extends Movable {
         this.state = 'rest';
     }
 
-    jump() {
-
+    attack() {
+        // Animation etc.
+        const isToxic = this.poison > 0;
+        world.bubbles.push(new Bubble(this.x + 100, this.y + 130, isToxic));
+        if(isToxic) {
+            this.poison -= 20;
+        }
     }
 }
