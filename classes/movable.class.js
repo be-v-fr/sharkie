@@ -6,7 +6,7 @@ class Movable extends Visible {
     speedSinking = 1.4;
     acceleration = 0.1;
     health = 100;
-    lastHit;
+    lastHit = 0;
     speed = 0;
     moveIntervalId;
     otherDirection = false;
@@ -37,7 +37,7 @@ class Movable extends Visible {
 
     swimAndSinkY() {
         setInterval(() => {
-            if (this.isBelowRoof() && this.isAboveGround()) {
+            if (this.isBelowRoof() && this.isAboveGround() && this.state != 'hit') {
                 this.y += this.speedY;
             } else {
                 this.speedY = 0;
@@ -61,10 +61,14 @@ class Movable extends Visible {
     }
 
     sink() {
-        if (this.speedY <= this.speedSinking) {
-            this.speedY += this.acceleration;
+        if (this.state != 'hit') {
+            if (this.speedY <= this.speedSinking) {
+                this.speedY += this.acceleration;
+            } else {
+                this.speedY -= this.acceleration;
+            }
         } else {
-            this.speedY -= this.acceleration;
+            this.speedY = 0;
         }
     }
 
@@ -84,15 +88,10 @@ class Movable extends Visible {
         if (this.health < 0) {
             this.health = 0;
         } else {
-            this.lastHit = new Date().getTime();
+            this.lastHit = Date.now();
         }
 
         // Animation Verletzung
-    }
-
-    isHurt() {
-        let hitSince = new Date().getTime() - this.lastHit;
-        return hitSince < 1000;
     }
 
     isDead() {

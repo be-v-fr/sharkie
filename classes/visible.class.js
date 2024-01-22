@@ -8,6 +8,7 @@ class Visible {
     currentImg = 0;
     state = '';
     animateIntervalId;
+    activeAnimation = '';
     loopAnimation = true;
     frame = [null, null, null, null];
 
@@ -30,6 +31,7 @@ class Visible {
 
     animate(name) {
         const numberOfSprites = this.imageCache[name].length;
+        this.activeAnimation = name;
         this.animateIntervalId = setInterval(() => {
             if (this.loopAnimation) {
                 this.currentImg %= numberOfSprites;

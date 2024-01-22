@@ -68,9 +68,19 @@ class World {
     }
 
     checkCharacter(enemy) {
-        if (this.character.isColliding(enemy)) {
-            this.character.hit(4);
-            this.stats[0].update(this.character.health);
+        if (this.character.isColliding(enemy) && this.character.isRecovered()) {
+            this.character.clearState();
+            this.character.state = 'hit';
+            this.keyboard.toggleControls(true);
+            if(enemy instanceof Pufferfish) {
+                this.character.animate('hurt poisoned');
+                this.character.hit(4);
+                this.stats[0].update(this.character.health);
+            }
+            setTimeout(() => {
+                this.keyboard.toggleControls(false);
+                this.character.idle();
+            }, 400);
         }
     }
 

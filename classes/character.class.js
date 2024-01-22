@@ -19,6 +19,7 @@ class Character extends Movable {
         this.loadImages('swim', '../img/sharkie/3.SWIM/', 6);
         this.loadImages('bubble normal', '../img/sharkie/4.Attack/normal_bubble/', 8);
         this.loadImages('bubble toxic', '../img/sharkie/4.Attack/toxic_bubble/', 8);
+        this.loadImages('hurt poisoned', '../img/sharkie/5.Hurt/1.Poisoned/', 5);
         this.animate('idle');
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3')
@@ -63,7 +64,7 @@ class Character extends Movable {
     }
 
     actNone(key) {
-        if (this.state != 'rest') {
+        if (this.state != 'rest' && this.state != 'hit') {
             if (this.noKey(key) && this.state != 'idle') {
                 this.idle();
             } else if (Date.now() - this.idleSince > 4000) {
@@ -132,6 +133,15 @@ class Character extends Movable {
         } else {
             this.playAnimationOnce('bubble normal');
         }
+        this.newBubbleAfterTimeout(isToxic);
+        this.idle();
+    }
+
+    isRecovered() {
+        return this.state != 'hit' || Date.now() - this.lastHit > 1000;
+    }
+
+    newBubbleAfterTimeout(isToxic) {
         setTimeout(() => {
             if (this.otherDirection) {
                 world.bubbles.push(new Bubble(this.x + 8, this.y + 120, isToxic, this.otherDirection));
@@ -140,6 +150,5 @@ class Character extends Movable {
             }
         }, 660);
         this.lastBubble = Date.now();
-        this.idle();
     }
 }
