@@ -16,6 +16,11 @@ class Movable extends Visible {
         super();
     }
 
+    clearIntervals() {
+        clearInterval(this.moveIntervalId);
+        clearInterval(this.animateIntervalId);
+    }
+
     moveX(speed) {
         if (this.otherDirection) {
             speed = -speed;
@@ -32,24 +37,27 @@ class Movable extends Visible {
 
     swimAndSinkY() {
         setInterval(() => {
-            if (this.isBelowRoof() || (this.isAboveGround() && this.speedY > this.speedSinking)) {
+            if (this.isBelowRoof() && this.isAboveGround()) {
                 this.y += this.speedY;
-                this.sink();
-            } else if (this.isAboveGround()) {
-                if(this.speedY < 0) { // falls Aufwärtsbewegung
-                    this.speedY = 0; // sofort stoppen
+            } else {
+                this.speedY = 0;
+                // Sound für Kollision
+                if (!this.isBelowRoof()) {
+                    this.y = this.yMin;
+                } else if (!this.isAboveGround()) {
+                    this.y = this.yMax;
                 }
-                this.sink();
             }
+            this.sink();
         }, 1000 / 60);
     }
 
     isAboveGround() { // später für Hindernisse anpassen ODER über Kollisionsmethode regeln
-        return this.y < this.yMax;
+        return this.y <= this.yMax;
     }
 
     isBelowRoof() {
-        return this.y > this.yMin;
+        return this.y >= this.yMin;
     }
 
     sink() {

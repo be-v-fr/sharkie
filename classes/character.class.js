@@ -5,6 +5,7 @@ class Character extends Movable {
     poison = 40;
     speed = 3;
     idleSince;
+    lastBubble = 0;
 
     constructor() {
         super().loadImage('../img/sharkie/1.IDLE/1.png');
@@ -16,6 +17,8 @@ class Character extends Movable {
         this.loadImages('idle', '../img/sharkie/1.IDLE/', 18);
         this.loadImages('rest', '../img/sharkie/2.LONG_IDLE/I', 14);
         this.loadImages('swim', '../img/sharkie/3.SWIM/', 6);
+        this.loadImages('bubble normal', '../img/sharkie/4.Attack/normal_bubble/', 8);
+        this.loadImages('bubble toxic', '../img/sharkie/4.Attack/toxic_bubble/', 8);
         this.animate('idle');
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3')
@@ -54,14 +57,14 @@ class Character extends Movable {
     }
 
     actOther(key) {
-        if (key.SPACE) {
-            this.attack();
+        if (key.SPACE && Date.now() - this.lastBubble > 750) {
+            this.attack(key.X);
         }
     }
 
     actNone(key) {
         if (this.state != 'rest') {
-            if (!key.RIGHT && !key.LEFT && this.state != 'idle') {
+            if (this.noKey(key) && this.state != 'idle') {
                 this.idle();
             } else if (Date.now() - this.idleSince > 4000) {
                 this.rest();
@@ -69,10 +72,13 @@ class Character extends Movable {
         }
     }
 
+    noKey(key) {
+        return !key.RIGHT && !key.LEFT && !key.UP && !key.DOWN && !key.SPACE;
+    }
+
     clearState() {
         this.idleSince = Date.now() * 2; // timestamp in ferner Zukunft
-        clearInterval(this.moveIntervalId);
-        clearInterval(this.animateIntervalId);
+        this.clearIntervals();
     }
 
     swim(right) {
@@ -116,12 +122,24 @@ class Character extends Movable {
         this.state = 'rest';
     }
 
-    attack() {
-        // Animation etc.
-        const isToxic = this.poison > 0;
-        world.bubbles.push(new Bubble(this.x + 100, this.y + 130, isToxic));
+    attack(isToxic) {
+        if (this.poison == 0) {
+            isToxic = false;
+        }
         if (isToxic) {
             this.poison -= 20;
+            this.playAnimationOnce('bubble toxic');
+        } else {
+            this.playAnimationOnce('bubble normal');
         }
+        setTimeout(() => {
+            if (this.otherDirection) {
+                world.bubbles.push(new Bubble(this.x + 8, this.y + 120, isToxic, this.otherDirection));
+            } else {
+                world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
+            }
+        }, 660);
+        this.lastBubble = Date.now();
+        this.idle();
     }
 }

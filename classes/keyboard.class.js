@@ -4,6 +4,7 @@ class Keyboard {
     UP = false;
     DOWN = false;
     SPACE = false;
+    X = false;
 
     constructor() {
         document.addEventListener('keydown', (ev) => {
@@ -13,6 +14,7 @@ class Keyboard {
             this.setKey('this.UP', 'ArrowUp', get, true);
             this.setKey('this.DOWN', 'ArrowDown', get, true);
             this.setKey('this.SPACE', ' ', get, true);
+            this.setKey('this.X', 'x', get, true);
         });
         document.addEventListener('keyup', (ev) => {
             let get = ev.key;
@@ -21,6 +23,7 @@ class Keyboard {
             this.setKey('this.UP', 'ArrowUp', get, false);
             this.setKey('this.DOWN', 'ArrowDown', get, false);
             this.setKey('this.SPACE', ' ', get, false);
+            this.setKey('this.X', 'x', get, false);
         });
     }
 
