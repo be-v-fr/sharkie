@@ -3,12 +3,13 @@
 }
 
 body {
+    margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('https://cdn.pixabay.com/photo/2022/10/01/22/39/underwater-7492390_1280.jpg');
+    background-image: url('./img/underwater-7492390.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

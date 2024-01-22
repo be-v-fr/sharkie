@@ -24,27 +24,47 @@ class Character extends Movable {
 
     act() {
         let key = this.world.keyboard;
+        this.actLeftRight(key);
+        this.actUpDown(key);
+        this.actOther(key);
+        this.actNone(key);
+    }
+
+    actLeftRight(key) {
         if (key.RIGHT && !key.LEFT) {
             if (this.state != 'swim right') {
                 this.swim(true);
             } // else: if( rechter Level-Rand ) { ... }
-        } else {
-            if (key.LEFT && !key.RIGHT && this.state != 'swim blocked') {
-                if (this.state != 'swim left') {
-                    this.swim(false);
-                }
-                if (this.x < 50) {
-                    this.block();
-                }
+        } else if (key.LEFT && !key.RIGHT && this.state != 'swim blocked') {
+            if (this.state != 'swim left') {
+                this.swim(false);
+            }
+            if (this.x < 50) {
+                this.block();
             }
         }
+    }
+
+    actUpDown(key) {
+        if (key.UP) {
+            this.swimY(true);
+        } else if (key.DOWN) {
+            this.swimY(false);
+        }
+    }
+
+    actOther(key) {
+        if (key.SPACE) {
+            this.attack();
+        }
+    }
+
+    actNone(key) {
         if (this.state != 'rest') {
             if (!key.RIGHT && !key.LEFT && this.state != 'idle') {
                 this.idle();
-            } else {
-                if (Date.now() - this.idleSince > 4000) {
-                    this.rest();
-                }
+            } else if (Date.now() - this.idleSince > 4000) {
+                this.rest();
             }
         }
     }
@@ -61,10 +81,20 @@ class Character extends Movable {
         this.animate('swim');
         this.moveX(this.speed);
         this.playSound('swimming');
-        if(right) {
+        if (right) {
             this.state = 'swim right';
         } else {
             this.state = 'swim left';
+        }
+    }
+
+    swimY(up) {
+        // Sound einfügen
+        const speed = 3;
+        if (up) {
+            this.speedY = -speed;
+        } else {
+            this.speedY = speed * 0.8;
         }
     }
 
@@ -90,7 +120,7 @@ class Character extends Movable {
         // Animation etc.
         const isToxic = this.poison > 0;
         world.bubbles.push(new Bubble(this.x + 100, this.y + 130, isToxic));
-        if(isToxic) {
+        if (isToxic) {
             this.poison -= 20;
         }
     }

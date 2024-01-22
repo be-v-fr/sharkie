@@ -1,15 +1,13 @@
 class Movable extends Visible {
     speedY = 0;
     xStart;
+    yMin = -100;
+    yMax = 240;
     speedSinking = 1.4;
-    acceleration = 0.08;
+    acceleration = 0.1;
     health = 100;
     lastHit;
     speed = 0;
-    imageCache = {};
-    currentImg = 0;
-    state = '';
-    animateIntervalId;
     moveIntervalId;
     otherDirection = false;
     sounds = {};
@@ -18,28 +16,8 @@ class Movable extends Visible {
         super();
     }
 
-    loadImages(name, dir, numberOfSprites) {
-        this.imageCache[name] = [];
-        for (let i = 1; i <= numberOfSprites; i++) {
-            const path = dir + i + '.png';
-            let img = new Image();
-            img.src = path;
-            this.imageCache[name].push(img);
-        }
-    }
-
-    animate(name) {
-        const numberOfSprites = this.imageCache[name].length;
-        this.currentImg = 0;
-        this.animateIntervalId = setInterval(() => {
-            this.currentImg %= numberOfSprites;
-            this.img = this.imageCache[name][this.currentImg];
-            this.currentImg++;
-        }, 1000 / 8);
-    }
-
     moveX(speed) {
-        if(this.otherDirection) {
+        if (this.otherDirection) {
             speed = -speed;
         }
         this.moveIntervalId = setInterval(() => {
@@ -54,15 +32,24 @@ class Movable extends Visible {
 
     swimAndSinkY() {
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY < 0 || (this.isAboveGround() && this.speedY > this.speedSinking)) {
+            if (this.isBelowRoof() || (this.isAboveGround() && this.speedY > this.speedSinking)) {
                 this.y += this.speedY;
+                this.sink();
+            } else if (this.isAboveGround()) {
+                if(this.speedY < 0) { // falls Aufwärtsbewegung
+                    this.speedY = 0; // sofort stoppen
+                }
                 this.sink();
             }
         }, 1000 / 60);
     }
 
     isAboveGround() { // später für Hindernisse anpassen ODER über Kollisionsmethode regeln
-        return this.y < 240;
+        return this.y < this.yMax;
+    }
+
+    isBelowRoof() {
+        return this.y > this.yMin;
     }
 
     sink() {
@@ -70,18 +57,6 @@ class Movable extends Visible {
             this.speedY += this.acceleration;
         } else {
             this.speedY -= this.acceleration;
-        }
-    }
-
-    swimY(up) {
-        // Sound einfügen
-        const speed = 3;
-        if (up) {
-            if (this.y > -20) {
-                this.speedY = -speed;
-            }
-        } else {
-            this.speedY = speed * 1.1;
         }
     }
 
@@ -98,17 +73,13 @@ class Movable extends Visible {
 
     hit(damage) {
         this.health -= damage;
-        if(this.health < 0) {
+        if (this.health < 0) {
             this.health = 0;
         } else {
-            this.lastHit = new Date().getTime(); // timestamp-Methode schon implementiert (bei idleSince)??
+            this.lastHit = new Date().getTime();
         }
-        // HEALTHBAR AKTUALISIEREN
-
 
         // Animation Verletzung
-        // GENERELL ZU ANIMATIONEN: ERSTELLEN UND LÖSCHEN VON INTERVALLEN
-        // ERSETZEN DURCH VERZWEIGUNGEN INNERHALB EINES INTERVALLS
     }
 
     isHurt() {

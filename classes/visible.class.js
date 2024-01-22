@@ -4,6 +4,10 @@ class Visible {
     y = 0;
     width = 0;
     height = 0;
+    imageCache = {};
+    currentImg = 0;
+    state = '';
+    animateIntervalId;
     frame = [null, null, null, null];
 
     // VS Code Plugin "Copy Relative Path" installieren (für korrekte Slash-Striche)!!
@@ -11,6 +15,26 @@ class Visible {
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
+    }
+
+    loadImages(name, dir, numberOfSprites) {
+        this.imageCache[name] = [];
+        for (let i = 1; i <= numberOfSprites; i++) {
+            const path = dir + i + '.png';
+            let img = new Image();
+            img.src = path;
+            this.imageCache[name].push(img);
+        }
+    }
+
+    animate(name) {
+        const numberOfSprites = this.imageCache[name].length;
+        this.currentImg = 0;
+        this.animateIntervalId = setInterval(() => {
+            this.currentImg %= numberOfSprites;
+            this.img = this.imageCache[name][this.currentImg];
+            this.currentImg++;
+        }, 1000 / 8);
     }
 
     draw(ctx) {

@@ -85,33 +85,6 @@ class World {
         }
     }
 
-    checkCollisions() {
-        setInterval(() => {
-            this.enemies.forEach((enemy) => {
-                this.checkCharacter(enemy);
-                this.checkBubbles(enemy);
-            })
-        }, 200);
-    }
-
-    checkCharacter(enemy) {
-        if (this.character.isColliding(enemy)) {
-            this.character.hit(4);
-            this.stats[0].update(this.character.health);
-        }
-    }
-
-    checkBubbles(enemy) {
-        for (let i = this.bubbles.length - 1; i >= 0; i--) {
-            let bubble = this.bubbles[i];
-            if (bubble.isColliding(enemy)) {
-                enemy.hit(bubble.getDamage());
-                bubble.pop(); // Sound und, falls vorhanden, Animation
-                this.bubbles = removeAt(i, this.bubbles);
-            }
-        }
-    }
-
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.ctx.translate(-this.translateX, 0);
