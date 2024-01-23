@@ -1,19 +1,10 @@
 class Stats extends Visible {
-    imageCache = [
-        './img/marks/green/Life/1.png',
-        './img/marks/green/Life/2.png',
-        './img/marks/green/Life/3.png',
-        './img/marks/green/Life/4.png',
-        './img/marks/green/Life/5.png',
-        './img/marks/green/Life/6.png',
-    ];
-    // anders als bei movable kein JSON. Mögliche Umsetzung: Wird in loadImages() kein Name übergeben, einfach keinen Key aufrufen
-    // und stattdessen in normalen Array ("[]" statt "{}") einfügen
-    // alternativ: JSON.parse()??
-    // AUßERDEM: Durch image-Objekte ersetzen!!
+    type;
 
-    constructor(x, y) {
-        super().loadImage('./img/marks/green/Life/6.png');
+    constructor(x, y, type) { // type = 'coins', 'health' oder 'poison'
+        super().loadImage(`./img/marks/green/${type}/6.png`);
+        this.loadImages(type, `./img/marks/green/${type}/`, 6);
+        this.type = type;
         this.x = x;
         this.y = y;
         this.width = 188;
@@ -21,24 +12,20 @@ class Stats extends Visible {
         this.initFrame(0, 0, this.width, this.height);
     }
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
     update(value) {
         let index = this.resolveImageIndex(value);
-        this.img.src = `./img/marks/green/Life/${index}.png`; // Pfadzuweisung durch image-Objekt ersetzen!!
+        this.img = this.imageCache[`${this.type}`][index];
     }
 
     resolveImageIndex(value) {
-        let index = 6;
+        let index = 5;
         if (value < 100) {
-            if (value == 0) {
-                index = 1;
+            if (value <= 0) {
+                index = 0;
             } else {
-                index = value / 100 * (this.imageCache.length - 1);
-                index = Math.floor(index) + 2;
+                // index = value / 100 * (this.imageCache[this.type].length - 1);
+                index = value / 20;
+                index = Math.floor(index) + 1;
             }
         }
         return index;

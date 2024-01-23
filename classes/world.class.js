@@ -12,9 +12,9 @@ class World {
     dX = this.character.x - this.character.xStart - this.floor.x;
     enemies = level1.enemies;
     stats = [
-        new Stats(16, 2),
-        new Stats(16, 2 + 1 * 36),
-        new Stats(16, 2 + 2 * 36)
+        new Stats(16, 2, 'health'),
+        new Stats(16, 2 + 1 * 40, 'coins'),
+        new Stats(16, 2 + 2 * 40, 'poison')
     ];
     bubbles = [];
 

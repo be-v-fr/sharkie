@@ -48,7 +48,7 @@ class Visible {
         let interval = setInterval(() => {
             this.img = this.imageCache[name][i];
             i++;
-            if(i == numberOfSprites) {
+            if (i == numberOfSprites) {
                 clearInterval(interval);
                 this.loopAnimation = true;
             }

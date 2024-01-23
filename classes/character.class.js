@@ -148,7 +148,7 @@ class Character extends Movable {
             } else {
                 world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
             }
-        }, 660);
+        }, 680);
         this.lastBubble = Date.now();
     }
 }
