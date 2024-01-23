@@ -21,9 +21,11 @@ class World {
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        this.checkCollisions();
+        this.checkPositions();
         this.keyboard = keyboard;
         this.floor.moveX(-this.floor.speed);
+        this.stats[1].update(this.character.coins);
+        this.stats[2].update(this.character.poison);
         this.draw();
         this.set();
     }
@@ -58,31 +60,40 @@ class World {
         }
     }
 
-    checkCollisions() {
+    checkPositions() {
         setInterval(() => {
             this.enemies.forEach((enemy) => {
                 this.checkCharacter(enemy);
                 this.checkBubbles(enemy);
             })
-        }, 200);
+        }, 100);
     }
 
     checkCharacter(enemy) {
-        if (this.character.isColliding(enemy) && this.character.isRecovered()) {
-            this.character.clearState();
-            this.character.state = 'hit';
-            this.keyboard.toggleControls(true);
-            if (enemy instanceof Pufferfish) {
-                this.character.animate('hurt poisoned');
-                this.character.hit(4);
-                this.stats[0].update(this.character.health);
+        if (enemy.x - this.character.x < 100 + 320 * (1 - Math.random())) {
+            if (enemy.state != 'attacking') {
+                enemy.attack();
+            } else if (this.character.isColliding(enemy)) {
+                if (this.character.isRecovered()) {
+                    this.character.clearState();
+                    this.character.state = 'hit';
+                    this.keyboard.toggleControls(true);
+                    if (enemy instanceof Pufferfish) {
+                        this.character.animate('hurt poisoned');
+                        this.character.hit(4);
+                        this.stats[0].update(this.character.health);
+                    }
+                    setTimeout(() => {
+                        this.keyboard.toggleControls(false);
+                        this.character.idle();
+                    }, 400);
+                }
             }
-            setTimeout(() => {
-                this.keyboard.toggleControls(false);
-                this.character.idle();
-            }, 400);
         }
     }
+
+
+
 
     checkBubbles(enemy) {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {

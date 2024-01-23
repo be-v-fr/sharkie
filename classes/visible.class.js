@@ -74,7 +74,8 @@ class Visible {
         }
     }
 
-    playAnimation() { // Methode, um Animation einmal abzuspielen, kann durch loop/Intervall in "animate()" aufgerufen werden
-
+    playSound(sound) {
+        this.sounds[sound].currentTime = 0;
+        this.sounds[sound].play();
     }
 }

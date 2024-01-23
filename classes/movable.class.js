@@ -30,11 +30,6 @@ class Movable extends Visible {
         }, 1000 / 60);
     }
 
-    playSound(sound) {
-        this.sounds[sound].currentTime = 0;
-        this.sounds[sound].play();
-    }
-
     swimAndSinkY() {
         setInterval(() => {
             if (this.isBelowRoof() && this.isAboveGround() && this.state != 'hit') {

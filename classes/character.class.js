@@ -3,6 +3,7 @@ class Character extends Movable {
     height = 225;
     world;
     poison = 40;
+    coins = 0;
     speed = 3;
     idleSince;
     lastBubble = 0;

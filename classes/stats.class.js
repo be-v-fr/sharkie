@@ -20,8 +20,8 @@ class Stats extends Visible {
             if (value <= 0) {
                 index = 0;
             } else {
-                // index = value / 100 * (this.imageCache[this.type].length - 1);
-                index = value / 20;
+                // index = (value - 1) / 100 * (this.imageCache['bar'].length - 1);
+                index = (value - 1) / 20;
                 index = Math.floor(index) + 1;
             }
         }
