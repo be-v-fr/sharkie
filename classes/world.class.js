@@ -70,30 +70,17 @@ class World {
     }
 
     checkCharacter(enemy) {
-        if (enemy.x - this.character.x < 100 + 320 * (1 - Math.random())) {
-            if (enemy.state != 'attacking') {
+        if (enemy instanceof Pufferfish && enemy.state != 'attacking') {
+            if (enemy.x - this.character.x < 100 + 320 * (1 - Math.random())) {
                 enemy.attack();
-            } else if (this.character.isColliding(enemy)) {
-                if (this.character.isRecovered()) {
-                    this.character.clearState();
-                    this.character.state = 'hit';
-                    this.keyboard.toggleControls(true);
-                    if (enemy instanceof Pufferfish) {
-                        this.character.animate('hurt poisoned');
-                        this.character.hit(4);
-                        this.stats[0].update(this.character.health);
-                    }
-                    setTimeout(() => {
-                        this.keyboard.toggleControls(false);
-                        this.character.idle();
-                    }, 400);
-                }
             }
         }
+        if (this.character.isColliding(enemy) && this.character.isRecovered()) {
+            this.character.hurt(enemy);
+            this.stats[0].update(this.character.health);
+            this.character.recover();
+        }
     }
-
-
-
 
     checkBubbles(enemy) {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {

@@ -139,6 +139,23 @@ class Character extends Movable {
         this.idle();
     }
 
+    hurt(enemy) {
+        this.clearState();
+        this.state = 'hit';
+        this.world.keyboard.toggleControls(true);
+        this.hit(enemy.damage);
+        if (enemy instanceof Pufferfish) {
+            this.animate('hurt poisoned');
+        }
+    }
+
+    recover() {
+        setTimeout(() => {
+            this.world.keyboard.toggleControls(false);
+            this.idle();
+        }, 400);
+    }
+
     isRecovered() {
         return this.state != 'hit' || Date.now() - this.lastHit > 1000;
     }

@@ -11,6 +11,7 @@ class Movable extends Visible {
     moveIntervalId;
     otherDirection = false;
     sounds = {};
+    damage;
 
     constructor() {
         super();
