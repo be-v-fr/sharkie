@@ -3,11 +3,10 @@ class Bubble extends Movable {
     height = 32;
     damage = 4;
     speed = 3 + 3;
-    // Geschwindigkeit festlegen: x konstant, y erst negativ, dann nach oben beschleunigt
 
     constructor(x, y, isToxic, goLeft) {
         if (isToxic) {
-            super().loadImage('../img/sharkie/4.Attack/Bubble trap/Poisoned Bubble.png'); // Größe an normale Bubble anpassen
+            super().loadImage('../img/sharkie/4.Attack/Bubble trap/Poisoned Bubble.png');
         } else {
             super().loadImage('../img/sharkie/4.Attack/Bubble trap/Bubble.png');
         }
@@ -35,7 +34,6 @@ class Bubble extends Movable {
     driftXY(speed) {
         let counter = 0;
         setInterval(() => {
-
             this.x += speed * (1 - (counter/250));
             this.y += 1.8 * (1 - (counter/40));
             counter++;

@@ -49,11 +49,11 @@ class World {
     }
 
     setFloor() {
-        if(this.character.state == 'swim left' && this.floor.speed > 0) {
+        if (this.character.state == 'swim left' && this.floor.speed > 0) {
             this.floor.turnAround();
         } else {
-            if(this.floor.speed < 0) {
-                this.floor.turnAround();            
+            if (this.floor.speed < 0) {
+                this.floor.turnAround();
             }
         }
     }
@@ -72,7 +72,7 @@ class World {
             this.character.clearState();
             this.character.state = 'hit';
             this.keyboard.toggleControls(true);
-            if(enemy instanceof Pufferfish) {
+            if (enemy instanceof Pufferfish) {
                 this.character.animate('hurt poisoned');
                 this.character.hit(4);
                 this.stats[0].update(this.character.health);
@@ -90,6 +90,8 @@ class World {
             if (bubble.isColliding(enemy)) {
                 enemy.hit(bubble.getDamage());
                 bubble.pop(); // Sound und, falls vorhanden, Animation
+                this.bubbles = removeAt(i, this.bubbles);
+            } else if (bubble.y < 0) { // falls keine Kollision, jedoch Blase über Bildrand
                 this.bubbles = removeAt(i, this.bubbles);
             }
         }

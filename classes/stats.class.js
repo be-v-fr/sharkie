@@ -1,10 +1,7 @@
 class Stats extends Visible {
-    type;
-
-    constructor(x, y, type) { // type = 'coins', 'health' oder 'poison'
+    constructor(x, y, type) {
         super().loadImage(`./img/marks/green/${type}/6.png`);
-        this.loadImages(type, `./img/marks/green/${type}/`, 6);
-        this.type = type;
+        this.loadImages('bar', `./img/marks/green/${type}/`, 6);
         this.x = x;
         this.y = y;
         this.width = 188;
@@ -14,7 +11,7 @@ class Stats extends Visible {
 
     update(value) {
         let index = this.resolveImageIndex(value);
-        this.img = this.imageCache[`${this.type}`][index];
+        this.img = this.imageCache['bar'][index];
     }
 
     resolveImageIndex(value) {

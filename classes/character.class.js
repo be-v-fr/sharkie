@@ -129,6 +129,7 @@ class Character extends Movable {
         }
         if (isToxic) {
             this.poison -= 20;
+            this.world.stats[2].update(this.poison);
             this.playAnimationOnce('bubble toxic');
         } else {
             this.playAnimationOnce('bubble normal');
