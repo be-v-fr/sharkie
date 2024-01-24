@@ -21,6 +21,7 @@ class Character extends Movable {
         this.loadImages('bubble normal', '../img/sharkie/4.Attack/normal_bubble/', 8);
         this.loadImages('bubble toxic', '../img/sharkie/4.Attack/toxic_bubble/', 8);
         this.loadImages('hurt poisoned', '../img/sharkie/5.Hurt/1.Poisoned/', 5);
+        this.loadImages('hurt shocked', '../img/sharkie/5.Hurt/2.Shocked/', 3);
         this.animate('idle');
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3')
@@ -145,8 +146,15 @@ class Character extends Movable {
         this.world.keyboard.toggleControls(true);
         this.hit(enemy.damage);
         if (enemy instanceof Pufferfish) {
-            this.animate('hurt poisoned');
+            this.playAnimationOnce('hurt poisoned');
+        } else if (enemy instanceof Jellyfish) {
+            if (enemy.color == 'lila') {
+                this.playAnimationOnce('hurt poisoned');
+            } else {
+                this.playAnimationOnce('hurt shocked');
+            }
         }
+        this.animate('idle');
     }
 
     recover() {
@@ -167,7 +175,7 @@ class Character extends Movable {
             } else {
                 world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
             }
-        }, 680);
+        }, 640);
         this.lastBubble = Date.now();
     }
 }

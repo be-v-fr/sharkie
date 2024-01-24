@@ -67,7 +67,7 @@ class Visible {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Pufferfish || this instanceof Bubble) {
+        if (!(this instanceof Backdrop || this instanceof Stats)) {
             ctx.beginPath();
             ctx.rect(this.x + this.frame[0], this.y + this.frame[1], this.frame[2], this.frame[3]);
             ctx.stroke();

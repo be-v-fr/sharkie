@@ -68,18 +68,26 @@ class World {
                     this.checkCharacter(enemy);
                     this.checkBubbles(enemy);
                 } else if (enemy.y < -100 || enemy.y > 600) {
-                    this.enemies = removeAt(i, this.enemies);                    
+                    this.enemies = removeAt(i, this.enemies);
                 }
             }
         }, 100);
     }
 
     checkCharacter(enemy) {
+        this.checkPufferfishAttack(enemy);
+        this.checkCharCollision(enemy);
+    }
+
+    checkPufferfishAttack(enemy) {
         if (enemy instanceof Pufferfish && enemy.state != 'attacking') {
             if (enemy.x - this.character.x < 100 + 320 * (1 - Math.random())) {
                 enemy.attack();
             }
         }
+    }
+
+    checkCharCollision(enemy) {
         if (this.character.isColliding(enemy) && this.character.isRecovered()) {
             this.character.hurt(enemy);
             this.stats[0].update(this.character.health);
@@ -90,13 +98,23 @@ class World {
     checkBubbles(enemy) {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {
             let bubble = this.bubbles[i];
-            if (bubble.isColliding(enemy)) {
-                enemy.hit(bubble.getDamage());
-                this.bubbles = removeAt(i, this.bubbles);
+            if (bubble.isColliding(enemy) && bubble.isEmpty) {
+                this.enemyHitByBubble(bubble, enemy);
             } else if (bubble.y < 0) { // falls keine Kollision, jedoch Blase über Bildrand
                 this.bubbles = removeAt(i, this.bubbles);
             }
         }
+    }
+
+    enemyHitByBubble(bubble, enemy) {
+        enemy.hit(bubble.getDamage());
+        if (enemy instanceof Jellyfish) {
+            bubble.catchJellyfish(enemy.color);
+            this.enemies = removeAt(this.enemies.indexOf(enemy), this.enemies);
+        } else {
+            this.bubbles = removeAt(i, this.bubbles);
+            enemy.die();
+        }    
     }
 
     draw() {

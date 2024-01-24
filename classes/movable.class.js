@@ -86,7 +86,7 @@ class Movable extends Visible {
         } else {
             this.lastHit = Date.now();
         }
-        if(this.isDead) {
+        if(this.isDead()) {
             this.die();
         }
     }

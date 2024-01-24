@@ -1,6 +1,6 @@
 class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch andere Gegner einzubinden, ohne aber Code doppelt schreiben zu müssen??
-    width = 75;
-    height = 75;
+    width = 56;
+    height = 56;
     speed = -0.6 * (1 + Math.random());
 
     constructor() {
