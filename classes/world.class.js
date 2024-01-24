@@ -8,8 +8,9 @@ class World {
     light = new Backdrop(4, 0);
     character = new Character();
     translateX = -this.character.xStart;
-    floor = level1.floor; // absolute Char-Position: character.x -
+    floor = level1.floor;
     dX = this.character.x - this.character.xStart - this.floor.x;
+    obstacles = level1.obstacles;
     enemies = level1.enemies;
     stats = [
         new Stats(16, 2, 'health'),
@@ -37,6 +38,7 @@ class World {
             this.dX = this.character.x - this.character.xStart - this.floor.x;
             this.character.act();
             this.setBackdrop();
+            this.setObstacles();
         }, 5);
     }
 
@@ -60,6 +62,10 @@ class World {
         }
     }
 
+    setObstacles() {
+        this.obstacles.forEach(o => { o.x = o.xStart + this.floor.x });
+    }
+    
     checkPositions() {
         setInterval(() => {
             for (let i = this.enemies.length - 1; i >= 0; i--) {
@@ -99,14 +105,14 @@ class World {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {
             let bubble = this.bubbles[i];
             if (bubble.isColliding(enemy) && bubble.isEmpty) {
-                this.enemyHitByBubble(bubble, enemy);
+                this.enemyHitByBubble(bubble, enemy, i);
             } else if (bubble.y < 0) { // falls keine Kollision, jedoch Blase über Bildrand
                 this.bubbles = removeAt(i, this.bubbles);
             }
         }
     }
 
-    enemyHitByBubble(bubble, enemy) {
+    enemyHitByBubble(bubble, enemy, i) {
         enemy.hit(bubble.getDamage());
         if (enemy instanceof Jellyfish) {
             bubble.catchJellyfish(enemy.color);
@@ -121,6 +127,7 @@ class World {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.ctx.translate(-this.translateX, 0);
         this.addBackdrop();
+        this.addObjectsToMap(this.obstacles);
         this.addToMap(this.character);
         this.addObjectsToMap(this.enemies);
         this.addObjectsToMap(this.bubbles);

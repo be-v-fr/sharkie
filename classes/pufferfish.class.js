@@ -25,8 +25,8 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
             clearInterval(this.moveIntervalId);
             this.moveX(2.4 * this.speed * (1 + Math.random()));
             this.animate('blown');
-            this.frame[1] -= 4;
-            this.frame[3] = 72;            
+            this.frames[0][1] -= 4;
+            this.frames[0][3] = 72;            
         }, 420);
     }
 

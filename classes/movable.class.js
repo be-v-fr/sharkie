@@ -69,14 +69,22 @@ class Movable extends Visible {
     }
 
     isColliding(obj) {
-        const thisX = this.x + this.frame[0];
-        const thisY = this.y + this.frame[1];
-        const objX = obj.x + obj.frame[0];
-        const objY = obj.y + obj.frame[1];
-        return thisX + this.frame[2] >= objX && // Abstand nach rechts
-            thisX <= objX + obj.frame[2] && // Abstand nach links
-            thisY + this.frame[3] >= objY && // Abstand nach unten
-            thisY <= objY + obj.frame[3]; // Abstand nach oben
+        let collision = false;
+        this.frames.forEach(tF => {
+            obj.frames.forEach(oF => {
+                if (this.frameCollision(obj, tF, oF)) {
+                    collision = true;
+                }
+            });
+        });
+        return collision;
+    }
+
+    frameCollision(obj, tF, oF) {
+        return this.x + tF[0] + tF[2] >= obj.x + oF[0] &&
+        this.x + tF[0] <= obj.x + oF[0] + oF[2] &&
+        this.y + tF[1] + tF[3] >= obj.y + oF[1] &&
+        this.y + tF[1] <= obj.y + oF[1] + oF[3];
     }
 
     hit(damage) {
@@ -86,7 +94,7 @@ class Movable extends Visible {
         } else {
             this.lastHit = Date.now();
         }
-        if(this.isDead()) {
+        if (this.isDead()) {
             this.die();
         }
     }

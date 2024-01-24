@@ -10,7 +10,7 @@ class Visible {
     animateIntervalId;
     activeAnimation = '';
     loopAnimation = true;
-    frame = [null, null, null, null];
+    frames = [];
 
     // VS Code Plugin "Copy Relative Path" installieren (für korrekte Slash-Striche)!!
     // für "movable" und "stats" ggf. Superklasse "visual" erstellen
@@ -60,17 +60,16 @@ class Visible {
     }
 
     initFrame(dX, dY, width, height) {
-        this.frame[0] = dX;
-        this.frame[1] = dY;
-        this.frame[2] = width;
-        this.frame[3] = height;
+        this.frames.push([dX, dY, width, height]);
     }
 
     drawFrame(ctx) {
         if (!(this instanceof Backdrop || this instanceof Stats)) {
-            ctx.beginPath();
-            ctx.rect(this.x + this.frame[0], this.y + this.frame[1], this.frame[2], this.frame[3]);
-            ctx.stroke();
+            this.frames.forEach(f => {
+                ctx.beginPath();
+                ctx.rect(this.x + f[0], this.y + f[1], f[2], f[3]);
+                ctx.stroke();
+            });
         }
     }
 

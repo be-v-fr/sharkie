@@ -2,7 +2,6 @@ class Backdrop extends Movable {
     width = 1440;
     height = 480;
     speed = 0.18
-    speedFactor = 1;
 
     constructor(layer, x) {
         let path = './img/background/Layers/';

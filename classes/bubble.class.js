@@ -42,8 +42,8 @@ class Bubble extends Movable {
                 factor = 1 + 0.03 * (6 - counter);
                 this.width *= factor;
                 this.height *= factor;
-                this.frame[2] = this.width;
-                this.frame[3] = this.height;
+                this.frames[0][2] = this.width;
+                this.frames[0][3] = this.height;
             }
             this.x += speed * (1 - (counter/250));
             this.y += 1.8 * (1 - (counter/40));
