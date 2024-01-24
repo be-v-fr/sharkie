@@ -7,6 +7,6 @@ const level1 = new Level(
         new Jellyfish('lila'),
         new Boss()
     ],
-    [   new Obstacle(2, 700)
+    [   new Obstacle(1, 60)
     ]
 );

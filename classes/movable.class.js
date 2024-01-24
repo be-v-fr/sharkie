@@ -80,11 +80,11 @@ class Movable extends Visible {
         return collision;
     }
 
-    frameCollision(obj, tF, oF) {
-        return this.x + tF[0] + tF[2] >= obj.x + oF[0] &&
-        this.x + tF[0] <= obj.x + oF[0] + oF[2] &&
-        this.y + tF[1] + tF[3] >= obj.y + oF[1] &&
-        this.y + tF[1] <= obj.y + oF[1] + oF[3];
+    frameCollision(obj, frameThis, frameObj) {
+        return this.x + frameThis[0] + frameThis[2] >= obj.x + frameObj[0] &&
+        this.x + frameThis[0] <= obj.x + frameObj[0] + frameObj[2] &&
+        this.y + frameThis[1] + frameThis[3] >= obj.y + frameObj[1] &&
+        this.y + frameThis[1] <= obj.y + frameObj[1] + frameObj[3];
     }
 
     hit(damage) {
