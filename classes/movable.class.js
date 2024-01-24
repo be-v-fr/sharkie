@@ -86,11 +86,16 @@ class Movable extends Visible {
         } else {
             this.lastHit = Date.now();
         }
-
-        // Animation Verletzung
+        if(this.isDead) {
+            this.die();
+        }
     }
 
     isDead() {
         return this.health == 0;
+    }
+
+    die() {
+        this.state = 'dead';
     }
 }

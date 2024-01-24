@@ -45,7 +45,7 @@ class Character extends Movable {
                 this.swim(false);
             }
             if (this.x < 50) {
-                this.block();
+                this.blocked();
             }
         }
     }
@@ -106,7 +106,7 @@ class Character extends Movable {
         }
     }
 
-    block() {
+    blocked() {
         clearInterval(this.moveIntervalId);
         this.state = 'swim blocked';
     }

@@ -12,6 +12,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         this.loadImages('normal', '../img/enemy/1.Pufferfish/1.Swim/', 5);
         this.loadImages('transition', '../img/enemy/1.Pufferfish/2.Transition/', 5);
         this.loadImages('blown', '../img/enemy/1.Pufferfish/3.Bubbleswim/', 5);
+        this.loadImages('die', '../img/enemy/1.Pufferfish/4.Die/', 3);
         this.animate('normal');
         this.moveX(this.speed);
     }
@@ -27,5 +28,23 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
             this.frame[1] -= 4;
             this.frame[3] = 72;            
         }, 420);
+    }
+
+    die() {
+        this.state = 'dead';
+        this.clearIntervals();
+        this.playAnimationOnce('die');
+        this.driftUp();
+    }
+
+    driftUp() {
+        let speedY = 1.5;
+        setInterval(() => {
+            this.x -= 0.18;
+            if(speedY < 2.5) {
+                speedY += 0.2;
+            }
+            this.y -= speedY;
+        }, 1000 / 60);
     }
 }

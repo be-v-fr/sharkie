@@ -62,10 +62,15 @@ class World {
 
     checkPositions() {
         setInterval(() => {
-            this.enemies.forEach((enemy) => {
-                this.checkCharacter(enemy);
-                this.checkBubbles(enemy);
-            })
+            for (let i = this.enemies.length - 1; i >= 0; i--) {
+                let enemy = this.enemies[i];
+                if (enemy.state != 'dead') {
+                    this.checkCharacter(enemy);
+                    this.checkBubbles(enemy);
+                } else if (enemy.y < -100 || enemy.y > 600) {
+                    this.enemies = removeAt(i, this.enemies);                    
+                }
+            }
         }, 100);
     }
 
@@ -87,7 +92,6 @@ class World {
             let bubble = this.bubbles[i];
             if (bubble.isColliding(enemy)) {
                 enemy.hit(bubble.getDamage());
-                bubble.pop(); // Sound und, falls vorhanden, Animation
                 this.bubbles = removeAt(i, this.bubbles);
             } else if (bubble.y < 0) { // falls keine Kollision, jedoch Blase über Bildrand
                 this.bubbles = removeAt(i, this.bubbles);
