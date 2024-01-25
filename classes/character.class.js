@@ -172,9 +172,9 @@ class Character extends Movable {
 
     bounceX(right) {
         if (right) {
-            this.x += 16;
+            this.x += 12;
         } else {
-            this.x -= 16;
+            this.x -= 12;
         }
         clearInterval(this.moveIntervalId);
         this.otherDirection = !right;

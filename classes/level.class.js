@@ -5,9 +5,11 @@ class Level {
     enemies;
     floor;
 
-    constructor(backdropUnits, enemies, obstacles) {
+    constructor(backdropUnits, enemies, obstacles, coins, phials) {
         this.backdropUnits = backdropUnits;
-        this.obstacles = obstacles
+        this.obstacles = obstacles;
+        this.coins = coins;
+        this.phials = phials;
         this.enemies = enemies;
         this.createBackdrop(backdropUnits);
         this.length = 1439 * backdropUnits;

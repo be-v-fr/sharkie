@@ -11,6 +11,8 @@ class World {
     floor = level1.floor;
     dX = this.character.x - this.character.xStart - this.floor.x;
     obstacles = level1.obstacles;
+    coins = level1.coins;
+    phials = level1.phials;
     enemies = level1.enemies;
     stats = [
         new Stats(16, 2, 'health'),
@@ -38,7 +40,9 @@ class World {
             this.dX = this.character.x - this.character.xStart - this.floor.x;
             this.character.act();
             this.setBackdrop();
-            this.setObstacles();
+            this.adjustToFloor(this.obstacles);
+            this.adjustToFloor(this.coins);
+            this.adjustToFloor(this.phials);
         }, 5);
     }
 
@@ -62,8 +66,8 @@ class World {
         }
     }
 
-    setObstacles() {
-        this.obstacles.forEach(o => { o.x = o.xStart + this.floor.x });
+    adjustToFloor(mov) {
+        mov.forEach(m => { m.x = m.xStart + this.floor.x });
     }
     
     checkPositions() {
@@ -129,6 +133,8 @@ class World {
         this.ctx.translate(-this.translateX, 0);
         this.addBackdrop();
         this.addObjectsToMap(this.obstacles);
+        this.addObjectsToMap(this.coins);
+        this.addObjectsToMap(this.phials);
         this.addToMap(this.character);
         this.addObjectsToMap(this.enemies);
         this.addObjectsToMap(this.bubbles);

@@ -1,7 +1,5 @@
 class Obstacle extends Movable {
-    // Bewegung mit Boden, wie bei "world.setBackdrop()"
-
-    constructor(type, xStart) { // x-Koord. reicht!!
+    constructor(type, xStart) {
         super().loadImage(`./img/background/Barrier/${type}.png`);
         this.damage = 2;
         if (type == 1) {
