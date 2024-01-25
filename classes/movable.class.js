@@ -87,6 +87,8 @@ class Movable extends Visible {
         this.y + frameThis[1] <= obj.y + frameObj[1] + frameObj[3];
     }
 
+
+
     hit(damage) {
         this.health -= damage;
         if (this.health < 0) {

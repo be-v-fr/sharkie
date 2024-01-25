@@ -68,6 +68,7 @@ class World {
     
     checkPositions() {
         setInterval(() => {
+            this.obstacles.forEach(o => { this.checkCharCollision(o) });
             for (let i = this.enemies.length - 1; i >= 0; i--) {
                 let enemy = this.enemies[i];
                 if (enemy.state != 'dead') {
@@ -93,9 +94,9 @@ class World {
         }
     }
 
-    checkCharCollision(enemy) {
-        if (this.character.isColliding(enemy) && this.character.isRecovered()) {
-            this.character.hurt(enemy);
+    checkCharCollision(obj) {
+        if (this.character.isColliding(obj) && (obj instanceof Obstacle || this.character.isRecovered())) {
+            this.character.hurt(obj);
             this.stats[0].update(this.character.health);
             this.character.recover();
         }

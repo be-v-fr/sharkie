@@ -20,8 +20,9 @@ class Character extends Movable {
         this.loadImages('swim', '../img/sharkie/3.SWIM/', 6);
         this.loadImages('bubble normal', '../img/sharkie/4.Attack/normal_bubble/', 8);
         this.loadImages('bubble toxic', '../img/sharkie/4.Attack/toxic_bubble/', 8);
-        this.loadImages('hurt poisoned', '../img/sharkie/5.Hurt/1.Poisoned/', 5);
-        this.loadImages('hurt shocked', '../img/sharkie/5.Hurt/2.Shocked/', 3);
+        this.loadImages('slap', '../img/sharkie/4.Attack/Fin slap/', 8);
+        this.loadImages('hurt', '../img/sharkie/5.Hurt/1.Poisoned/', 5);
+        this.loadImages('shocked', '../img/sharkie/5.Hurt/2.Shocked/', 3);
         this.animate('idle');
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3')
@@ -140,21 +141,93 @@ class Character extends Movable {
         this.idle();
     }
 
-    hurt(enemy) {
-        this.clearState();
-        this.state = 'hit';
+    hurt(obj) {
+        if (this.state != 'hit') {
+            this.clearState();
+            this.state = 'hit';
+        }
         this.world.keyboard.toggleControls(true);
-        this.hit(enemy.damage);
-        if (enemy instanceof Pufferfish) {
-            this.playAnimationOnce('hurt poisoned');
-        } else if (enemy instanceof Jellyfish) {
-            if (enemy.color == 'lila') {
-                this.playAnimationOnce('hurt poisoned');
-            } else {
-                this.playAnimationOnce('hurt shocked');
-            }
+        this.hit(obj.damage);
+        this.bounce(obj);
+        if (obj instanceof Jellyfish && obj.color == 'green') {
+            this.playAnimationOnce('shocked');
+        } else {
+            this.playAnimationOnce('hurt');
         }
         this.animate('idle');
+    }
+
+    bounce(obj) {
+        for (let i = 0; i < obj.frames.length; i++) {
+            const x = this.getBounceX(obj, this.frames[0], obj.frames[i]);
+            const y = this.getBounceY(obj, this.frames[0], obj.frames[i]);
+            if (x != null) {
+                this.bounceX(x);
+            }
+            if (y != null) {
+                this.bounceY(y);
+            }
+        }
+    }
+
+    bounceX(right) {
+        if (right) {
+            this.x += 16;
+        } else {
+            this.x -= 16;
+        }
+        clearInterval(this.moveIntervalId);
+        this.otherDirection = !right;
+        this.moveX(this.speed / 4);
+    }
+
+    bounceY(down) {
+        if (down) {
+            this.y += 20;
+        } else {
+            this.y -= 20;
+        }
+    }
+
+    getBounceDirection(obj) {
+        let direction = [null, null];
+        obj.frames.forEach(oF => {
+            if (direction[0] == null) {
+                direction[0] = this.getBounceX(obj, this.frames[0], oF);
+            }
+            if (direction[1] == null) {
+                direction[1] = this.getBounceY(obj, this.frames[0], oF);
+            }
+        });
+        return direction;
+    }
+
+    getBounceX(obj, frameThis, frameObj) {
+        if (this.frameCollision(obj, frameThis, frameObj)) {
+            const thisLeftEdge = this.x + frameThis[0];
+            const objLeftEdge = obj.x + frameObj[0];
+            if (thisLeftEdge <= objLeftEdge) {
+                return false;
+            } else if (thisLeftEdge + frameThis[2] >= objLeftEdge + frameObj[2]) {
+                return true;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    getBounceY(obj, frameThis, frameObj) {
+        if (this.frameCollision(obj, frameThis, frameObj)) {
+            const thisUpperEdge = this.y + frameThis[1];
+            const objUpperEdge = obj.y + frameObj[1];
+            if (thisUpperEdge <= objUpperEdge) {
+                return false;
+            } else if (thisUpperEdge + frameThis[3] >= objUpperEdge + frameObj[3]) {
+                return true;
+            }
+        } else {
+            return null;
+        }
     }
 
     recover() {
