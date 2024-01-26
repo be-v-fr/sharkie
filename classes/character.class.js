@@ -152,14 +152,16 @@ class Character extends Movable {
             this.state = 'hit';
         }
         this.world.keyboard.toggleControls(true);
-        this.hit(obj.damage);
-        this.bounce(obj);
-        if (obj instanceof Jellyfish && obj.color == 'green') {
-            this.playAnimationOnce('shocked');
-        } else {
-            this.playAnimationOnce('hurt');
+        this.hit(obj);
+        if (this.state != 'dead') {
+            this.bounce(obj);
+            if (obj instanceof Jellyfish && obj.color == 'green') {
+                this.playAnimationOnce('shocked');
+            } else {
+                this.playAnimationOnce('hurt');
+            }
+            this.animate('idle');
         }
-        this.animate('idle');
     }
 
     bounce(obj) {
@@ -275,6 +277,16 @@ class Character extends Movable {
         if (this.poison <= 80) {
             this.poison += 20;
             this.world.stats[2].update(this.poison);
+        }
+    }
+
+    die(obj) {
+        this.state = 'dead';
+        this.world.gameOver = true;
+        if (obj instanceof Jellyfish && obj.color == 'green') {
+            this.playAnimationOnce('die shocked');
+        } else {
+            this.playAnimationOnce('die normal');
         }
     }
 }

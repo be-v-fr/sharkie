@@ -89,15 +89,15 @@ class Movable extends Visible {
 
 
 
-    hit(damage) {
-        this.health -= damage;
+    hit(obj) {
+        this.health -= obj.damage;
         if (this.health < 0) {
             this.health = 0;
         } else {
             this.lastHit = Date.now();
         }
         if (this.isDead()) {
-            this.die();
+            this.die(obj);
         }
     }
 

@@ -26,14 +26,6 @@ class Bubble extends Movable {
         this.driftXY(this.speed);
     }
 
-    getDamage() {
-        if (this.isToxic) {
-            return 2 * this.damage;
-        } else {
-            return this.damage;
-        }
-    }
-
     driftXY(speed) {
         let counter = 0;
         let factor;

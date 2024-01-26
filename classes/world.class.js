@@ -20,6 +20,7 @@ class World {
         new Stats(16, 2 + 2 * 40, 'poison')
     ];
     bubbles = [];
+    gameOver = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -132,7 +133,7 @@ class World {
     }
 
     enemyHitByBubble(bubble, enemy, i) {
-        enemy.hit(bubble.getDamage());
+        enemy.hit(bubble);
         if (enemy instanceof Jellyfish) {
             bubble.catchJellyfish(enemy.color);
             this.enemies = removeAt(this.enemies.indexOf(enemy), this.enemies);

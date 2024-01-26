@@ -6,7 +6,7 @@ const level1 = new Level(
         // new Jellyfish('green'),
         new Boss()
     ],
-    [   // new Obstacle(1, 60)
+    [   new Obstacle(1, 60)
     ],
     [
         // new Coin(140, 200),
