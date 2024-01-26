@@ -81,30 +81,9 @@ class World {
         for (let i = this.items.length - 1; i >= 0; i--) {
             const item = this.items[i];
             if (this.character.isColliding(item)) {
+                this.character.collectItem(item);
                 this.items = removeAt(i, this.items);
-                this.collectItem(item);
             }
-        }
-    }
-
-    collectItem(item) {
-        if (item instanceof Coin) {
-            this.collectCoin();
-        } else {
-            this.collectPhial();
-        }        
-    }
-
-    collectCoin() {
-        this.character.coins++;
-        const progress = 100 * this.character.coins / this.numberOfCoins;
-        this.stats[1].update(progress);
-    }
-
-    collectPhial() {
-        if (this.character.poison <= 80) {
-            this.character.poison += 20;
-            this.stats[2].update(this.character.poison);
         }
     }
 

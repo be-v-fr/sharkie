@@ -20,6 +20,7 @@ class Character extends Movable {
         this.loadImages('swim', '../img/sharkie/3.SWIM/', 6);
         this.loadImages('bubble normal', '../img/sharkie/4.Attack/normal_bubble/', 8);
         this.loadImages('bubble toxic', '../img/sharkie/4.Attack/toxic_bubble/', 8);
+        this.loadImages('no toxic', '../img/sharkie/4.Attack/toxic_bubble/empty/', 8);
         this.loadImages('slap', '../img/sharkie/4.Attack/Fin slap/', 8);
         this.loadImages('hurt', '../img/sharkie/5.Hurt/1.Poisoned/', 5);
         this.loadImages('shocked', '../img/sharkie/5.Hurt/2.Shocked/', 3);
@@ -127,17 +128,19 @@ class Character extends Movable {
     }
 
     attack(isToxic) {
-        if (this.poison == 0) {
-            isToxic = false;
-        }
-        if (isToxic) {
-            this.poison -= 20;
-            this.world.stats[2].update(this.poison);
-            this.playAnimationOnce('bubble toxic');
+        if (isToxic && this.poison == 0) {
+            this.playAnimationOnce('no toxic');
+            this.newBubbleAfterTimeout(false, isToxic);
         } else {
-            this.playAnimationOnce('bubble normal');
+            if (isToxic) {
+                this.poison -= 20;
+                this.world.stats[2].update(this.poison);
+                this.playAnimationOnce('bubble toxic');
+            } else {
+                this.playAnimationOnce('bubble normal');
+            }
+            this.newBubbleAfterTimeout(true, isToxic);
         }
-        this.newBubbleAfterTimeout(isToxic);
         this.idle();
     }
 
@@ -171,7 +174,7 @@ class Character extends Movable {
                 this.bounceY(y);
             }
         }
-        if(!bouncing) {
+        if (!bouncing) {
             this.bounceException();
         }
     }
@@ -239,14 +242,37 @@ class Character extends Movable {
         return this.state != 'hit' || Date.now() - this.lastHit > 1000;
     }
 
-    newBubbleAfterTimeout(isToxic) {
+    newBubbleAfterTimeout(isAttacking, isToxic) {
         setTimeout(() => {
-            if (this.otherDirection) {
-                world.bubbles.push(new Bubble(this.x + 8, this.y + 120, isToxic, this.otherDirection));
-            } else {
-                world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
+            if (isAttacking) {
+                if (this.otherDirection) {
+                    world.bubbles.push(new Bubble(this.x + 8, this.y + 120, isToxic, this.otherDirection));
+                } else {
+                    world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
+                }
             }
         }, 640);
         this.lastBubble = Date.now();
+    }
+
+    collectItem(item) {
+        if (item instanceof Coin) {
+            this.collectCoin();
+        } else {
+            this.collectPhial();
+        }
+    }
+
+    collectCoin() {
+        this.coins++;
+        const progress = 100 * this.coins / this.world.numberOfCoins;
+        this.world.stats[1].update(progress);
+    }
+
+    collectPhial() {
+        if (this.poison <= 80) {
+            this.poison += 20;
+            this.world.stats[2].update(this.poison);
+        }
     }
 }
