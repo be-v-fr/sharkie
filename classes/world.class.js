@@ -89,15 +89,23 @@ class World {
 
     collectItem(item) {
         if (item instanceof Coin) {
-            this.character.coins++;
-            const progress = 100 * this.character.coins / this.numberOfCoins;
-            this.stats[1].update(progress);
+            this.collectCoin();
         } else {
-            if (this.character.poison <= 80) {
-                this.character.poison += 20;
-                this.stats[2].update(this.character.poison);
-            }
+            this.collectPhial();
         }        
+    }
+
+    collectCoin() {
+        this.character.coins++;
+        const progress = 100 * this.character.coins / this.numberOfCoins;
+        this.stats[1].update(progress);
+    }
+
+    collectPhial() {
+        if (this.character.poison <= 80) {
+            this.character.poison += 20;
+            this.stats[2].update(this.character.poison);
+        }
     }
 
     checkEnemies() {

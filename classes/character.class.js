@@ -158,15 +158,21 @@ class Character extends Movable {
     }
 
     bounce(obj) {
+        let bouncing = false;
         for (let i = 0; i < obj.frames.length; i++) {
             const x = this.getBounceX(obj, this.frames[0], obj.frames[i]);
             const y = this.getBounceY(obj, this.frames[0], obj.frames[i]);
             if (x != null) {
+                bouncing = true;
                 this.bounceX(x);
             }
             if (y != null) {
+                bouncing = true;
                 this.bounceY(y);
             }
+        }
+        if(!bouncing) {
+            this.bounceException();
         }
     }
 
@@ -187,19 +193,6 @@ class Character extends Movable {
         } else {
             this.y -= 20;
         }
-    }
-
-    getBounceDirection(obj) {
-        let direction = [null, null];
-        obj.frames.forEach(oF => {
-            if (direction[0] == null) {
-                direction[0] = this.getBounceX(obj, this.frames[0], oF);
-            }
-            if (direction[1] == null) {
-                direction[1] = this.getBounceY(obj, this.frames[0], oF);
-            }
-        });
-        return direction;
     }
 
     getBounceX(obj, frameThis, frameObj) {
@@ -228,6 +221,11 @@ class Character extends Movable {
         } else {
             return null;
         }
+    }
+
+    bounceException() {
+        this.x -= 100;
+        this.y = 100;
     }
 
     recover() {
