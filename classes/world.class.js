@@ -117,7 +117,6 @@ class World {
         if (this.character.isColliding(obj) && (obj instanceof Obstacle || this.character.isRecovered())) {
             this.character.hurt(obj);
             this.stats[0].update(this.character.health);
-            this.character.recover();
         }
     }
 
@@ -144,18 +143,20 @@ class World {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.ctx.translate(-this.translateX, 0);
-        this.addBackdrop();
-        this.addObjectsToMap(this.obstacles);
-        this.addObjectsToMap(this.items);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.enemies);
-        this.addObjectsToMap(this.bubbles);
-        this.ctx.translate(this.translateX, 0);
-        // ohne translate:
-        this.addObjectsToMap(this.stats);
-        this.recallDraw();
+        if (!this.gameOver) {
+            this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+            this.ctx.translate(-this.translateX, 0);
+            this.addBackdrop();
+            this.addObjectsToMap(this.obstacles);
+            this.addObjectsToMap(this.items);
+            this.addToMap(this.character);
+            this.addObjectsToMap(this.enemies);
+            this.addObjectsToMap(this.bubbles);
+            this.ctx.translate(this.translateX, 0);
+            // ohne translate:
+            this.addObjectsToMap(this.stats);
+            this.recallDraw();
+        }
     }
 
     addBackdrop() {

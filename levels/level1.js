@@ -10,8 +10,8 @@ const level1 = new Level(
     ],
     [
         // new Coin(140, 200),
-        // new Coin(340, 200),
-        // new Coin(540, 200),
+        new Coin(340, 200),
+        new Coin(540, 200),
         // new Coin(740, 200),
         // new Phial(100, 200)
     ]

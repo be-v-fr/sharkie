@@ -28,7 +28,8 @@ class Character extends Movable {
         this.loadImages('die shocked', '../img/sharkie/6.Dead/2.Shocked/', 10);
         this.animate('idle');
         this.sounds = {
-            'swimming': new Audio('../audio/sharkie_swim.mp3')
+            'swimming': new Audio('../audio/sharkie_swim.mp3'),
+            'hurt': new Audio('../audio/sharkie_hurt.mp3'),
         };
     }
 
@@ -70,7 +71,7 @@ class Character extends Movable {
     }
 
     actNone(key) {
-        if (this.state != 'rest' && this.state != 'hit') {
+        if (this.state != 'rest' && this.state != 'hit' && this.state != 'dead') {
             if (this.noKey(key) && this.state != 'idle') {
                 this.idle();
             } else if (Date.now() - this.idleSince > 4000) {
@@ -147,12 +148,19 @@ class Character extends Movable {
     }
 
     hurt(obj) {
-        if (this.state != 'hit') {
-            this.clearState();
-            this.state = 'hit';
+        if (this.state != 'dead') {
+            if (this.state != 'hit') {
+                this.clearState();
+                this.state = 'hit';
+                this.playSound('hurt');
+            }
+            this.world.keyboard.toggleControls(true);
+            this.hit(obj);
+            this.reactToHit(obj);
         }
-        this.world.keyboard.toggleControls(true);
-        this.hit(obj);
+    }
+
+    reactToHit(obj) {
         if (this.state != 'dead') {
             this.bounce(obj);
             if (obj instanceof Jellyfish && obj.color == 'green') {
@@ -161,6 +169,7 @@ class Character extends Movable {
                 this.playAnimationOnce('hurt');
             }
             this.animate('idle');
+            this.recover();
         }
     }
 
@@ -169,13 +178,8 @@ class Character extends Movable {
         for (let i = 0; i < obj.frames.length; i++) {
             const x = this.getBounceX(obj, this.frames[0], obj.frames[i]);
             const y = this.getBounceY(obj, this.frames[0], obj.frames[i]);
-            if (x != null) {
+            if(this.bounceX(x) || this.bounceY(y)) {
                 bouncing = true;
-                this.bounceX(x);
-            }
-            if (y != null) {
-                bouncing = true;
-                this.bounceY(y);
             }
         }
         if (!bouncing) {
@@ -184,21 +188,27 @@ class Character extends Movable {
     }
 
     bounceX(right) {
-        if (right) {
-            this.x += 12;
-        } else {
-            this.x -= 12;
+        if (right != null) {
+            if (right) {
+                this.x += 12;
+            } else {
+                this.x -= 12;
+            }
+            clearInterval(this.moveIntervalId);
+            this.otherDirection = !right;
+            this.moveX(this.speed / 4);
+            return true;
         }
-        clearInterval(this.moveIntervalId);
-        this.otherDirection = !right;
-        this.moveX(this.speed / 4);
     }
 
     bounceY(down) {
-        if (down) {
-            this.y += 20;
-        } else {
-            this.y -= 20;
+        if (down != null) {
+            if (down) {
+                this.y += 20;
+            } else {
+                this.y -= 20;
+            }
+            return true;
         }
     }
 
@@ -260,6 +270,7 @@ class Character extends Movable {
     }
 
     collectItem(item) {
+        item.playSound('collect');
         if (item instanceof Coin) {
             this.collectCoin();
         } else {
@@ -282,11 +293,11 @@ class Character extends Movable {
 
     die(obj) {
         this.state = 'dead';
-        this.world.gameOver = true;
         if (obj instanceof Jellyfish && obj.color == 'green') {
             this.playAnimationOnce('die shocked');
         } else {
             this.playAnimationOnce('die normal');
         }
+        setTimeout(() => { this.world.gameOver = true; }, 1000);
     }
 }

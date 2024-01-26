@@ -4,6 +4,7 @@ class Bubble extends Movable {
     damage = 4;
     speed = 3 + 3;
     isEmpty = true;
+    sound;
 
     constructor(x, y, isToxic, goLeft) {
         if (isToxic) {
@@ -24,6 +25,10 @@ class Bubble extends Movable {
             this.speed *= 1.8;
         }
         this.driftXY(this.speed);
+        this.sounds = {
+            'blow': new Audio('../audio/bubble.mp3')
+        };
+        this.playSound('blow');
     }
 
     driftXY(speed) {

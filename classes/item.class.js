@@ -1,4 +1,6 @@
 class Item extends Movable {
+    sound;
+
     constructor(xStart, y) {
         super();
         this.xStart = xStart;
