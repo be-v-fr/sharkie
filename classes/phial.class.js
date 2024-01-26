@@ -1,11 +1,10 @@
-class Phial extends Movable {
+class Phial extends Item {
+    // Animation hinzufügen
+    // schräg positionieren
     constructor(xStart, y) {
-        super().loadImage('./img/marks/2.Poison/1.png');
-        this.damage = 0;
-        this.width = 32;
-        this.height = 32;
+        super(xStart, y).loadImage('./img/marks/2.Poison/1.png');
+        this.width = 56;
+        this.height = 72;
         this.initFrame(0, 0, this.width, this.height);
-        this.xStart = xStart;
-        this.y = y;
     }
 }

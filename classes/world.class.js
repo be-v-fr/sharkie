@@ -11,8 +11,8 @@ class World {
     floor = level1.floor;
     dX = this.character.x - this.character.xStart - this.floor.x;
     obstacles = level1.obstacles;
-    coins = level1.coins;
-    phials = level1.phials;
+    items = level1.items;
+    numberOfCoins = level1.getNumberOfCoins();
     enemies = level1.enemies;
     stats = [
         new Stats(16, 2, 'health'),
@@ -41,8 +41,7 @@ class World {
             this.character.act();
             this.setBackdrop();
             this.adjustToFloor(this.obstacles);
-            this.adjustToFloor(this.coins);
-            this.adjustToFloor(this.phials);
+            this.adjustToFloor(this.items);
         }, 5);
     }
 
@@ -69,20 +68,48 @@ class World {
     adjustToFloor(mov) {
         mov.forEach(m => { m.x = m.xStart + this.floor.x });
     }
-    
+
     checkPositions() {
         setInterval(() => {
             this.obstacles.forEach(o => { this.checkCharCollision(o) });
-            for (let i = this.enemies.length - 1; i >= 0; i--) {
-                let enemy = this.enemies[i];
-                if (enemy.state != 'dead') {
-                    this.checkCharacter(enemy);
-                    this.checkBubbles(enemy);
-                } else if (enemy.y < -100 || enemy.y > 600) {
-                    this.enemies = removeAt(i, this.enemies);
-                }
-            }
+            this.checkItems();
+            this.checkEnemies();
         }, 100);
+    }
+
+    checkItems() {
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            const item = this.items[i];
+            if (this.character.isColliding(item)) {
+                this.items = removeAt(i, this.items);
+                this.collectItem(item);
+            }
+        }
+    }
+
+    collectItem(item) {
+        if (item instanceof Coin) {
+            this.character.coins++;
+            const progress = 100 * this.character.coins / this.numberOfCoins;
+            this.stats[1].update(progress);
+        } else {
+            if (this.character.poison <= 80) {
+                this.character.poison += 20;
+                this.stats[2].update(this.character.poison);
+            }
+        }        
+    }
+
+    checkEnemies() {
+        for (let i = this.enemies.length - 1; i >= 0; i--) {
+            const enemy = this.enemies[i];
+            if (enemy.state != 'dead') {
+                this.checkCharacter(enemy);
+                this.checkBubbles(enemy);
+            } else if (enemy.y < -100 || enemy.y > 600) {
+                this.enemies = removeAt(i, this.enemies);
+            }
+        }
     }
 
     checkCharacter(enemy) {
@@ -125,7 +152,7 @@ class World {
         } else {
             this.bubbles = removeAt(i, this.bubbles);
             enemy.die();
-        }    
+        }
     }
 
     draw() {
@@ -133,8 +160,7 @@ class World {
         this.ctx.translate(-this.translateX, 0);
         this.addBackdrop();
         this.addObjectsToMap(this.obstacles);
-        this.addObjectsToMap(this.coins);
-        this.addObjectsToMap(this.phials);
+        this.addObjectsToMap(this.items);
         this.addToMap(this.character);
         this.addObjectsToMap(this.enemies);
         this.addObjectsToMap(this.bubbles);

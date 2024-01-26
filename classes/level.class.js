@@ -3,13 +3,13 @@ class Level {
     backdropUnits;
     length;
     enemies;
+    items;
     floor;
 
-    constructor(backdropUnits, enemies, obstacles, coins, phials) {
+    constructor(backdropUnits, enemies, obstacles, items) {
         this.backdropUnits = backdropUnits;
         this.obstacles = obstacles;
-        this.coins = coins;
-        this.phials = phials;
+        this.items = items;
         this.enemies = enemies;
         this.createBackdrop(backdropUnits);
         this.length = 1439 * backdropUnits;
@@ -24,5 +24,10 @@ class Level {
             }
         }
         this.backdrop.push(new Backdrop(4, 720 * (repeat - 1)));
+    }
+
+    getNumberOfCoins() {
+        const coins = this.items.filter((i) => i instanceof Coin);
+        return coins.length; 
     }
 }
