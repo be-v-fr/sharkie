@@ -24,6 +24,8 @@ class Character extends Movable {
         this.loadImages('slap', '../img/sharkie/4.Attack/Fin slap/', 8);
         this.loadImages('hurt', '../img/sharkie/5.Hurt/1.Poisoned/', 5);
         this.loadImages('shocked', '../img/sharkie/5.Hurt/2.Shocked/', 3);
+        this.loadImages('die normal', '../img/sharkie/6.Dead/1.Poisoned/', 12);
+        this.loadImages('die shocked', '../img/sharkie/6.Dead/2.Shocked/', 10);
         this.animate('idle');
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3')
