@@ -9,7 +9,8 @@ class Character extends Movable {
     lastBubble = 0;
 
     constructor() {
-        super().loadImage('../img/sharkie/1.IDLE/1.png');
+        super().loadingNow('character');
+        this.loadImage('../img/sharkie/1.IDLE/1.png');
         this.xStart = 140;
         this.x = this.xStart;
         this.y = 100;
@@ -298,6 +299,6 @@ class Character extends Movable {
         } else {
             this.playAnimationOnce('die normal');
         }
-        setTimeout(() => { this.world.gameOver = true; }, 1000);
+        setTimeout(() => { this.world.stop = true; }, 1000);
     }
 }

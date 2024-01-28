@@ -1,6 +1,7 @@
 class Stats extends Visible {
     constructor(x, y, type) {
-        super().loadImage(`./img/marks/green/${type}/6.png`);
+        super().loadingNow('stats');
+        this.loadImage(`./img/marks/green/${type}/6.png`);
         this.loadImages('bar', `./img/marks/green/${type}/`, 6);
         this.x = x;
         this.y = y;

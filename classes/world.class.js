@@ -5,7 +5,6 @@ class World {
     backdrop = level1.backdrop;
     backdropUnits = level1.backdropUnits;
     length = level1.length;
-    light = new Backdrop(4, 0);
     character = new Character();
     translateX = -this.character.xStart;
     floor = level1.floor;
@@ -20,7 +19,7 @@ class World {
         new Stats(16, 2 + 2 * 40, 'poison')
     ];
     bubbles = [];
-    gameOver = false;
+    stop = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -36,13 +35,15 @@ class World {
 
     set() {
         setInterval(() => {
-            this.character.world = this;
-            this.translateX = this.character.x - this.character.xStart;
-            this.dX = this.character.x - this.character.xStart - this.floor.x;
-            this.character.act();
-            this.setBackdrop();
-            this.adjustToFloor(this.obstacles);
-            this.adjustToFloor(this.items);
+            if (!this.stop) {
+                this.character.world = this;
+                this.translateX = this.character.x - this.character.xStart;
+                this.dX = this.character.x - this.character.xStart - this.floor.x;
+                this.character.act();
+                this.setBackdrop();
+                this.adjustToFloor(this.obstacles);
+                this.adjustToFloor(this.items);
+            }
         }, 5);
     }
 
@@ -143,7 +144,7 @@ class World {
     }
 
     draw() {
-        if (!this.gameOver) {
+        if (!this.stop) {
             this.ctx.clearRect(0, 0, canvas.width, canvas.height);
             this.ctx.translate(-this.translateX, 0);
             this.addBackdrop();

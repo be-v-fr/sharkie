@@ -12,8 +12,6 @@ class Visible {
     loopAnimation = true;
     frames = [];
 
-    // VS Code Plugin "Copy Relative Path" installieren (für korrekte Slash-Striche)!!
-    // für "movable" und "stats" ggf. Superklasse "visual" erstellen
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -27,6 +25,11 @@ class Visible {
             img.src = path;
             this.imageCache[name].push(img);
         }
+    }
+
+    loadingNow(object) {
+        const loadingObj = document.getElementById('loadingObj');
+        loadingObj.innerHTML = object;
     }
 
     animate(name) {

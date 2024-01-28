@@ -2,7 +2,7 @@ class Item extends Movable {
     sound;
 
     constructor(xStart, y) {
-        super();
+        super().loadingNow('items');
         this.xStart = xStart;
         this.y = y;
         this.damage = 0;

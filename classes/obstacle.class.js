@@ -1,6 +1,7 @@
 class Obstacle extends Movable {
     constructor(type, xStart) {
-        super().loadImage(`./img/background/Barrier/${type}.png`);
+        super().loadingNow('obstacles');
+        this.loadImage(`./img/background/Barrier/${type}.png`);
         this.damage = 2;
         if (type == 1) {
             this.width = 720;
