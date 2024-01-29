@@ -6,5 +6,8 @@ class Phial extends Item {
         this.width = 56;
         this.height = 72;
         this.initFrame(0, 0, this.width, this.height);
+        this.sounds = {
+            'collect': new Audio('../audio/collect.mp3')
+        };
     }
 }

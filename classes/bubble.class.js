@@ -26,7 +26,8 @@ class Bubble extends Movable {
         }
         this.driftXY(this.speed);
         this.sounds = {
-            'blow': new Audio('../audio/bubble.mp3')
+            'blow': new Audio('../audio/bubble.mp3'),
+            'pop': new Audio('../audio/bubble_pop.mp3'),
         };
         this.playSound('blow');
     }
@@ -49,6 +50,7 @@ class Bubble extends Movable {
     }
 
     catchJellyfish(color) {
+        this.playSound('blow');
         this.animate(`${color} jellyfish`);
         this.isEmpty = false;
     }

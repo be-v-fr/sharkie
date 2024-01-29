@@ -73,10 +73,24 @@ class World {
 
     checkPositions() {
         setInterval(() => {
-            this.obstacles.forEach(o => { this.checkCharCollision(o) });
+            this.checkObstacles();
             this.checkItems();
             this.checkEnemies();
         }, 100);
+    }
+
+    checkObstacles() {
+        this.obstacles.forEach(o => {
+            this.checkCharCollision(o); 
+            this.obstacles.forEach(o => { this.checkCharCollision(o) });
+            for (let i = this.bubbles.length - 1; i >= 0; i--) {
+                let bubble = this.bubbles[i];
+                if (bubble.isColliding(o) && bubble.isEmpty) {
+                    bubble.playSound('pop');
+                    this.bubbles = removeAt(i, this.bubbles);
+                }
+            }       
+        });
     }
 
     checkItems() {
@@ -121,7 +135,7 @@ class World {
         }
     }
 
-    checkBubbles(enemy) {
+    checkBubbles(enemy) { // OPTIONEN FÜR OBSTACLES HINZUFÜGEN, IN "CHECK POSITIONS"-METHODE IMPLEMENTIEREN
         for (let i = this.bubbles.length - 1; i >= 0; i--) {
             let bubble = this.bubbles[i];
             if (bubble.isColliding(enemy) && bubble.isEmpty) {
@@ -138,6 +152,7 @@ class World {
             bubble.catchJellyfish(enemy.color);
             this.enemies = removeAt(this.enemies.indexOf(enemy), this.enemies);
         } else {
+            bubble.playSound('pop');
             this.bubbles = removeAt(i, this.bubbles);
             enemy.die();
         }

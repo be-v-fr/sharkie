@@ -31,6 +31,7 @@ class Character extends Movable {
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3'),
             'hurt': new Audio('../audio/sharkie_hurt.mp3'),
+            'shocked': new Audio('../audio/sharkie_shocked.mp3')
         };
     }
 
@@ -153,7 +154,11 @@ class Character extends Movable {
             if (this.state != 'hit') {
                 this.clearState();
                 this.state = 'hit';
-                this.playSound('hurt');
+                if (obj instanceof Jellyfish && obj.color == 'green') {
+                    this.playSound('shocked');
+                } else {
+                    this.playSound('hurt');
+                }            
             }
             this.world.keyboard.toggleControls(true);
             this.hit(obj);
