@@ -154,24 +154,21 @@ class Character extends Movable {
             if (this.state != 'hit') {
                 this.clearState();
                 this.state = 'hit';
-                if (obj instanceof Jellyfish && obj.color == 'green') {
-                    this.playSound('shocked');
-                } else {
-                    this.playSound('hurt');
-                }            
+                this.reactToHit(obj);        
             }
             this.world.keyboard.toggleControls(true);
+            this.bounce(obj);
             this.hit(obj);
-            this.reactToHit(obj);
         }
     }
 
     reactToHit(obj) {
-        if (this.state != 'dead') {
-            this.bounce(obj);
+        if (this.state != 'dead') {    
             if (obj instanceof Jellyfish && obj.color == 'green') {
+                this.playSound('shocked');
                 this.playAnimationOnce('shocked');
             } else {
+                this.playSound('hurt');
                 this.playAnimationOnce('hurt');
             }
             this.animate('idle');

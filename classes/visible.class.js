@@ -49,10 +49,12 @@ class Visible {
         this.loopAnimation = false;
         let i = 0;
         let interval = setInterval(() => {
+            console.log('Interval', interval, 'created');
             this.img = this.imageCache[name][i];
             i++;
             if (i == numberOfSprites) {
                 clearInterval(interval);
+                console.log('Interval', interval, 'cleared');
                 this.loopAnimation = true;
             }
         }, 1000 / 12);
