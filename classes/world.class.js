@@ -32,8 +32,8 @@ class World {
     }
 
     start() {
-        this.draw();
         this.set();
+        this.draw();
     }
 
     set() {

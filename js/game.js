@@ -45,9 +45,9 @@ function isLoaded() {
 
 function generateStartscreen() {
     return /* html */ `
-        <button class="menuBtn" onclick="start()">Start Game</button>
-        <button class="menuBtn">Instructions</button>
-        <button class="menuBtn">Settings</button>
+        <button class="menuBtn rotateLeft" onclick="start()" onmousedown="playMenuSound()">Start Game</button>
+        <button class="menuBtn rotateRight" onmousedown="playMenuSound()">Instructions</button>
+        <button class="menuBtn rotateRight" onmousedown="playMenuSound()">Settings</button>
     `;
 }
 

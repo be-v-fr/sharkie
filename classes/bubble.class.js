@@ -29,7 +29,9 @@ class Bubble extends Movable {
             'blow': new Audio('../audio/bubble.mp3'),
             'pop': new Audio('../audio/bubble_pop.mp3'),
         };
-        this.playSound('blow');
+        if(isLoaded()) {
+            this.playSound('blow');
+        }
     }
 
     driftXY(speed) {
