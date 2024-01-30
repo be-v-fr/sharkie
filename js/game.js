@@ -12,21 +12,27 @@ function init() {
 
 function start() {
     overlay.innerHTML = generateLoadingscreen();
+    loadingBar = document.getElementById('loadingBar');
     preload();
     generateLevel1();
     world = new World(canvas, keyboard);
     const waitUntilLoaded = setInterval(() => {
+        loadingBar.style.width = loadingProgress() + '%';
         if (isLoaded()) {
             clearInterval(waitUntilLoaded);
             world.start();
             overlay.style.display = 'none';
         }
-    }, 200);
+    }, 10);
 }
 
 function preload() {
     let bubble = new Bubble(0, 0, false, 0);
     bubble = new Bubble(0, 0, true, 0);
+}
+
+function loadingProgress() {
+    return 100* loadingCounter / TOTAL_NR_OF_IMAGES;
 }
 
 function isLoaded() {
@@ -43,6 +49,11 @@ function generateStartscreen() {
 
 function generateLoadingscreen() {
     return /* html */ `
-        <span>loading...</span>
+        <div id="loadingWrapper">
+            <div id="loadingBarBg">
+                <div id="loadingBar"></div>
+            </div>
+            <span>loading...</span>
+        </div>
     `;
 }
