@@ -57,7 +57,6 @@ function generateLoadingscreen() {
             <div id="loadingBarBg">
                 <div id="loadingBar"></div>
             </div>
-            <span>loading...</span>
         </div>
     `;
 }
