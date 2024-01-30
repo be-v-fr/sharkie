@@ -12,7 +12,11 @@ function init() {
 
 function start() {
     overlay.innerHTML = generateLoadingscreen();
-    loadingBar = document.getElementById('loadingBar');
+    load();
+}
+
+function load() {
+    const loadingBar = document.getElementById('loadingBar');
     preload();
     generateLevel1();
     world = new World(canvas, keyboard);
@@ -32,7 +36,7 @@ function preload() {
 }
 
 function loadingProgress() {
-    return 100* loadingCounter / TOTAL_NR_OF_IMAGES;
+    return 100 * loadingCounter / TOTAL_NR_OF_IMAGES;
 }
 
 function isLoaded() {
