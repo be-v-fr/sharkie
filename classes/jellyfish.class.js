@@ -5,8 +5,7 @@ class Jellyfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch a
     speed = -0.6 * (1 + Math.random());
 
     constructor(color) {
-        super().loadingNow('jellyfish');
-        this.loadImage(`../img/enemy/2.Jellyfish/${color}/1.png`);
+        super().loadImage(`../img/enemy/2.Jellyfish/${color}/1.png`);
         this.loadImages('normal', `../img/enemy/2.Jellyfish/${color}/`, 4);
         this.color = color;
         if(color == 'green') {

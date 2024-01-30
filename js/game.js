@@ -10,13 +10,27 @@ function init() {
     overlay.innerHTML = generateStartscreen();
 }
 
-async function start() {
+function start() {
     overlay.innerHTML = generateLoadingscreen();
+    preload();
     generateLevel1();
-    console.log(Date.now());
-    world = await new World(canvas, keyboard);
-    console.log(Date.now());
-    overlay.style.display = 'none';
+    world = new World(canvas, keyboard);
+    const waitUntilLoaded = setInterval(() => {
+        if (isLoaded()) {
+            clearInterval(waitUntilLoaded);
+            world.start();
+            overlay.style.display = 'none';
+        }
+    }, 200);
+}
+
+function preload() {
+    let bubble = new Bubble(0, 0, false, 0);
+    bubble = new Bubble(0, 0, true, 0);
+}
+
+function isLoaded() {
+    return loadingCounter >= TOTAL_NR_OF_IMAGES;
 }
 
 function generateStartscreen() {
@@ -29,9 +43,6 @@ function generateStartscreen() {
 
 function generateLoadingscreen() {
     return /* html */ `
-        <div id="loadingBarBg">
-            <div id="loadingBar"></div>
-        </div>
-        <span>loading... </span><span id="loadingObj"</span>
+        <span>loading...</span>
     `;
 }

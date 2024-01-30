@@ -14,7 +14,7 @@ class Visible {
 
     loadImage(path) {
         this.img = new Image();
-        this.img.src = path;
+        this.promise(this.img, path);
     }
 
     loadImages(name, dir, numberOfSprites) {
@@ -22,14 +22,28 @@ class Visible {
         for (let i = 1; i <= numberOfSprites; i++) {
             const path = dir + i + '.png';
             let img = new Image();
-            img.src = path;
+            this.promise(img, path);
             this.imageCache[name].push(img);
         }
     }
 
-    loadingNow(object) {
-        const loadingObj = document.getElementById('loadingObj');
-        loadingObj.innerHTML = object;
+    promise(img, path) {
+        const loading = new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = path;
+        });
+        if (!isLoaded() && !imagePaths.includes(path)) {
+            imagePaths.push(path);
+            this.resolve(loading);
+        }
+    }
+
+    resolve(promise) {
+        promise.then(() => {
+            loadingCounter++;
+            console.log(loadingCounter);
+        });
     }
 
     animate(name) {
@@ -49,12 +63,10 @@ class Visible {
         this.loopAnimation = false;
         let i = 0;
         let interval = setInterval(() => {
-            console.log('Interval', interval, 'created');
             this.img = this.imageCache[name][i];
             i++;
             if (i == numberOfSprites) {
                 clearInterval(interval);
-                console.log('Interval', interval, 'cleared');
                 this.loopAnimation = true;
             }
         }, 1000 / 12);

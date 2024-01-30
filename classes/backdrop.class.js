@@ -4,7 +4,6 @@ class Backdrop extends Movable {
     speed = 0.18
 
     constructor(layer, x) {
-        super().loadingNow('background');
         let path = './img/background/Layers/';
         let speedFactor = 1;
         if (layer == 0) {
@@ -30,7 +29,7 @@ class Backdrop extends Movable {
             }
         }
         path = path + '/D.png';
-        this.loadImage(path);
+        super().loadImage(path);
         this.x = x;
         this.xStart = this.x;
         this.speedFactor = speedFactor;

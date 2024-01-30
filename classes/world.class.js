@@ -29,6 +29,9 @@ class World {
         this.floor.moveX(-this.floor.speed);
         this.stats[1].update(this.character.coins);
         this.stats[2].update(this.character.poison);
+    }
+
+    start() {
         this.draw();
         this.set();
     }
@@ -81,7 +84,7 @@ class World {
 
     checkObstacles() {
         this.obstacles.forEach(o => {
-            this.checkCharCollision(o); 
+            this.checkCharCollision(o);
             this.obstacles.forEach(o => { this.checkCharCollision(o) });
             for (let i = this.bubbles.length - 1; i >= 0; i--) {
                 let bubble = this.bubbles[i];
@@ -89,7 +92,7 @@ class World {
                     bubble.playSound('pop');
                     this.bubbles = removeAt(i, this.bubbles);
                 }
-            }       
+            }
         });
     }
 
