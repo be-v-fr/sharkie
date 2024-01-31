@@ -124,6 +124,11 @@ class Character extends Movable {
         } else {
             this.speedY = speed * 0.8;
         }
+        if(!this.state.includes('swim')) {
+            this.clearState();
+            this.animate('swim');
+            this.state = 'swim';
+        }
     }
 
     blocked() {
