@@ -29,6 +29,8 @@ class Character extends Movable {
         this.animate('idle');
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3'),
+            'swim up': new Audio('../audio/sharkie_swim_up.mp3'),
+            'swim down': new Audio('../audio/sharkie_swim_down.mp3'),
             'hurt': new Audio('../audio/sharkie_hurt.mp3'),
             'shocked': new Audio('../audio/sharkie_shocked.mp3'),
             'die': new Audio('../audio/sharkie_die.mp3'),
@@ -120,8 +122,14 @@ class Character extends Movable {
         // Sound einfügen
         const speed = 3;
         if (up) {
+            if(this.speedY >= 0) {
+                this.playSound('swim up');
+            }
             this.speedY = -speed;
-        } else {
+        } else  {
+            if (this.speedY <= 0) {
+                this.playSound('swim down');
+            }
             this.speedY = speed * 0.8;
         }
         if(!this.state.includes('swim')) {
