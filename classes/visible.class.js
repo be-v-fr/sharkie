@@ -94,4 +94,10 @@ class Visible {
         this.sounds[sound].currentTime = 0;
         this.sounds[sound].play();
     }
+
+    playSoundAfterDelay(ms, sound) {
+        setTimeout(() => {
+            this.playSound(sound);
+        }, ms);
+    }
 }

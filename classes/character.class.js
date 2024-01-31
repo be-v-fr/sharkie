@@ -30,7 +30,11 @@ class Character extends Movable {
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3'),
             'hurt': new Audio('../audio/sharkie_hurt.mp3'),
-            'shocked': new Audio('../audio/sharkie_shocked.mp3')
+            'shocked': new Audio('../audio/sharkie_shocked.mp3'),
+            'die': new Audio('../audio/sharkie_die.mp3'),
+            'die shocked': new Audio('../audio/sharkie_die_shocked.mp3'),
+            'snoring': new Audio('../audio/sharkie_long_idle.mp3'),
+            'slap': new Audio('../audio/sharkie_slap.mp3')
         };
     }
 
@@ -86,8 +90,17 @@ class Character extends Movable {
     }
 
     clearState() {
+        if(this.state == 'rest') {
+            this.clearRest();
+        }
         this.idleSince = Date.now() * 2; // timestamp in ferner Zukunft
         this.clearIntervals();
+    }
+
+    clearRest() {
+        this.sounds['snoring'].loop = false;
+        this.sounds['snoring'].pause();
+        this.sounds['snoring'].currentTime = 0;
     }
 
     swim(right) {
@@ -129,6 +142,8 @@ class Character extends Movable {
         this.clearState();
         this.animate('rest');
         this.state = 'rest';
+        this.sounds['snoring'].loop = true;
+        this.playSound('snoring');
     }
 
     attack(isToxic) {
@@ -149,26 +164,26 @@ class Character extends Movable {
     }
 
     hurt(obj) {
-        if (this.state != 'dead') {
+        if (!this.isDead()) {
             if (this.state != 'hit') {
+                this.hit(obj);
                 this.clearState();
                 this.state = 'hit';
                 this.reactToHit(obj);        
             }
             this.world.keyboard.toggleControls(true);
             this.bounce(obj);
-            this.hit(obj);
         }
     }
 
     reactToHit(obj) {
-        if (this.state != 'dead') {    
+        if (!this.isDead()) {    
             if (obj instanceof Jellyfish && obj.color == 'green') {
-                this.playSound('shocked');
                 this.playAnimationOnce('shocked');
+                this.playSound('shocked');
             } else {
-                this.playSound('hurt');
                 this.playAnimationOnce('hurt');
+                this.playSound('hurt');
             }
             this.animate('idle');
             this.recover();
@@ -296,9 +311,12 @@ class Character extends Movable {
     die(obj) {
         this.state = 'dead';
         if (obj instanceof Jellyfish && obj.color == 'green') {
+            this.playSound('shocked');
             this.playAnimationOnce('die shocked');
+            this.playSoundAfterDelay(500, 'die shocked');
         } else {
             this.playAnimationOnce('die normal');
+            this.playSoundAfterDelay(200, 'die');
         }
         setTimeout(() => { this.world.stop = true; }, 1000);
     }

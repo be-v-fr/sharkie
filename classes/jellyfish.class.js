@@ -9,7 +9,7 @@ class Jellyfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch a
         this.loadImages('normal', `../img/enemy/2.Jellyfish/${color}/`, 4);
         this.color = color;
         if(color == 'green') {
-            this.damage == 12;
+            this.damage = 12;
         } else {
             this.damage = 4;
         }
