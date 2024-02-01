@@ -119,7 +119,6 @@ class Character extends Movable {
     }
 
     swimY(up) {
-        // Sound einfügen
         const speed = 3;
         if (up) {
             if(this.speedY >= 0) {
@@ -288,7 +287,7 @@ class Character extends Movable {
 
     newBubbleAfterTimeout(isAttacking, isToxic) {
         setTimeout(() => {
-            if (isAttacking) {
+            if (isAttacking && this.state != 'hit' && !this.isDead()) {
                 if (this.otherDirection) {
                     world.bubbles.push(new Bubble(this.x + 8, this.y + 120, isToxic, this.otherDirection));
                 } else {

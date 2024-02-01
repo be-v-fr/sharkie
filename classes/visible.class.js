@@ -9,6 +9,7 @@ class Visible {
     state = '';
     animateIntervalId;
     activeAnimation = '';
+    singleAnimationId = '';
     loopAnimation = true;
     frames = [];
 
@@ -62,14 +63,22 @@ class Visible {
         const numberOfSprites = this.imageCache[name].length;
         this.loopAnimation = false;
         let i = 0;
-        let interval = setInterval(() => {
+        if (this.singleAnimationId != '') {
+            clearInterval(this.singleAnimationId);
+        }
+        this.singleAnimationId = setInterval(() => {
             this.img = this.imageCache[name][i];
             i++;
             if (i == numberOfSprites) {
-                clearInterval(interval);
-                this.loopAnimation = true;
+                this.stopSingleAnimation();
             }
         }, 1000 / 12);
+    }
+
+    stopSingleAnimation() {
+        clearInterval(this.singleAnimationId);
+        this.singleAnimationId = '';
+        this.loopAnimation = true;
     }
 
     draw(ctx) {

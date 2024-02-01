@@ -60,3 +60,15 @@ function generateLoadingscreen() {
         </div>
     `;
 }
+
+function generateInstructions() {
+    return /* html */ `
+
+    `;
+}
+
+function generateSettings() {
+    return /* html */ `
+
+    `;
+}
