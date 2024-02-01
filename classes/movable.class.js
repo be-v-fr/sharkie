@@ -82,12 +82,28 @@ class Movable extends Visible {
 
     frameCollision(obj, frameThis, frameObj) {
         return this.x + frameThis[0] + frameThis[2] >= obj.x + frameObj[0] &&
-        this.x + frameThis[0] <= obj.x + frameObj[0] + frameObj[2] &&
-        this.y + frameThis[1] + frameThis[3] >= obj.y + frameObj[1] &&
-        this.y + frameThis[1] <= obj.y + frameObj[1] + frameObj[3];
+            this.x + frameThis[0] <= obj.x + frameObj[0] + frameObj[2] &&
+            this.y + frameThis[1] + frameThis[3] >= obj.y + frameObj[1] &&
+            this.y + frameThis[1] <= obj.y + frameObj[1] + frameObj[3];
     }
 
+    checkVerticalOverlap(obj) {
+        return this.y + this.frames[0][1] + this.frames[0][3] >= obj.y + obj.frames[0][1] &&
+            this.y + this.frames[0][1] <= obj.y + obj.frames[0][1] + obj.frames[0][3];
+    }
 
+    checkDistanceLeft(obj, threshold) {
+        const thisX = this.x + this.frames[0][0];
+        const objX = obj.x + obj.frames[0][0];
+        return thisX > objX &&
+            thisX - objX < threshold;
+    }
+
+    checkDistanceRight(obj, threshold) {
+        const thisX = this.x + this.frames[0][0] + this.frames[0][2];
+        const objX = obj.x + obj.frames[0][0] + obj.frames[0][2];
+        return thisX < objX && objX - thisX < threshold;
+    }
 
     hit(obj) {
         this.health -= obj.damage;

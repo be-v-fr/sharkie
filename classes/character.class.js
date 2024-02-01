@@ -73,7 +73,27 @@ class Character extends Movable {
 
     actOther(key) {
         if (key.SPACE && Date.now() - this.lastBubble > 750) {
-            this.attack(key.X);
+            if (key.X) {
+                this.bubble(true);
+            } else {
+                this.selectAttack();
+            }
+        }
+    }
+
+    selectAttack() {
+        let threshold = 146;
+        let close = world.enemies.filter(e => this.checkVerticalOverlap(e));
+        console.log(close);
+        if (this.otherDirection) {
+            close = close.filter(e => this.checkDistanceLeft(e, threshold));
+        } else {
+            close = close.filter(e => this.checkDistanceRight(e, threshold));
+        }
+        if (close.length == 0) {
+            this.bubble(false);
+        } else {
+            this.slap();
         }
     }
 
@@ -92,7 +112,7 @@ class Character extends Movable {
     }
 
     clearState() {
-        if(this.state == 'rest') {
+        if (this.state == 'rest') {
             this.clearRest();
         }
         this.idleSince = Date.now() * 2; // timestamp in ferner Zukunft
@@ -121,17 +141,17 @@ class Character extends Movable {
     swimY(up) {
         const speed = 3;
         if (up) {
-            if(this.speedY >= 0) {
+            if (this.speedY >= 0) {
                 this.playSound('swim up');
             }
             this.speedY = -speed;
-        } else  {
+        } else {
             if (this.speedY <= 0) {
                 this.playSound('swim down');
             }
             this.speedY = speed * 0.8;
         }
-        if(!this.state.includes('swim')) {
+        if (!this.state.includes('swim')) {
             this.clearState();
             this.animate('swim');
             this.state = 'swim';
@@ -158,7 +178,7 @@ class Character extends Movable {
         this.playSound('snoring');
     }
 
-    attack(isToxic) {
+    bubble(isToxic) {
         if (isToxic && this.poison == 0) {
             this.playAnimationOnce('no toxic');
             this.newBubbleAfterTimeout(false, isToxic);
@@ -175,13 +195,17 @@ class Character extends Movable {
         this.idle();
     }
 
+    slap() {
+        this.playSound('slap');
+    }
+
     hurt(obj) {
         if (!this.isDead()) {
             if (this.state != 'hit') {
                 this.hit(obj);
                 this.clearState();
                 this.state = 'hit';
-                this.reactToHit(obj);        
+                this.reactToHit(obj);
             }
             this.world.keyboard.toggleControls(true);
             this.bounce(obj);
@@ -189,7 +213,7 @@ class Character extends Movable {
     }
 
     reactToHit(obj) {
-        if (!this.isDead()) {    
+        if (!this.isDead()) {
             if (obj instanceof Jellyfish && obj.color == 'green') {
                 this.playAnimationOnce('shocked');
                 this.playSound('shocked');
@@ -207,7 +231,7 @@ class Character extends Movable {
         for (let i = 0; i < obj.frames.length; i++) {
             const x = this.getBounceX(obj, this.frames[0], obj.frames[i]);
             const y = this.getBounceY(obj, this.frames[0], obj.frames[i]);
-            if(this.bounceX(x) || this.bounceY(y)) {
+            if (this.bounceX(x) || this.bounceY(y)) {
                 bouncing = true;
             }
         }

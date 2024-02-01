@@ -5,9 +5,11 @@ function generateLevel1() {
             new Pufferfish(),
             new Jellyfish('green'),
             // new Jellyfish('green'),
+            // new Jellyfish('green'),
             new Boss()
         ],
-        [new Obstacle(1, 750)
+        [
+            new Obstacle(1, 750)
         ],
         [
             // new Coin(140, 200),

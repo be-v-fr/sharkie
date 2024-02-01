@@ -138,7 +138,7 @@ class World {
         }
     }
 
-    checkBubbles(enemy) { // OPTIONEN FÜR OBSTACLES HINZUFÜGEN, IN "CHECK POSITIONS"-METHODE IMPLEMENTIEREN
+    checkBubbles(enemy) {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {
             let bubble = this.bubbles[i];
             if (bubble.isColliding(enemy) && bubble.isEmpty) {
