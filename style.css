@@ -37,6 +37,7 @@ a, button {
 .menuBtn:hover {
     color: greenyellow;
     background-color: var(--hoverBg);
+    backdrop-filter: blur(2px);
     transition: 125ms ease-in-out;
 }
 

@@ -43,7 +43,7 @@ class Visible {
     resolve(promise) {
         promise.then(() => {
             loadingCounter++;
-            console.log(loadingCounter);
+            console.log('Loaded image', loadingCounter);
         });
     }
 
@@ -60,12 +60,16 @@ class Visible {
     }
 
     playAnimationOnce(name) {
-        const numberOfSprites = this.imageCache[name].length;
         this.loopAnimation = false;
-        let i = 0;
         if (this.singleAnimationId != '') {
             clearInterval(this.singleAnimationId);
         }
+        this.setSingleInterval(name);
+    }
+
+    setSingleInterval(name) {
+        const numberOfSprites = this.imageCache[name].length;
+        let i = 0;
         this.singleAnimationId = setInterval(() => {
             this.img = this.imageCache[name][i];
             i++;

@@ -95,8 +95,7 @@ class Movable extends Visible {
     checkDistanceLeft(obj, threshold) {
         const thisX = this.x + this.frames[0][0];
         const objX = obj.x + obj.frames[0][0];
-        return thisX > objX &&
-            thisX - objX < threshold;
+        return thisX > objX && thisX - objX < threshold;
     }
 
     checkDistanceRight(obj, threshold) {

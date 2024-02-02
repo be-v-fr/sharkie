@@ -7,12 +7,14 @@ class Character extends Movable {
     speed = 3;
     idleSince;
     lastBubble = 0;
+    slapping = false;
 
     constructor() {
         super().loadImage('../img/sharkie/1.IDLE/1.png');
         this.xStart = 140;
         this.x = this.xStart;
         this.y = 100;
+        this.damage = 100;
         this.initFrame(30, 108, 90, 60);
         this.swimAndSinkY();
         this.loadImages('idle', '../img/sharkie/1.IDLE/', 18);
@@ -84,7 +86,6 @@ class Character extends Movable {
     selectAttack() {
         let threshold = 146;
         let close = world.enemies.filter(e => this.checkVerticalOverlap(e));
-        console.log(close);
         if (this.otherDirection) {
             close = close.filter(e => this.checkDistanceLeft(e, threshold));
         } else {
@@ -115,6 +116,7 @@ class Character extends Movable {
         if (this.state == 'rest') {
             this.clearRest();
         }
+        // this.slapping = false;
         this.idleSince = Date.now() * 2; // timestamp in ferner Zukunft
         this.clearIntervals();
     }
@@ -196,7 +198,16 @@ class Character extends Movable {
     }
 
     slap() {
-        this.playSound('slap');
+        if (!this.slapping) {
+            this.slapping = true;
+            this.playAnimationOnce('slap');
+            setTimeout(() => {
+                if (this.slapping) {
+                    this.playSound('slap');
+                    this.slapping = false;
+                }
+            }, 450);
+        }
     }
 
     hurt(obj) {

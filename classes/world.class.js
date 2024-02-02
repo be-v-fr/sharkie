@@ -111,7 +111,11 @@ class World {
             const enemy = this.enemies[i];
             if (enemy.state != 'dead') {
                 this.checkCharacter(enemy);
-                this.checkBubbles(enemy);
+                if (enemy.isDead()) {
+                    this.enemies = removeAt(i, this.enemies);
+                } else {
+                    this.checkBubbles(enemy);
+                }
             } else if (enemy.y < -100 || enemy.y > 600) {
                 this.enemies = removeAt(i, this.enemies);
             }
@@ -132,9 +136,16 @@ class World {
     }
 
     checkCharCollision(obj) {
-        if (this.character.isColliding(obj) && (obj instanceof Obstacle || this.character.isRecovered())) {
-            this.character.hurt(obj);
-            this.stats[0].update(this.character.health);
+        if (this.character.isColliding(obj)) {
+            if (this.character.slapping && !(obj instanceof Obstacle) && !(obj instanceof Jellyfish && obj.color == 'green')) {
+                obj.hit(this.character);
+            } else {
+                this.character.slapping = false;
+                if (obj instanceof Obstacle || this.character.isRecovered()) {
+                    this.character.hurt(obj);
+                    this.stats[0].update(this.character.health);
+                }
+            }
         }
     }
 
@@ -157,7 +168,6 @@ class World {
         } else {
             bubble.playSound('pop');
             this.bubbles = removeAt(i, this.bubbles);
-            enemy.die();
         }
     }
 
