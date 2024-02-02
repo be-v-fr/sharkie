@@ -2,9 +2,10 @@ class Boss extends Movable {
     width = 360;
     height = 480;
 
-    constructor() {
+    constructor(xStart) {
         super().loadImage('../img/enemy/3 Final Enemy/1.Introduce/1.png');
-        this.x = -3000;
+        this.x = -1000;
+        this.xStart = xStart;
         this.y = 0;
         this.loadImages('introduce', '../img/enemy/3 Final Enemy/1.Introduce/', 10);
         this.loadImages('floating', '../img/enemy/3 Final Enemy/2.floating/', 13);
@@ -14,5 +15,20 @@ class Boss extends Movable {
         this.initFrame(30, 108, 90, 60);
     }
 
+    spawn() {
+        this.x = this.xStart;
+        this.playAnimationOnce('introduce');
+        const moveSpawning = setInterval(() => {
+            this.x -= 0.8;
+            if(this.x <= this.xStart - 14) {
+                this.initCycle();
+                clearInterval(moveSpawning);
+            }
+        }, 1000 / 60)
+        this.animate('floating');
+    }
 
+    initCycle() {
+        console.log('boss cycle initiated');
+    }
 }

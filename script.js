@@ -1,4 +1,4 @@
-const TOTAL_NR_OF_IMAGES = 197;
+const TOTAL_NR_OF_IMAGES = 100;
 let loadingCounter = 0;
 let imagePaths = [];
 let menuSound = new Audio('./audio/bubble_pop.mp3');

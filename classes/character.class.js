@@ -51,16 +51,19 @@ class Character extends Movable {
     }
 
     actLeftRight(key) {
-        if (key.RIGHT && !key.LEFT) {
+        if (key.RIGHT && !key.LEFT && this.state != 'swim blocked right') {
             if (this.state != 'swim right') {
                 this.swim(true);
-            } // else: if( rechter Level-Rand ) { ... }
-        } else if (key.LEFT && !key.RIGHT && this.state != 'swim blocked') {
+            }
+            if (this.world.bossFight && this.x >= this.world.boss.xStart + 200) {
+                this.block(true);
+            }
+        } else if (key.LEFT && !key.RIGHT && this.state != 'swim blocked left') {
             if (this.state != 'swim left') {
                 this.swim(false);
             }
-            if (this.x < 50) {
-                this.blocked();
+            if (this.x < 50 || (this.world.bossFight && this.x <= this.world.boss.xStart - 370)) {
+                this.block(false);
             }
         }
     }
@@ -160,9 +163,13 @@ class Character extends Movable {
         }
     }
 
-    blocked() {
+    block(right) {
         clearInterval(this.moveIntervalId);
-        this.state = 'swim blocked';
+        if (right) {
+            this.state = 'swim blocked right';
+        } else {
+            this.state = 'swim blocked left';
+        }
     }
 
     idle() {

@@ -13,6 +13,7 @@ class World {
     items = level1.items;
     numberOfCoins = level1.getNumberOfCoins();
     enemies = level1.enemies;
+    boss = this.enemies[this.enemies.length - 1];
     stats = [
         new Stats(16, 2, 'health'),
         new Stats(16, 2 + 1 * 40, 'coins'),
@@ -20,19 +21,20 @@ class World {
     ];
     bubbles = [];
     stop = false;
+    bossFight = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        this.checkPositions();
         this.keyboard = keyboard;
-        this.floor.moveX(-this.floor.speed);
-        this.stats[1].update(this.character.coins);
-        this.stats[2].update(this.character.poison);
     }
 
     start() {
+        this.floor.moveX(-this.floor.speed);
+        this.stats[1].update(this.character.coins);
+        this.stats[2].update(this.character.poison);
         this.set();
+        this.checkPositions();
         this.draw();
     }
 
@@ -40,12 +42,14 @@ class World {
         setInterval(() => {
             if (!this.stop) {
                 this.character.world = this;
-                this.translateX = this.character.x - this.character.xStart;
-                this.dX = this.character.x - this.character.xStart - this.floor.x;
+                if (!this.bossFight) {
+                    this.translateX = this.character.x - this.character.xStart;
+                    this.dX = this.translateX - this.floor.x;
+                    this.setBackdrop();
+                    this.adjustToFloor(this.obstacles);
+                    this.adjustToFloor(this.items);
+                }
                 this.character.act();
-                this.setBackdrop();
-                this.adjustToFloor(this.obstacles);
-                this.adjustToFloor(this.items);
             }
         }, 5);
     }
@@ -79,6 +83,9 @@ class World {
             this.checkObstacles();
             this.checkItems();
             this.checkEnemies();
+            if(!this.bossFight && this.translateX >= this.boss.xStart - 380) {
+                this.initBossFight();
+            }
         }, 100);
     }
 
@@ -169,6 +176,13 @@ class World {
             bubble.playSound('pop');
             this.bubbles = removeAt(i, this.bubbles);
         }
+    }
+
+    initBossFight() {
+        // Char-Bewegung begrenzen
+        this.bossFight = true;
+        clearInterval(this.floor.moveIntervalId);
+        this.boss.spawn();
     }
 
     draw() {
