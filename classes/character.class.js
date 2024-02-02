@@ -1,7 +1,6 @@
 class Character extends Movable {
     width = 150;
     height = 225;
-    world;
     poison = 40;
     coins = 0;
     speed = 3;
@@ -43,7 +42,7 @@ class Character extends Movable {
     }
 
     act() {
-        let key = this.world.keyboard;
+        let key = world.keyboard;
         this.actLeftRight(key);
         this.actUpDown(key);
         this.actOther(key);
@@ -55,14 +54,14 @@ class Character extends Movable {
             if (this.state != 'swim right') {
                 this.swim(true);
             }
-            if (this.world.bossFight && this.x >= this.world.boss.xStart + 200) {
+            if (world.bossFight && this.x >= world.boss.xStart + 200) {
                 this.block(true);
             }
         } else if (key.LEFT && !key.RIGHT && this.state != 'swim blocked left') {
             if (this.state != 'swim left') {
                 this.swim(false);
             }
-            if (this.x < 50 || (this.world.bossFight && this.x <= this.world.boss.xStart - 370)) {
+            if (this.x < 50 || (world.bossFight && this.x <= world.boss.xStart - 370)) {
                 this.block(false);
             }
         }
@@ -194,7 +193,7 @@ class Character extends Movable {
         } else {
             if (isToxic) {
                 this.poison -= 20;
-                this.world.stats[2].update(this.poison);
+                world.stats[2].update(this.poison);
                 this.playAnimationOnce('bubble toxic');
             } else {
                 this.playAnimationOnce('bubble normal');
@@ -225,7 +224,7 @@ class Character extends Movable {
                 this.state = 'hit';
                 this.reactToHit(obj);
             }
-            this.world.keyboard.toggleControls(true);
+            world.keyboard.toggleControls(true);
             this.bounce(obj);
         }
     }
@@ -318,7 +317,7 @@ class Character extends Movable {
 
     recover() {
         setTimeout(() => {
-            this.world.keyboard.toggleControls(false);
+            world.keyboard.toggleControls(false);
             this.idle();
         }, 400);
     }
@@ -351,14 +350,14 @@ class Character extends Movable {
 
     collectCoin() {
         this.coins++;
-        const progress = 100 * this.coins / this.world.numberOfCoins;
-        this.world.stats[1].update(progress);
+        const progress = 100 * this.coins / world.numberOfCoins;
+        world.stats[1].update(progress);
     }
 
     collectPhial() {
         if (this.poison <= 80) {
             this.poison += 20;
-            this.world.stats[2].update(this.poison);
+            world.stats[2].update(this.poison);
         }
     }
 
@@ -372,6 +371,6 @@ class Character extends Movable {
             this.playAnimationOnce('die normal');
             this.playSoundAfterDelay(200, 'die');
         }
-        setTimeout(() => { this.world.stop = true; }, 1000);
+        setTimeout(() => { world.stop = true; }, 1000);
     }
 }
