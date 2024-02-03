@@ -118,7 +118,7 @@ class World {
             const enemy = this.enemies[i];
             if (enemy.state != 'dead') {
                 this.checkCharacter(enemy);
-                if (enemy.isDead()) {
+                if (enemy.isDead() && !(enemy instanceof Boss)) {
                     this.enemies = removeAt(i, this.enemies);
                 } else {
                     this.checkBubbles(enemy);

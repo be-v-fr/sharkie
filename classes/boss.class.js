@@ -13,10 +13,18 @@ class Boss extends Movable {
         this.loadImages('introduce', '../img/enemy/3 Final Enemy/1.Introduce/', 10);
         this.loadImages('floating', '../img/enemy/3 Final Enemy/2.floating/', 13);
         this.loadImages('attack', '../img/enemy/3 Final Enemy/Attack/', 6);
-        this.loadImages('dead', '../img/enemy/3 Final Enemy/Dead/', 6);
+        this.loadImages('die', '../img/enemy/3 Final Enemy/Dead/', 6);
         this.loadImages('hurt', '../img/enemy/3 Final Enemy/Hurt/', 4);
         this.initFrame(32, 240, 280, 140);
         this.initFrame(170, 170, 30, 100);
+    }
+
+    clearAllIntervals() {
+        this.clearIntervals();
+        clearInterval(this.cycleId);
+        if (this.attackId != '') {
+            clearInterval(this.attackId);
+        }
     }
 
     spawn() {
@@ -25,38 +33,56 @@ class Boss extends Movable {
         const moveSpawning = setInterval(() => {
             this.x -= 0.8;
             if (this.x <= this.xStart - 14) {
-                this.initCycle();
+                this.setCycle(0, 0);
                 clearInterval(moveSpawning);
             }
         }, 1000 / 60)
         this.animate('floating');
-        console.log('floating');
     }
 
-    initCycle() {
-        let i = 0;
-        let j = 0;
+    setCycle(horizontal, vertical) {
         this.cycleId = setInterval(() => {
-            i %= 150;
-            j %= 130;
-            if (i++ < 120) {
-                this.x -= 2;
-            } else {
-                this.x += 8;
-            }
-            if (j++ < 65) {
-                this.y -= 3;
-            } else {
-                this.y += 3;
-            }
-            if (this.attackId == '' && this.singleAnimationId == '') {
-                this.setDirection();
-                if (Math.random() < 0.018) {
-                    this.attack();
-                }
-            }
-        }, 1000 / 30)
+            horizontal %= 150;
+            vertical %= 130;
+            this.moveCycle(horizontal, vertical);
+            horizontal++;
+            vertical++;
+            this.act();
+        }, 1000 / 30);
+    }
 
+    moveCycle(horizontal, vertical) {
+        this.moveHorizontal(horizontal);
+        this.moveVertical(vertical);
+    }
+
+    moveHorizontal(index) {
+        if (index < 120) {
+            this.x -= 2;
+        } else {
+            this.x += 8;
+        }
+    }
+
+    moveVertical(index) {
+        if (index < 65) {
+            this.y -= 3;
+        } else {
+            this.y += 3;
+        }
+    }
+
+    act() {
+        if (this.isReadyForAction()) {
+            this.setDirection();
+            if (Math.random() < 0.018) {
+                this.attack();
+            }
+        }
+    }
+
+    isReadyForAction() {
+        return this.attackId == '' && this.singleAnimationId == ''; // nicht mehr hurt/hit hinzufügen!!
     }
 
     setDirection() {
@@ -71,16 +97,20 @@ class Boss extends Movable {
         this.playAnimationOnce('attack');
         let i = 0;
         this.attackId = setInterval(() => {
-            if (i < 18) {
-                this.startAttack(i++);
-            } else {
-                this.endAttack(i++);
-            }
+            this.attackMove(i);
+            i++;
             if (i == 36) {
-                clearInterval(this.attackId);
-                this.attackId = '';
+                this.finishAttack();
             }
         }, 1000 / 30)
+    }
+
+    attackMove(index) {
+        if (index < 18) {
+            this.startAttack(index);
+        } else {
+            this.endAttack(index);
+        }
     }
 
     startAttack(index) {
@@ -97,5 +127,26 @@ class Boss extends Movable {
         } else {
             this.x += (index - 18);
         }
+    }
+
+    finishAttack() {
+        clearInterval(this.attackId);
+        this.attackId = '';
+    }
+
+    hurt() {
+        if(!this.isDead()) {
+            
+        }
+    }
+
+    die() {
+        this.clearAllIntervals();
+        // this.playSound('die');
+        this.playAnimationOnce('die');
+        setTimeout(() => {
+            world.stop = true;
+        }, 500);
+        // Winning-Screen
     }
 }
