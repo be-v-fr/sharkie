@@ -8,6 +8,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         this.x = x + Math.random() * 500;
         this.y = y + Math.random() * 100;
         this.damage = 4;
+        this.health = 1;
         this.initFrame(3, 6, 65, 48);
         this.sounds = {
             'die': new Audio('../audio/pufferfish_die.mp3')

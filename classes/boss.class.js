@@ -10,7 +10,7 @@ class Boss extends Movable {
         this.xStart = xStart;
         this.y = 0;
         this.damage = 8;
-        this.recoveryDuration = 1400;
+        this.recoveryDuration = 1800;
         this.loadImages('introduce', '../img/enemy/3 Final Enemy/1.Introduce/', 10);
         this.loadImages('floating', '../img/enemy/3 Final Enemy/2.floating/', 13);
         this.loadImages('attack', '../img/enemy/3 Final Enemy/Attack/', 6);
@@ -81,14 +81,14 @@ class Boss extends Movable {
     act() {
         if (this.isReadyForAction()) {
             this.setDirection();
-            if (Math.random() < 0.018) {
+            if (Math.random() < 0.02) {
                 this.attack();
             }
         }
     }
 
     isReadyForAction() {
-        return this.attackId == '' && this.singleAnimationId == ''; // nicht mehr hurt/hit hinzufügen!!
+        return this.attackId == '' && this.singleAnimationId == '' && this.isRecovered();
     }
 
     setDirection() {
@@ -147,10 +147,12 @@ class Boss extends Movable {
     }
 
     retreat() {
-        const incline = Math.abs(this.y / (this.x - this.xStart));
+        let speed = Math.abs(this.x - this.xStart);
+        const incline = Math.abs(this.y / speed);
+        speed /= 40;
         this.moveIntervalId = setInterval(() => {
-            this.retreatX();
-            this.retreatY(incline);
+            this.retreatX(speed);
+            this.retreatY(incline, speed);
             if (this.x == this.xStart && this.y == 0) {
                 clearInterval(this.moveIntervalId);
                 this.state = '';
@@ -159,21 +161,21 @@ class Boss extends Movable {
         }, 1000 / 60);
     }
 
-    retreatX() {
-        if (this.x <= this.xStart - 2) {
-            this.x += 2;
-        } else if (this.x >= this.xStart + 2) {
-            this.x -= 2;
+    retreatX(speed) {
+        if (this.x <= this.xStart - speed) {
+            this.x += speed;
+        } else if (this.x >= this.xStart + speed) {
+            this.x -= speed;
         } else {
             this.x = this.xStart;
         }
     }
 
-    retreatY(incline) {
-        if (this.y <= -2) {
-            this.y += 2 * incline;
-        } else if (this.y >= 2) {
-            this.y -= 2 * incline;
+    retreatY(incline, speed) {
+        if (this.y <= -speed) {
+            this.y += speed * incline;
+        } else if (this.y >= speed) {
+            this.y -= speed * incline;
         } else {
             this.y = 0;
         }
