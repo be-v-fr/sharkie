@@ -10,6 +10,7 @@ class Boss extends Movable {
         this.xStart = xStart;
         this.y = 0;
         this.damage = 8;
+        this.recoveryDuration = 1400;
         this.loadImages('introduce', '../img/enemy/3 Final Enemy/1.Introduce/', 10);
         this.loadImages('floating', '../img/enemy/3 Final Enemy/2.floating/', 13);
         this.loadImages('attack', '../img/enemy/3 Final Enemy/Attack/', 6);
@@ -21,6 +22,11 @@ class Boss extends Movable {
 
     clearAllIntervals() {
         this.clearIntervals();
+        this.clearBossIntervals();
+
+    }
+
+    clearBossIntervals() {
         clearInterval(this.cycleId);
         if (this.attackId != '') {
             clearInterval(this.attackId);
@@ -135,8 +141,41 @@ class Boss extends Movable {
     }
 
     hurt() {
-        if(!this.isDead()) {
-            
+        this.clearBossIntervals();
+        this.playAnimationOnce('hurt');
+        this.retreat();
+    }
+
+    retreat() {
+        const incline = Math.abs(this.y / (this.x - this.xStart));
+        this.moveIntervalId = setInterval(() => {
+            this.retreatX();
+            this.retreatY(incline);
+            if (this.x == this.xStart && this.y == 0) {
+                clearInterval(this.moveIntervalId);
+                this.state = '';
+                this.setCycle(0, 0);
+            }
+        }, 1000 / 60);
+    }
+
+    retreatX() {
+        if (this.x <= this.xStart - 2) {
+            this.x += 2;
+        } else if (this.x >= this.xStart + 2) {
+            this.x -= 2;
+        } else {
+            this.x = this.xStart;
+        }
+    }
+
+    retreatY(incline) {
+        if (this.y <= -2) {
+            this.y += 2 * incline;
+        } else if (this.y >= 2) {
+            this.y -= 2 * incline;
+        } else {
+            this.y = 0;
         }
     }
 

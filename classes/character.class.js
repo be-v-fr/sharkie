@@ -14,6 +14,7 @@ class Character extends Movable {
         this.x = this.xStart;
         this.y = 100;
         this.damage = 100;
+        this.recoveryDuration = 1000;
         this.initFrame(30, 108, 90, 60);
         this.swimAndSinkY();
         this.loadImages('idle', '../img/sharkie/1.IDLE/', 18);
@@ -320,10 +321,6 @@ class Character extends Movable {
             world.keyboard.toggleControls(false);
             this.idle();
         }, 400);
-    }
-
-    isRecovered() {
-        return this.state != 'hit' || Date.now() - this.lastHit > 1000;
     }
 
     newBubbleAfterTimeout(isAttacking, isToxic) {

@@ -83,7 +83,7 @@ class World {
             this.checkObstacles();
             this.checkItems();
             this.checkEnemies();
-            if(!this.bossFight && this.translateX >= this.boss.xStart - 380) {
+            if (!this.bossFight && this.translateX >= this.boss.xStart - 380) {
                 this.initBossFight();
             }
         }, 100);
@@ -145,7 +145,9 @@ class World {
     checkCharCollision(obj) {
         if (this.character.isColliding(obj)) {
             if (this.character.slapping && !(obj instanceof Obstacle) && !(obj instanceof Jellyfish && obj.color == 'green')) {
-                obj.hit(this.character);
+                if (obj.canGetHit()) {
+                    obj.hit(this.character);
+                }
             } else {
                 this.character.slapping = false;
                 if (obj instanceof Obstacle || this.character.isRecovered()) {
@@ -160,8 +162,10 @@ class World {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {
             let bubble = this.bubbles[i];
             if (bubble.isColliding(enemy) && bubble.isEmpty) {
-                this.enemyHitByBubble(bubble, enemy, i);
-            } else if (bubble.y < 0) { // falls keine Kollision, jedoch Blase über Bildrand
+                if (enemy.canGetHit()) {
+                    this.enemyHitByBubble(bubble, enemy, i);
+                }
+            } else if (bubble.y < 0) {
                 this.bubbles = removeAt(i, this.bubbles);
             }
         }

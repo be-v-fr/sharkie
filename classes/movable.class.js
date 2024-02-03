@@ -12,6 +12,7 @@ class Movable extends Visible {
     otherDirection = false;
     sounds = {};
     damage;
+    recoveryDuration;
 
     constructor() {
         super();
@@ -110,8 +111,25 @@ class Movable extends Visible {
             this.health = 0;
             this.die(obj);
         } else {
+            if (this instanceof Boss) {
+                this.bossHit();
+            }
             this.lastHit = Date.now();
         }
+    }
+
+    canGetHit() {
+        return !(this instanceof Boss) || this.isRecovered();
+    }
+
+    bossHit() {
+        this.state = 'hit';
+        this.hurt();
+    }
+
+    isRecovered() {
+        return (!(this instanceof Boss) && this.state != 'hit') ||
+            Date.now() - this.lastHit > this.recoveryDuration;
     }
 
     isDead() {
