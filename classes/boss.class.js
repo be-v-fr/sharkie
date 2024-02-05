@@ -47,8 +47,8 @@ class Boss extends Movable {
     }
 
     startBossMusic() {
-        music[0].pause();
-        music[1].play();
+        music['main'].pause();
+        music['boss'].play();
     }
 
     setCycle(horizontal, vertical) {

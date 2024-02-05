@@ -146,12 +146,12 @@ class Character extends Movable {
     swimY(up) {
         const speed = 3;
         if (up) {
-            if (this.speedY >= 0) {
+            if (this.speedY >= -speed * 0.9) {
                 this.playSound('swim up');
             }
             this.speedY = -speed;
         } else {
-            if (this.speedY <= 0) {
+            if (this.speedY <= speed * 0.7) {
                 this.playSound('swim down');
             }
             this.speedY = speed * 0.8;
