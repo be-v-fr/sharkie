@@ -35,7 +35,7 @@ function generateLevel1() {
             new Coin(1875, 110),
             new Coin(1875, 270),
             new Coin(1896, 190),
-            new Phial(2100, 324),
+            new Phial(2100, 304),
             new Phial(2740, 380),
             new Coin(2600, 170),
             new Coin(2670, 150),
