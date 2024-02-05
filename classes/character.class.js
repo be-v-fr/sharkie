@@ -40,6 +40,7 @@ class Character extends Movable {
             'snoring': new Audio('../audio/sharkie_long_idle.mp3'),
             'slap': new Audio('../audio/sharkie_slap.mp3')
         };
+        this.sounds['hurt'].volume = 0.5;
     }
 
     act() {

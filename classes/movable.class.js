@@ -2,7 +2,7 @@ class Movable extends Visible {
     speedY = 0;
     xStart;
     yMin = -100;
-    yMax = 240;
+    yMax = 280;
     speedSinking = 1.4;
     acceleration = 0.1;
     health = 100;

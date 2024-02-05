@@ -14,7 +14,7 @@ class Jellyfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch a
         }
         this.x = x;
         this.y = y;
-        this.initFrame(3, 6, 65, 48);
+        this.initFrame(8, 6, 48, 48);
         this.animate('normal');
         this.moveX(-0.18);
     }

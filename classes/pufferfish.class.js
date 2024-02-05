@@ -9,7 +9,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         this.y = y + Math.random() * 100;
         this.damage = 4;
         this.health = 1;
-        this.initFrame(3, 6, 65, 48);
+        this.initFrame(3, 6, 48, 32);
         this.sounds = {
             'die': new Audio('../audio/pufferfish_die.mp3')
         };
@@ -30,7 +30,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
             this.moveX(2.4 * this.speed * (1 + Math.random()));
             this.animate('blown');
             this.frames[0][1] -= 4;
-            this.frames[0][3] = 72;            
+            this.frames[0][3] = 52;            
         }, 420);
     }
 
