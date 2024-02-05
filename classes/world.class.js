@@ -36,6 +36,7 @@ class World {
         this.set();
         this.checkPositions();
         this.draw();
+        music[0].play();
     }
 
     set() {

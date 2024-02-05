@@ -23,7 +23,6 @@ class Boss extends Movable {
     clearAllIntervals() {
         this.clearIntervals();
         this.clearBossIntervals();
-
     }
 
     clearBossIntervals() {
@@ -34,6 +33,7 @@ class Boss extends Movable {
     }
 
     spawn() {
+        this.startBossMusic();
         this.x = this.xStart;
         this.playAnimationOnce('introduce');
         const moveSpawning = setInterval(() => {
@@ -44,6 +44,11 @@ class Boss extends Movable {
             }
         }, 1000 / 60)
         this.animate('floating');
+    }
+
+    startBossMusic() {
+        music[0].pause();
+        music[1].play();
     }
 
     setCycle(horizontal, vertical) {

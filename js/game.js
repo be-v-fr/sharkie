@@ -8,6 +8,7 @@ function init() {
     canvas = document.getElementById('canvas');
     overlay = document.getElementById('overlay');
     overlay.innerHTML = generateStartscreen();
+    setMusic();
 }
 
 function start() {
