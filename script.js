@@ -7,11 +7,10 @@ const music = {
     'boss': new Audio('../audio/music/boss.mp3')
 };
 
-function setMusic() {
+function initMusic() {
     music['main'].loop = true;
-    music['main'].volume = 0.14;
     music['boss'].loop = true;
-    music['boss'].volume = 0.23;
+    setMusic(true);
 }
 
 function removeAt(index, array) {
@@ -21,6 +20,8 @@ function removeAt(index, array) {
 }
 
 function playMenuSound() {
-    menuSound.currentTime = 0;
-    menuSound.play();
+    if (settings['sound']) {
+        menuSound.currentTime = 0;
+        menuSound.play();
+    }
 }

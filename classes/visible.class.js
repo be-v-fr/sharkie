@@ -104,13 +104,17 @@ class Visible {
     }
 
     playSound(sound) {
-        this.sounds[sound].currentTime = 0;
-        this.sounds[sound].play();
+        if (settings['sound']) {
+            this.sounds[sound].currentTime = 0;
+            this.sounds[sound].play();
+        }
     }
 
     playSoundAfterDelay(ms, sound) {
         setTimeout(() => {
-            this.playSound(sound);
+            if (settings['sound']) {
+                this.playSound(sound);
+            }
         }, ms);
     }
 }
