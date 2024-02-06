@@ -220,7 +220,7 @@ class World {
             this.flipImage(vis);
         }
         vis.draw(this.ctx);
-        vis.drawFrame(this.ctx);
+        // vis.drawFrame(this.ctx);
         if (vis.otherDirection) {
             this.unflipImage();
         }

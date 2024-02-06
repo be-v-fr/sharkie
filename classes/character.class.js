@@ -89,7 +89,7 @@ class Character extends Movable {
 
     selectAttack() {
         let threshold = 146;
-        let close = world.enemies.filter(e => this.checkVerticalOverlap(e));
+        let close = world.enemies.filter(e => this.checkVerticalOverlap(e) && e.state != 'dead');
         if (this.otherDirection) {
             close = close.filter(e => this.checkDistanceLeft(e, threshold));
         } else {

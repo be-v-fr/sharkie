@@ -18,6 +18,12 @@ class Boss extends Movable {
         this.loadImages('hurt', '../img/enemy/3 Final Enemy/Hurt/', 4);
         this.initFrame(32, 240, 280, 140);
         this.initFrame(170, 170, 30, 100);
+        this.sounds = {
+            'intro': new Audio('../audio/boss_splash.mp3'),
+            'attack': new Audio('../audio/boss_bite.mp3'),
+            'hurt': new Audio('../audio/boss_hurt.mp3'),
+            'die': new Audio('../audio/boss_die.mp3')
+        };
     }
 
     clearAllIntervals() {
@@ -34,6 +40,7 @@ class Boss extends Movable {
 
     spawn() {
         this.startBossMusic();
+        this.playSound('intro');
         this.x = this.xStart;
         this.playAnimationOnce('introduce');
         const moveSpawning = setInterval(() => {
@@ -106,6 +113,7 @@ class Boss extends Movable {
 
     attack() {
         this.playAnimationOnce('attack');
+        this.playSound('attack');
         let i = 0;
         this.attackId = setInterval(() => {
             this.attackMove(i);
@@ -148,6 +156,7 @@ class Boss extends Movable {
     hurt() {
         this.clearBossIntervals();
         this.playAnimationOnce('hurt');
+        this.playSound('hurt');
         this.retreat();
     }
 
@@ -190,6 +199,10 @@ class Boss extends Movable {
         this.clearAllIntervals();
         // this.playSound('die');
         this.playAnimationOnce('die');
+        this.playSound('die');
+        music['boss'].pause();
+        music['main'].currentTime = 0;
+        music['main'].play();           
         setTimeout(() => {
             world.stop = true;
         }, 500);
