@@ -1,7 +1,6 @@
 class Boss extends Movable {
     width = 360;
     height = 480;
-    cycleId = '';
     attackId = '';
 
     constructor(xStart) {
@@ -12,7 +11,7 @@ class Boss extends Movable {
         this.damage = 8;
         this.recoveryDuration = 1800;
         this.loadImages('introduce', '../img/enemy/3 Final Enemy/1.Introduce/', 10);
-        this.loadImages('floating', '../img/enemy/3 Final Enemy/2.floating/', 13);
+        this.loadImages('floating', '../img/enemy/3 Final Enemy/2.Floating/', 13);
         this.loadImages('attack', '../img/enemy/3 Final Enemy/Attack/', 6);
         this.loadImages('die', '../img/enemy/3 Final Enemy/Dead/', 6);
         this.loadImages('hurt', '../img/enemy/3 Final Enemy/Hurt/', 4);
@@ -32,7 +31,7 @@ class Boss extends Movable {
     }
 
     clearBossIntervals() {
-        clearInterval(this.cycleId);
+        clearInterval(this.moveIntervalId);
         if (this.attackId != '') {
             clearInterval(this.attackId);
         }
@@ -59,7 +58,7 @@ class Boss extends Movable {
     }
 
     setCycle(horizontal, vertical) {
-        this.cycleId = setInterval(() => {
+        this.moveIntervalId = setInterval(() => {
             horizontal %= 150;
             vertical %= 130;
             this.moveCycle(horizontal, vertical);
@@ -197,7 +196,6 @@ class Boss extends Movable {
 
     die() {
         this.clearAllIntervals();
-        // this.playSound('die');
         this.playAnimationOnce('die');
         this.playSound('die');
         music['boss'].pause();

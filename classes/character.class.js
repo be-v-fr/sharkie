@@ -78,7 +78,8 @@ class Character extends Movable {
     }
 
     actOther(key) {
-        if (key.SPACE && Date.now() - this.lastBubble > 750) {
+        if (key.SPACE && Date.now() - this.lastBubble > 750 && !this.state.includes('attacking')) {
+            this.state = this.state + 'attacking';
             if (key.X) {
                 this.bubble(true);
             } else {
@@ -214,7 +215,14 @@ class Character extends Movable {
                     this.playSound('slap');
                     this.slapping = false;
                 }
+                this.removeAttackFromState();
             }, 450);
+        }
+    }
+
+    removeAttackFromState() {
+        if (this.state.includes('attacking')) {
+            this.state.slice(0, -10);
         }
     }
 
@@ -333,6 +341,7 @@ class Character extends Movable {
                     world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
                 }
             }
+            this.removeAttackFromState();
         }, 640);
         this.lastBubble = Date.now();
     }
