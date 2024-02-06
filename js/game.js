@@ -56,10 +56,12 @@ function showSettings() {
 }
 
 function addReturnListener() {
-    overlay.addEventListener('mouseup', function returnToMain() {
-        overlay.innerHTML = generateStartscreen();
-        overlay.removeEventListener('mouseup', returnToMain);
-    });
+    overlay.addEventListener('mouseup', returnToMain);
+}
+
+function returnToMain() {
+    overlay.innerHTML = generateStartscreen();
+    overlay.removeEventListener('mouseup', returnToMain);
 }
 
 function setSound(on) {
@@ -108,29 +110,32 @@ function generateInstructions() {
 
 function generateSettings() {
     return /* html */ `
-        <table class="menuPageWrapper settings" onmouseup="event.stopPropagation()" onclick="renderSettings()">
-            <tr>
-                <td><span>Sound</span></td>
-                <td><button id="sound1" onclick="setSound(true)" onmousedown="playMenuSound()">on</button></td>
-                <td><button id="sound0" onclick="setSound(false)" onmousedown="playMenuSound()">off</button></td>
-            </tr>
-            <tr>
-                <td>
-                    <svg width="32" height="24" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="4" y1="2" x2="4" y2="18" stroke="white" stroke-width="2"/>
-                        <line x1="3" y1="17" x2="30" y2="17" stroke="white" stroke-width="2"/>
-                    </svg>                
-                    <span>Music</span>
-                </td>
-                <td><button id="music1" onclick="setMusic(true)" onmousedown="playMenuSound()">on</button></td>
-                <td><button id="music0" onclick="setMusic(false)" onmousedown="playMenuSound()">off</button></td>
-            </tr>
-            <tr>    
-                <td><span>Difficulty</span></td>
-                <td><button id="hardMode1" onclick="setHardMode(true)" onmousedown="playMenuSound()">normal</button></td>
-                <td><button id="hardMode0" onclick="setHardMode(false)" onmousedown="playMenuSound()">hard</button></td>
-            </tr>
-        </table>
+        <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
+            <button class="close" onclick="returnToMain()">X</button>
+            <table class="settings" onclick="renderSettings()">
+                <tr>
+                    <td><span>Sound</span></td>
+                    <td><button id="sound1" onclick="setSound(true)" onmousedown="playMenuSound()">on</button></td>
+                    <td><button id="sound0" onclick="setSound(false)" onmousedown="playMenuSound()">off</button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <svg width="32" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="4" y1="2" x2="4" y2="18" stroke="white" stroke-width="2"/>
+                            <line x1="3" y1="17" x2="30" y2="17" stroke="white" stroke-width="2"/>
+                        </svg>                
+                        <span>Music</span>
+                    </td>
+                    <td><button id="music1" onclick="setMusic(true)" onmousedown="playMenuSound()">on</button></td>
+                    <td><button id="music0" onclick="setMusic(false)" onmousedown="playMenuSound()">off</button></td>
+                </tr>
+                <tr>    
+                    <td><span>Difficulty</span></td>
+                    <td><button id="hardMode1" onclick="setHardMode(true)" onmousedown="playMenuSound()">normal</button></td>
+                    <td><button id="hardMode0" onclick="setHardMode(false)" onmousedown="playMenuSound()">hard</button></td>
+                </tr>
+            </table>
+        </div>
     `;
 }
 
