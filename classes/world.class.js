@@ -242,4 +242,18 @@ class World {
             self.draw();
         });
     }
+
+    win() {
+        this.stop = true;
+        showEndscreen('You win!');
+        const endscreen = document.getElementById('endscreen');
+        endscreen.classList.add('winscreen');
+    }
+
+    lose() {
+        this.stop = true;
+        showEndscreen('Game Over');
+        const endscreen = document.getElementById('endscreen');
+        endscreen.classList.add('gameOver');  
+    }
 }

@@ -57,7 +57,7 @@ function isLoaded() {
 }
 
 function renderIngameOverlay() {
-    overlay.classList.toggle('overlayBg');
+    overlay.classList.remove('overlayBg');
     overlay.innerHTML = generateIngameSettings();
     renderIngameSettings();
 }
@@ -185,6 +185,17 @@ function showInstructions() {
     addReturnListener();
 }
 
+function showEndscreen(message) {
+    overlay.innerHTML = generateEndscreen(message);    
+}
+
+function endGame() {
+    world.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    world = null;
+    overlay.classList.add('overlayBg');
+    returnToMain();
+}
+
 function generateStartscreen() {
     return /* html */ `
         <button class="menuBtn rotateLeft" onclick="start()" onmousedown="playMenuSound()">Start Game</button>
@@ -235,7 +246,7 @@ function generateInstructions() {
                         <td>${listMark}</td>
                         <td>
                             <div class="tdContainer instructionsSlap">
-                                <p>When facing a close opponent, Sharkie will slap him. But beware of electric jellyfish!</p>
+                                <p>When facing a near opponent, Sharkie will slap him. But beware of electric jellyfish!</p>
                                 <img id="jellyfishWarning" src="../img/marks/warning.png">
                             </div>
                         </td>
@@ -289,6 +300,14 @@ function generateIngameSettings() {
         <div class="ingameSettingsWrapper">
             <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
             <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
+        </div>
+    `;
+}
+
+function generateEndscreen(message) {
+    return /* html */ `
+        <div id="endscreen" onkeypress="endGame()" onclick="endGame()">
+            <p class="endscreenMsg">${message}</p>
         </div>
     `;
 }

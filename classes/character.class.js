@@ -378,6 +378,8 @@ class Character extends Movable {
             this.playAnimationOnce('die normal');
             this.playSoundAfterDelay(200, 'die');
         }
-        setTimeout(() => { world.stop = true; }, 1000);
+        setTimeout(() => {
+            world.lose();
+        }, 1000);
     }
 }

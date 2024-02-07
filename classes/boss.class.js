@@ -208,8 +208,7 @@ class Boss extends Movable {
         music['main'].currentTime = 0;
         music['main'].play();           
         setTimeout(() => {
-            world.stop = true;
+            world.win();
         }, 500);
-        // Winning-Screen
     }
 }
