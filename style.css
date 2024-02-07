@@ -18,19 +18,18 @@ body {
     color: white;
 }
 
+.preventSelect {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
 #overlay {
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    border-radius: var(--canvasRadius); 
-    background: url(./img/startscreen.png);
-    background-size: 1000px;
-    animation-name: moveBg;
-    animation-duration: 14s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-out;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -40,12 +39,23 @@ body {
     text-shadow: var(--textShadow);
 }
 
+.overlayBg {
+    border-radius: var(--canvasRadius); 
+    background: url(./img/startscreen.png);
+    background-size: 1000px;
+    animation-name: moveBg;
+    animation-duration: 14s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+}
+
 a, button {
     background: none;
     text-decoration: none;
     color: white;
     cursor: pointer;
     border: none;
+    outline: none;
 }
 
 button {
@@ -280,4 +290,22 @@ footer {
 
 .settings td:nth-child(3) button {
     border-radius: 0 var(--canvasRadius) var(--canvasRadius) 0;
+}
+
+.ingameSettingsWrapper {
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.ingameSettingsWrapper button img {
+    width: 24px;
+    height: 24px;
+    opacity: 0.8;
+}
+
+.ingameSettingsWrapper button img:hover {
+    opacity: 1;
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 24 24"
+   version="1.1"
+   sodipodi:docname="music_disabled.svg"
+   inkscape:version="1.3.1 (91b66b0783, 2023-11-16)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="33.875"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1" />
+  <path
+     d="m24,6c0-2.757-2.243-5-5-5h-6c-2.757,0-5,2.243-5,5v.586L1.707.293C1.316-.098.684-.098.293.293S-.098,1.316.293,1.707l7.994,7.994s.008.009.013.013l13.994,13.994c.195.195.451.293.707.293s.512-.098.707-.293c.391-.391.391-1.023,0-1.414l-.97-.97c.81-.909,1.263-2.082,1.263-3.323V6Zm-14,0c0-1.654,1.346-3,3-3h6c1.654,0,3,1.346,3,3v8.003c-.836-.629-1.875-1.003-3-1.003-1.242,0-2.415.453-3.323,1.263l-5.677-5.677v-2.586Zm-1,7c-.553,0-1,.448-1,1v.003c-.836-.629-1.875-1.003-3-1.003-2.757,0-5,2.243-5,5s2.243,5,5,5,5-2.243,5-5v-4c0-.552-.447-1-1-1Z"
+     id="path1"
+     style="fill:#f2f2f2" />
+</svg>
