@@ -236,7 +236,7 @@ function generateInstructions() {
                         <td>
                             <div class="tdContainer instructionsSlap">
                                 <p>When facing a close opponent, Sharkie will slap him. But beware of electric jellyfish!</p>
-                                <img src="../img/marks/warning.png">
+                                <img id="jellyfishWarning" src="../img/marks/warning.png">
                             </div>
                         </td>
                     </tr>

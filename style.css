@@ -2,8 +2,8 @@
     --mainShadow: 1px 2px 8px 4px rgb(51, 255, 255, 0.3);
     --textShadow: 1px 3px 3px rgba(0,64,104,0.6);
     --canvasRadius: 16px;
-    --cuteFont: 'Cute Font', Arial, Helvetica;
-    --regularFont: Arial, Helvetica, sans-serif;
+    --cuteFont: 'Cute Font', Arial, Helvetica, sans-serif;
+    --regularFont: 'Open Sans', Arial, Helvetica, sans-serif;
     --hoverBg: rgba(0,32,64,0.38);
 }
 
@@ -48,6 +48,29 @@ body {
     animation-duration: 14s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-out;
+}
+
+@keyframes moveBg {
+    0% {
+        background-position-x: 50%;
+        background-position-y: 40%;
+    }
+    25% {
+        background-position-x: 30%;
+        background-position-y: 50%;
+    }
+    50% {
+        background-position-x: 50%;
+        background-position-y: 60%;
+    }
+    75% {
+        background-position-x: 70%;
+        background-position-y: 50%;
+    }
+    100% {
+        background-position-x: 50%;
+        background-position-y: 40%;
+    }
 }
 
 a, button {
@@ -133,29 +156,6 @@ h1:hover {
 canvas {
     border-radius: var(--canvasRadius);
     box-shadow: var(--mainShadow);
-}
-
-@keyframes moveBg {
-    0% {
-        background-position-x: 50%;
-        background-position-y: 40%;
-    }
-    25% {
-        background-position-x: 30%;
-        background-position-y: 50%;
-    }
-    50% {
-        background-position-x: 50%;
-        background-position-y: 60%;
-    }
-    75% {
-        background-position-x: 70%;
-        background-position-y: 50%;
-    }
-    100% {
-        background-position-x: 50%;
-        background-position-y: 40%;
-    }
 }
 
 footer {
@@ -260,7 +260,6 @@ footer {
     padding-left: 24px;
 }
 
-
 .attacks {
     font-size: 18px;
 }
@@ -280,8 +279,19 @@ footer {
     gap: 16px;
 }
 
-.instructionsSlap img {
+#jellyfishWarning {
     width: 96px;
+    animation-name: zoomIn;
+    animation-duration: 0.4s;
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .settings td {
