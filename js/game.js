@@ -19,8 +19,8 @@ function init() {
     canvas = document.getElementById('canvas');
     overlay = document.getElementById('overlay');
     overlay.innerHTML = generateStartscreen();
-    loadSettings();
     initMusic();
+    loadSettings();
 }
 
 function start() {

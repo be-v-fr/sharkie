@@ -16,9 +16,11 @@ function getArray(key) {
 }
 
 function loadSettings() {
+    console.log(settings);
     if (getArray('settings')) {
         settings = getArray('settings');
     }
+    console.log(settings);
 }
 
 function saveSettings() {
