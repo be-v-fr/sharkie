@@ -7,6 +7,24 @@ const music = {
     'boss': new Audio('../audio/music/boss.mp3')
 };
 
+function setArray(key, array) {
+    localStorage.setItem(key, JSON.stringify(array));
+}
+
+function getArray(key) {
+    return JSON.parse(localStorage.getItem(key));
+}
+
+function loadSettings() {
+    if (getArray('settings')) {
+        settings = getArray('settings');
+    }
+}
+
+function saveSettings() {
+    setArray('settings', settings);
+}
+
 function initMusic() {
     music['main'].loop = true;
     music['boss'].loop = true;

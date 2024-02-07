@@ -1,7 +1,11 @@
 class Obstacle extends Movable {
     constructor(type, xStart) {
         super().loadImage(`./img/background/Barrier/${type}.png`);
-        this.damage = 2;
+        if (settings['hardMode']) {
+            this.damage = 5;
+        } else {
+            this.damage = 2;
+        }
         if (type == 1) {
             this.width = 720;
             this.height = 480;

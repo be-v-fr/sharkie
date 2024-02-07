@@ -8,7 +8,13 @@ class Boss extends Movable {
         this.x = -1000;
         this.xStart = xStart;
         this.y = 0;
-        this.damage = 8;
+        if (settings['hardMode']) {
+            this.damage = 20;
+            this.health = 60;
+        } else {
+            this.damage = 10;
+            this.health = 40;
+        }
         this.recoveryDuration = 1800;
         this.loadImages('introduce', '../img/enemy/3 Final Enemy/1.Introduce/', 10);
         this.loadImages('floating', '../img/enemy/3 Final Enemy/2.Floating/', 13);

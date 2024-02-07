@@ -7,7 +7,11 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         super().loadImage('../img/enemy/1.Pufferfish/1.Swim/1.png');
         this.x = x + Math.random() * 500;
         this.y = y + Math.random() * 100;
-        this.damage = 4;
+        if (settings['hardMode']) {
+            this.damage = 10;
+        } else {
+            this.damage = 5;
+        }
         this.health = 1;
         this.initFrame(3, 6, 48, 32);
         this.sounds = {

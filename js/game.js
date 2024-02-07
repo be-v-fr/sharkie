@@ -13,6 +13,7 @@ function init() {
     canvas = document.getElementById('canvas');
     overlay = document.getElementById('overlay');
     overlay.innerHTML = generateStartscreen();
+    loadSettings();
     initMusic();
 }
 
@@ -37,8 +38,8 @@ function load() {
 }
 
 function preload() {
-    let bubble = new Bubble(0, 0, false, 0);
-    bubble = new Bubble(0, 0, true, 0);
+    new Bubble(0, 0, false, 0);
+    new Bubble(0, 0, true, 0);
 }
 
 function loadingProgress() {
@@ -112,7 +113,7 @@ function generateSettings() {
     return /* html */ `
         <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
             <button class="close" onclick="returnToMain()">X</button>
-            <table class="settings" onclick="renderSettings()">
+            <table class="settings" onclick="updateSettings()">
                 <tr>
                     <td><span>Sound</span></td>
                     <td><button id="sound1" onclick="setSound(true)" onmousedown="playMenuSound()">on</button></td>
@@ -131,12 +132,17 @@ function generateSettings() {
                 </tr>
                 <tr>    
                     <td><span>Difficulty</span></td>
-                    <td><button id="hardMode1" onclick="setHardMode(true)" onmousedown="playMenuSound()">normal</button></td>
-                    <td><button id="hardMode0" onclick="setHardMode(false)" onmousedown="playMenuSound()">hard</button></td>
+                    <td><button id="hardMode0" onclick="setHardMode(false)" onmousedown="playMenuSound()">normal</button></td>
+                    <td><button id="hardMode1" onclick="setHardMode(true)" onmousedown="playMenuSound()">hard</button></td>
                 </tr>
             </table>
         </div>
     `;
+}
+
+function updateSettings() {
+    renderSettings();
+    saveSettings();
 }
 
 function renderSettings() {
