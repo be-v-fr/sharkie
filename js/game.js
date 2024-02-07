@@ -8,6 +8,12 @@ let settings = {
     'music': true,
     'hardMode': false
 };
+const listMark = /* html */ `
+                        <svg width="32" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="4" y1="2" x2="4" y2="18" stroke="white" stroke-width="2"/>
+                            <line x1="3" y1="17" x2="30" y2="17" stroke="white" stroke-width="2"/>
+                        </svg>
+`;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -126,6 +132,22 @@ function updateSettings(ingame) {
     saveSettings();
 }
 
+function renderIngameSettings() {
+    const soundImg = document.getElementById('ingameSoundBtnImg');
+    const musicImg = document.getElementById('ingameMusicBtnImg');
+    if (settings['sound']) {
+        soundImg.src = '../img/marks/icons/sound.svg';
+        if (settings['music']) {
+            musicImg.src = '../img/marks/icons/music.svg';
+        } else {
+            musicImg.src = '../img/marks/icons/music_disabled.svg';
+        }
+    } else {
+        soundImg.src = '../img/marks/icons/sound_disabled.svg';
+        musicImg.src = '../img/marks/icons/music_disabled.svg';
+    }
+}
+
 function renderMenuSettings() {
     const sound0 = document.getElementById('sound0');
     const sound1 = document.getElementById('sound1');
@@ -158,10 +180,15 @@ function styleSettingsBtns(key, btn0, btn1) {
     }
 }
 
+function showInstructions() {
+    overlay.innerHTML = generateInstructions();
+    addReturnListener();
+}
+
 function generateStartscreen() {
     return /* html */ `
         <button class="menuBtn rotateLeft" onclick="start()" onmousedown="playMenuSound()">Start Game</button>
-        <button class="menuBtn rotateRight" onmousedown="playMenuSound()">Instructions</button>
+        <button class="menuBtn rotateRight" onclick="showInstructions()" onmousedown="playMenuSound()">Instructions</button>
         <button class="menuBtn rotateRight" onclick="showSettings()" onmousedown="playMenuSound()">Settings</button>
     `;
 }
@@ -178,7 +205,54 @@ function generateLoadingscreen() {
 
 function generateInstructions() {
     return /* html */ `
-
+        <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
+            <button class="close" onclick="returnToMain()">X</button>
+            <div class="instructions">
+                <table>
+                    <tr>
+                        <td>
+                            <img src="../img/buttons/Key/arrow keys.png" style="height: 100px">
+                        </td>
+                        <td>
+                            <div class="tdContainer">    
+                                Move
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="../img/buttons/Key/Space Bar Key.png" style="height: 42px">
+                        </td>
+                        <td>
+                            <div class="tdContainer">    
+                                Bubble Attack / Fin Slap
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="attacks">
+                    <tr>
+                        <td>${listMark}</td>
+                        <td>
+                            <div class="tdContainer instructionsSlap">
+                                <p>When facing a close opponent, Sharkie will slap him. But beware of electric jellyfish!</p>
+                                <img src="../img/marks/warning.png">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>${listMark}</td>
+                        <td>
+                            <div class="tdContainer">
+                                <img src="../img/buttons/Key/X Key.png" style="height: 30px"> + 
+                                <img src="../img/buttons/Key/Space Bar Key.png" style="height: 30px">
+                                Toxic Bubble
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     `;
 }
 
@@ -194,10 +268,7 @@ function generateMenuSettings() {
                 </tr>
                 <tr>
                     <td>
-                        <svg width="32" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="4" y1="2" x2="4" y2="18" stroke="white" stroke-width="2"/>
-                            <line x1="3" y1="17" x2="30" y2="17" stroke="white" stroke-width="2"/>
-                        </svg>                
+                        ${listMark}         
                         <span>Music</span>
                     </td>
                     <td><button id="music1" onclick="setMenuMusic(true)" onmousedown="playMenuSound()">on</button></td>
@@ -220,20 +291,4 @@ function generateIngameSettings() {
             <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
         </div>
     `;
-}
-
-function renderIngameSettings() {
-    const soundImg = document.getElementById('ingameSoundBtnImg');
-    const musicImg = document.getElementById('ingameMusicBtnImg');
-    if (settings['sound']) {
-        soundImg.src = '../img/marks/icons/sound.svg';
-        if (settings['music']) {
-            musicImg.src = '../img/marks/icons/music.svg';
-        } else {
-            musicImg.src = '../img/marks/icons/music_disabled.svg';
-        }
-    } else {
-        soundImg.src = '../img/marks/icons/sound_disabled.svg';
-        musicImg.src = '../img/marks/icons/music_disabled.svg';
-    }
 }
