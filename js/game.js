@@ -53,11 +53,12 @@ function isLoaded() {
 function renderIngameOverlay() {
     overlay.classList.toggle('overlayBg');
     overlay.innerHTML = generateIngameSettings();
+    renderIngameSettings();
 }
 
 function showSettings() {
     overlay.innerHTML = generateMenuSettings();
-    renderSettings();
+    renderMenuSettings();
     addReturnListener();
 }
 
@@ -72,20 +73,20 @@ function returnToMain() {
 
 function setSound(on) {
     settings['sound'] = on;
-    settings['music'] = on;
+    if (!settings['sound']) {
+        setMusic(false);
+    }
+}
+
+function setMenuMusic(on) {
+    if (settings['sound']) {
+        setMusic(on);
+    }
 }
 
 function setMusic(on) {
     settings['music'] = on;
-    if (on && settings['sound']) {
-        turnMusicOn();
-    } else {
-        turnMusicOff();
-    }
-}
-
-function setIngameMusic() {
-    if (settings['music']) {
+    if (on) {
         settings['sound'] = true;
         music['main'].volume = 0.14;
         music['boss'].volume = 0.23;
@@ -95,16 +96,37 @@ function setIngameMusic() {
     }
 }
 
+function toggleIngameSound() {
+    const btn = document.getElementById('ingameSoundBtn');
+    settings['sound'] = !settings['sound'];
+    settings['music'] = settings['sound'];
+    setMusic(settings['music']);
+    updateSettings(true);
+    btn.blur();
+}
+
+function toggleIngameMusic() {
+    const btn = document.getElementById('ingameMusicBtn');
+    settings['music'] = !settings['music'];
+    setMusic(settings['music']);
+    updateSettings(true);
+    btn.blur();
+}
+
 function setHardMode(on) {
     settings['hardMode'] = on;
 }
 
-function updateSettings() {
-    renderSettings();
+function updateSettings(ingame) {
+    if (ingame) {
+        renderIngameSettings();
+    } else {
+        renderMenuSettings();
+    }
     saveSettings();
 }
 
-function renderSettings() {
+function renderMenuSettings() {
     const sound0 = document.getElementById('sound0');
     const sound1 = document.getElementById('sound1');
     const music0 = document.getElementById('music0');
@@ -164,7 +186,7 @@ function generateMenuSettings() {
     return /* html */ `
         <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
             <button class="close" onclick="returnToMain()">X</button>
-            <table class="settings" onclick="updateSettings()">
+            <table class="settings" onclick="updateSettings(false)">
                 <tr>
                     <td><span>Sound</span></td>
                     <td><button id="sound1" onclick="setSound(true)" onmousedown="playMenuSound()">on</button></td>
@@ -178,8 +200,8 @@ function generateMenuSettings() {
                         </svg>                
                         <span>Music</span>
                     </td>
-                    <td><button id="music1" onclick="setMusic(true)" onmousedown="playMenuSound()">on</button></td>
-                    <td><button id="music0" onclick="setMusic(false)" onmousedown="playMenuSound()">off</button></td>
+                    <td><button id="music1" onclick="setMenuMusic(true)" onmousedown="playMenuSound()">on</button></td>
+                    <td><button id="music0" onclick="setMenuMusic(false)" onmousedown="playMenuSound()">off</button></td>
                 </tr>
                 <tr>    
                     <td><span>Difficulty</span></td>
@@ -194,8 +216,8 @@ function generateMenuSettings() {
 function generateIngameSettings() {
     return /* html */ `
         <div class="ingameSettingsWrapper">
-            <button onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
-            <button onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
+            <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
+            <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
         </div>
     `;
 }
@@ -214,17 +236,4 @@ function renderIngameSettings() {
         soundImg.src = '../img/marks/icons/sound_disabled.svg';
         musicImg.src = '../img/marks/icons/music_disabled.svg';
     }
-}
-
-function toggleIngameSound() {
-    settings['sound'] = !settings['sound'];
-    settings['music'] = settings['sound'];
-    setIngameMusic();
-    renderIngameSettings();
-}
-
-function toggleIngameMusic() {
-    settings['music'] = !settings['music'];
-    setIngameMusic();
-    renderIngameSettings();
 }
