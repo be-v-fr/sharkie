@@ -241,15 +241,32 @@ footer {
     width: 100%;
 }
 
+.instructions img,
+.instructions svg {
+    filter: drop-shadow(var(--textShadow));
+}
+
 .instructions table {
     display: inline-block;
+    border-collapse: collapse;
 }
+
+.instructionsMain td:nth-child(1) {
+    padding-right: 28px;
+    border-right: solid 1px white;
+}
+
+.instructionsMain td:nth-child(2) {
+    padding-left: 24px;
+}
+
 
 .attacks {
     font-size: 18px;
 }
 
-.instructions table td:nth-child(1) {
+.attacks td:nth-child(1) {
+    padding-left: 6px;
     padding-right: 18px;
 }
 

@@ -208,7 +208,7 @@ function generateInstructions() {
         <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
             <button class="close" onclick="returnToMain()">X</button>
             <div class="instructions">
-                <table>
+                <table class="instructionsMain">
                     <tr>
                         <td>
                             <img src="../img/buttons/Key/arrow keys.png" style="height: 100px">
@@ -221,7 +221,7 @@ function generateInstructions() {
                     </tr>
                     <tr>
                         <td>
-                            <img src="../img/buttons/Key/Space Bar Key.png" style="height: 42px">
+                            <img src="../img/buttons/Key/Space Bar Key.png" style="height: 42px; padding-top: 6px">
                         </td>
                         <td>
                             <div class="tdContainer">    
