@@ -105,7 +105,7 @@ class Boss extends Movable {
     act() {
         if (this.isReadyForAction()) {
             this.setDirection();
-            if (Math.random() < 0.02) {
+            if (Math.random() < 0.03) {
                 this.attack();
             }
         }
