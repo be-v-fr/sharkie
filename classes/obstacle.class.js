@@ -11,7 +11,8 @@ class Obstacle extends Movable {
             this.height = 480;
             this.initFrame(10, 0, 696, 126);
             this.initFrame(460, 120, 120, 60);
-            this.initFrame(32, 370, 696, 120);
+            this.initFrame(12, 390, 696, 100);
+            this.initFrame(190, 364, 450, 40);
         } else if (type == 2) {
             this.width = 420;
             this.height = 140;

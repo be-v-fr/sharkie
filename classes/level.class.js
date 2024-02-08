@@ -18,8 +18,8 @@ class Level {
 
     createBackdrop(repeat) {
         for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < repeat; j++) {
-                let x = 1439 * j;
+            for (let j = 0; j <= repeat; j++) {
+                let x = 1439 * (j - 1);
                 this.backdrop.push(new Backdrop(i, x));
             }
         }
