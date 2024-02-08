@@ -234,7 +234,7 @@ function generateInstructions() {
                 <table class="instructionsMain">
                     <tr>
                         <td>
-                            <img src="../img/buttons/Key/arrow keys.png" style="height: 100px">
+                            <img id="instrArrowKeys" src="../img/buttons/Key/arrow keys.png">
                         </td>
                         <td>
                             <div class="tdContainer">    
@@ -244,7 +244,7 @@ function generateInstructions() {
                     </tr>
                     <tr>
                         <td>
-                            <img src="../img/buttons/Key/Space Bar Key.png" style="height: 42px; padding-top: 6px">
+                            <img id="instrSpaceKey" src="../img/buttons/Key/Space Bar Key.png">
                         </td>
                         <td>
                             <div class="tdContainer">    
@@ -258,7 +258,7 @@ function generateInstructions() {
                         <td>${listMark}</td>
                         <td>
                             <div class="tdContainer instructionsSlap">
-                                <p>When facing a near opponent, Sharkie will slap him. But beware of electric jellyfish!</p>
+                                <p>When facing a near opponent, Sharkie will execute a slap. Do not touch electric jellyfish!</p>
                                 <img id="jellyfishWarning" src="../img/marks/warning.png">
                             </div>
                         </td>
@@ -267,8 +267,8 @@ function generateInstructions() {
                         <td>${listMark}</td>
                         <td>
                             <div class="tdContainer">
-                                <img src="../img/buttons/Key/X Key.png" style="height: 30px"> + 
-                                <img src="../img/buttons/Key/Space Bar Key.png" style="height: 30px">
+                                <img class="toxicBubbleKeys" src="../img/buttons/Key/X Key.png"> + 
+                                <img class="toxicBubbleKeys" src="../img/buttons/Key/Space Bar Key.png">
                                 Toxic Bubble
                             </div>
                         </td>

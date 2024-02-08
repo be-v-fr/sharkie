@@ -22,6 +22,7 @@ class World {
     bubbles = [];
     stop = false;
     bossFight = false;
+    setWorld = '';
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -40,7 +41,7 @@ class World {
     }
 
     set() {
-        setInterval(() => {
+        this.setWorld = setInterval(() => {
             if (!this.stop) {
                 this.character.world = this;
                 if (!this.bossFight) {
@@ -243,6 +244,7 @@ class World {
 
     win() {
         this.stop = true;
+        clearInterval(this.setWorld);
         showEndscreen('You win!');
         const endscreen = document.getElementById('endscreen');
         endscreen.classList.add('winscreen');
@@ -251,6 +253,7 @@ class World {
     lose() {
         this.stop = true;
         this.boss.clearAllIntervals();
+        clearInterval(this.setWorld);
         showEndscreen('Game Over');
         const endscreen = document.getElementById('endscreen');
         endscreen.classList.add('gameOver');  

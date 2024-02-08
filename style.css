@@ -227,6 +227,7 @@ footer {
     flex-direction: column;
     align-items: end;
     max-width: 86%;
+    max-height: 86%;
 }
 
 .close {
@@ -258,6 +259,19 @@ footer {
 .instructions img,
 .instructions svg {
     filter: drop-shadow(var(--textShadow));
+}
+
+#instrArrowKeys {
+    height: 100px;
+}
+
+#instrSpaceKey {
+    height: 42px;
+    padding-top: 6px;
+}
+
+.toxicBubbleKeys {
+    height: 30px;
 }
 
 .instructions table {
@@ -465,6 +479,10 @@ footer {
         justify-content: center;
     }
 
+    #pageWrapper {
+        padding: 0;
+    }
+
     h1 {
         height: 64px;
         font-size: 64px;
@@ -473,20 +491,98 @@ footer {
 
     footer {
         position: fixed;
-        bottom: calc((100vh - var(--canvasHeightResponsive)) / 2);
+        bottom: calc((100vh - var(--canvasHeightResponsive)) / 2 - 8px);
         font-size: 12px;
         right: var(--footerRightResponsive);
     }
 }
 
-@media only screen and (max-height: 480px) {
-    canvas {
+@media only screen and (max-width: 640px),
+(max-height: 480px) {
+    body {
         height: 100vh;
+    }
+
+    #gameWrapper {
+        height: var(--canvasHeightResponsive);
+        max-height: 100vh;
+    }
+
+    canvas,
+    #overlay {
+        width: 100%;
+        height: 100%;
+    }
+
+    .close {
+        font-size: 32px;
+        border-radius: 50%;
+        padding-top: 3px;
+        width: 32px;
+        height: 32px;
+        margin-bottom: 6px;
+    }
+
+    .menuPageWrapper {
+        padding: 12px;
+        max-height: 100%;
+    }
+
+    .instructions {
+        font-size: 20px;
+    }
+
+    .attacks {
+        font-size: 14px;
+    }
+
+    #instrArrowKeys {
+        height: 80px;
+    }
+
+    #instrSpaceKey {
+        height: 34px;
+        padding-top: 4px;
+    }
+
+    #jellyfishWarning {
+        width: 72px;
+    }
+
+    .toxicBubbleKeys {
+        height: 24px;
+    }
+
+    .settings {
+        font-size: 32px;
+    }
+
+    .settings td:nth-child(1) {
+        padding-right: 96px;
+    }
+
+    .settings button {
+        font-size: 32px;
+        height: 40px;
     }
 }
 
 @media only screen and (max-width: 576px) {
     .menuBtn {
         font-size: 32px;
+    }
+
+    .menuPageWrapper {
+        max-width: 100%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .instructions {
+        font-size: 16px;
+    }
+
+    .attacks {
+        font-size: 12px;
     }
 }
