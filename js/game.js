@@ -186,10 +186,15 @@ function showInstructions() {
 }
 
 function showEndscreen(message) {
-    overlay.innerHTML = generateEndscreen(message);    
+    overlay.innerHTML = generateEndscreen(message);
+    document.addEventListener('click', endGame);
+    document.addEventListener('keypress', endGame);
 }
 
 function endGame() {
+    document.removeEventListener('click', endGame);
+    document.removeEventListener('keypress', endGame);
+    resetMusic();
     world.ctx.clearRect(0, 0, canvas.width, canvas.height);
     world = null;
     overlay.classList.add('overlayBg');
@@ -306,7 +311,7 @@ function generateIngameSettings() {
 
 function generateEndscreen(message) {
     return /* html */ `
-        <div id="endscreen" onkeypress="endGame()" onclick="endGame()">
+        <div id="endscreen">
             <p class="endscreenMsg">${message}</p>
         </div>
     `;

@@ -31,6 +31,13 @@ function initMusic() {
     setMusic(true);
 }
 
+function resetMusic() {
+    music['main'].pause();
+    music['boss'].pause();
+    music['main'].currentTime = 0;
+    music['boss'].currentTime = 0;
+}
+
 function removeAt(index, array) {
     return array.filter((elmnt) => {
         return array.indexOf(elmnt) !== index;
