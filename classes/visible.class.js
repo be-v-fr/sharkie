@@ -43,7 +43,6 @@ class Visible {
     resolve(promise) {
         promise.then(() => {
             loadingCounter++;
-            console.log('Loaded image', loadingCounter);
         });
     }
 

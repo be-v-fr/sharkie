@@ -2,7 +2,7 @@ class Bubble extends Movable {
     width = 24;
     height = 24;
     damage = 4;
-    speed = 3 + 3;
+    speed = 6;
     isEmpty = true;
     sound;
 

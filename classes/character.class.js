@@ -13,7 +13,7 @@ class Character extends Movable {
         this.xStart = 140;
         this.x = this.xStart;
         this.y = 100;
-        this.damage = 100;
+        this.damage = 6;
         this.recoveryDuration = 1000;
         this.initFrame(30, 108, 90, 60);
         this.swimAndSinkY();
@@ -56,17 +56,25 @@ class Character extends Movable {
             if (this.state != 'swim right') {
                 this.swim(true);
             }
-            if (world.bossFight && this.x >= world.boss.xStart + 200) {
+            if (this.crossesRightMargin()) {
                 this.block(true);
             }
         } else if (key.LEFT && !key.RIGHT && this.state != 'swim blocked left') {
             if (this.state != 'swim left') {
                 this.swim(false);
             }
-            if (this.x < 50 || (world.bossFight && this.x <= world.boss.xStart - 370)) {
+            if (this.crossesLeftMargin()) {
                 this.block(false);
             }
         }
+    }
+
+    crossesRightMargin() {
+        return world.bossFight && this.x >= world.boss.xStart + 212;
+    }
+
+    crossesLeftMargin() {
+        return this.x < 50 || (world.bossFight && this.x <= world.boss.xStart - 388);
     }
 
     actUpDown(key) {
@@ -89,7 +97,7 @@ class Character extends Movable {
     }
 
     selectAttack() {
-        let threshold = 146;
+        let threshold = 96;
         let close = world.enemies.filter(e => this.checkVerticalOverlap(e) && e.state != 'dead');
         if (this.otherDirection) {
             close = close.filter(e => this.checkDistanceLeft(e, threshold));
@@ -269,15 +277,25 @@ class Character extends Movable {
 
     bounceX(right) {
         if (right != null) {
-            if (right) {
-                this.x += 12;
-            } else {
-                this.x -= 12;
-            }
+            this.bounceXPosition(right);
             clearInterval(this.moveIntervalId);
             this.otherDirection = !right;
             this.moveX(this.speed / 4);
             return true;
+        }
+    }
+
+    bounceXPosition(right) {
+        if (right) {
+            this.x += 12;
+            if (this.crossesRightMargin()) {
+                this.x -= 12;
+            }
+        } else {
+            this.x -= 12;
+            if (this.crossesLeftMargin()) {
+                this.x += 12;
+            }
         }
     }
 

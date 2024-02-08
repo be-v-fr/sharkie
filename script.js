@@ -1,4 +1,4 @@
-const TOTAL_NR_OF_IMAGES = 100;
+const TOTAL_NR_OF_IMAGES = 211;
 let loadingCounter = 0;
 let imagePaths = [];
 const menuSound = new Audio('./audio/bubble_pop.mp3');
@@ -16,11 +16,9 @@ function getArray(key) {
 }
 
 function loadSettings() {
-    console.log(settings);
     if (getArray('settings')) {
         settings = getArray('settings');
     }
-    console.log(settings);
 }
 
 function saveSettings() {

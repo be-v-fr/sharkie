@@ -2,11 +2,12 @@ class Boss extends Movable {
     width = 360;
     height = 480;
     attackId = '';
+    xStartAbsolute;
 
-    constructor(xStart) {
+    constructor(xStartAbsolute) {
         super().loadImage('../img/enemy/3 Final Enemy/1.Introduce/1.png');
         this.x = -1000;
-        this.xStart = xStart;
+        this.xStartAbsolute = xStartAbsolute;
         this.y = 0;
         if (settings['hardMode']) {
             this.damage = 20;
@@ -40,10 +41,12 @@ class Boss extends Movable {
         clearInterval(this.moveIntervalId);
         if (this.attackId != '') {
             clearInterval(this.attackId);
+            this.attackId = '';
         }
     }
 
     spawn() {
+        this.setSpawningPosition();
         this.startBossMusic();
         this.playSound('intro');
         this.x = this.xStart;
@@ -56,6 +59,10 @@ class Boss extends Movable {
             }
         }, 1000 / 60)
         this.animate('floating');
+    }
+
+    setSpawningPosition() {
+        this.xStart = this.xStartAbsolute + world.floor.x;
     }
 
     startBossMusic() {
@@ -105,7 +112,7 @@ class Boss extends Movable {
     }
 
     isReadyForAction() {
-        return this.attackId == '' && this.singleAnimationId == '' && this.isRecovered();
+        return this.attackId == '' && this.singleAnimationId == '' && Date.now() - this.lastHit > this.recoveryDuration / 3;
     }
 
     setDirection() {
@@ -201,14 +208,17 @@ class Boss extends Movable {
     }
 
     die() {
-        this.clearAllIntervals();
-        this.playAnimationOnce('die');
-        this.playSound('die');
-        music['boss'].pause();
-        music['main'].currentTime = 0;
-        music['main'].play();           
-        setTimeout(() => {
-            world.win();
-        }, 500);
+        if (this.state != 'dead') {
+            this.state = 'dead';
+            this.clearAllIntervals();
+            this.playAnimationOnce('die');
+            this.playSound('die');
+            music['boss'].pause();
+            music['main'].currentTime = 0;
+            music['main'].play();
+            setTimeout(() => {
+                world.win();
+            }, 700);
+        }
     }
 }

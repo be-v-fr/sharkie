@@ -84,7 +84,7 @@ class World {
             this.checkObstacles();
             this.checkItems();
             this.checkEnemies();
-            if (!this.bossFight && this.translateX >= this.boss.xStart - 380) {
+            if (!this.bossFight && this.dX >= this.boss.xStartAbsolute - 380) {
                 this.initBossFight();
             }
         }, 100);
@@ -124,7 +124,7 @@ class World {
                 } else {
                     this.checkBubbles(enemy);
                 }
-            } else if (enemy.y < -100 || enemy.y > 600) {
+            } else if ((enemy.y < -100 || enemy.y > 600) && !(enemy instanceof Boss)) {
                 this.enemies = removeAt(i, this.enemies);
             }
         }
@@ -136,7 +136,7 @@ class World {
     }
 
     checkPufferfishAttack(enemy) {
-        if (enemy instanceof Pufferfish && enemy.state != 'attacking') {
+        if (enemy instanceof Pufferfish && enemy.state != 'attacking' && enemy.state != 'dead') {
             if (enemy.x - this.character.x < 100 + 320 * (1 - Math.random())) {
                 enemy.attack();
             }
@@ -184,7 +184,6 @@ class World {
     }
 
     initBossFight() {
-        // Char-Bewegung begrenzen
         this.bossFight = true;
         clearInterval(this.floor.moveIntervalId);
         this.boss.spawn();
@@ -201,7 +200,6 @@ class World {
             this.addObjectsToMap(this.enemies);
             this.addObjectsToMap(this.bubbles);
             this.ctx.translate(this.translateX, 0);
-            // ohne translate:
             this.addObjectsToMap(this.stats);
             this.recallDraw();
         }
@@ -252,6 +250,7 @@ class World {
 
     lose() {
         this.stop = true;
+        this.boss.clearAllIntervals();
         showEndscreen('Game Over');
         const endscreen = document.getElementById('endscreen');
         endscreen.classList.add('gameOver');  

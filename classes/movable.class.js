@@ -95,13 +95,13 @@ class Movable extends Visible {
 
     checkDistanceLeft(obj, threshold) {
         const thisX = this.x + this.frames[0][0];
-        const objX = obj.x + obj.frames[0][0];
+        const objX = obj.x + obj.frames[0][0] + obj.frames[0][2];
         return thisX > objX && thisX - objX < threshold;
     }
 
     checkDistanceRight(obj, threshold) {
         const thisX = this.x + this.frames[0][0] + this.frames[0][2];
-        const objX = obj.x + obj.frames[0][0] + obj.frames[0][2];
+        const objX = obj.x + obj.frames[0][0];
         return thisX < objX && objX - thisX < threshold;
     }
 
@@ -128,7 +128,7 @@ class Movable extends Visible {
     }
 
     isRecovered() {
-        return (!(this instanceof Boss) && this.state != 'hit') ||
+        return (!(this instanceof Boss) && this.state != 'hit' && this.state != 'dead') ||
             Date.now() - this.lastHit > this.recoveryDuration;
     }
 

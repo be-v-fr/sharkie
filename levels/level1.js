@@ -13,7 +13,7 @@ function generateLevel1() {
             new Pufferfish(2400, 200),
             new Jellyfish('lila', 2260, 260),
             new Jellyfish('green', 2520, 250),
-            new Boss(2950)
+            new Boss(3200)
         ],
         [
             new Obstacle(2, 400),
