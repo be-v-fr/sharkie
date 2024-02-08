@@ -167,6 +167,7 @@ class Boss extends Movable {
 
     hurt() {
         this.clearBossIntervals();
+        this.stopSound('attack');
         this.playAnimationOnce('hurt');
         this.playSound('hurt');
         this.retreat();

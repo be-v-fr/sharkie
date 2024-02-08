@@ -109,6 +109,13 @@ class Visible {
         }
     }
 
+    stopSound(sound) {
+        if (settings['sound']) {
+            this.sounds[sound].pause();
+            this.sounds[sound].currentTime = 0;
+        }        
+    }
+
     playSoundAfterDelay(ms, sound) {
         setTimeout(() => {
             if (settings['sound']) {

@@ -2,6 +2,8 @@
     --mainShadow: 1px 2px 8px 4px rgb(51, 255, 255, 0.3);
     --textShadow: 1px 3px 3px rgba(0, 64, 104, 0.6);
     --canvasRadius: 16px;
+    --canvasHeightResponsive: 480px;
+    --footerRightResponsive: calc((100vw - 720px) / 2);
     --cuteFont: 'Cute Font', Arial, Helvetica, sans-serif;
     --regularFont: 'Open Sans', Arial, Helvetica, sans-serif;
     --hoverBg: rgba(0, 32, 64, 0.38);
@@ -27,7 +29,6 @@ body {
 
 canvas {
     display: block;
-    background: black;
 }
 
 #overlay {
@@ -433,6 +434,11 @@ footer {
 }
 
 @media only screen and (max-width: 720px) {
+    :root {
+        --canvasHeightResponsive: calc(100vw * 2 / 3);
+        --footerRightResponsive: 0;
+    }
+
     #gameWrapper {
         width: 100vw;
         height: calc(100vw * 2 / 3);
@@ -443,10 +449,44 @@ footer {
         width: 100%;
         height: 100%;
     }
+
+    .overlayBg {
+        background-size: 140%;
+    }
+}
+
+@media only screen and (max-height: 640px) {
+    .title {
+        position: fixed;
+        top: calc((100vh - var(--canvasHeightResponsive)) / 2 + var(--canvasHeightResponsive) / 12);
+        z-index: 2;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+    }
+
+    h1 {
+        height: 64px;
+        font-size: 64px;
+        width: 200px;
+    }
+
+    footer {
+        position: fixed;
+        bottom: calc((100vh - var(--canvasHeightResponsive)) / 2);
+        font-size: 12px;
+        right: var(--footerRightResponsive);
+    }
 }
 
 @media only screen and (max-height: 480px) {
     canvas {
         height: 100vh;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .menuBtn {
+        font-size: 32px;
     }
 }
