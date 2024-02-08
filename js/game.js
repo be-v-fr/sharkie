@@ -30,6 +30,7 @@ function start() {
 
 function load() {
     const loadingBar = document.getElementById('loadingBar');
+    hideMobile();
     preload();
     generateLevel1();
     world = new World(canvas, keyboard);
@@ -65,6 +66,11 @@ function renderIngameOverlay() {
 function showSettings() {
     overlay.innerHTML = generateMenuSettings();
     renderMenuSettings();
+    goToMenuSubpage();
+}
+
+function goToMenuSubpage() {
+    hideMobile();
     addReturnListener();
 }
 
@@ -75,6 +81,7 @@ function addReturnListener() {
 function returnToMain() {
     overlay.innerHTML = generateStartscreen();
     overlay.removeEventListener('mouseup', returnToMain);
+    showMobile();
 }
 
 function setSound(on) {
@@ -182,7 +189,7 @@ function styleSettingsBtns(key, btn0, btn1) {
 
 function showInstructions() {
     overlay.innerHTML = generateInstructions();
-    addReturnListener();
+    goToMenuSubpage();
 }
 
 function showEndscreen(message) {

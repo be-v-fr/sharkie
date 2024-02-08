@@ -456,7 +456,7 @@ footer {
 }
 
 @media only screen and (max-height: 640px) {
-    .title {
+    #title {
         position: fixed;
         top: calc((100vh - var(--canvasHeightResponsive)) / 2 + var(--canvasHeightResponsive) / 12);
         z-index: 2;

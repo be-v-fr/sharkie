@@ -50,3 +50,17 @@ function playMenuSound() {
         menuSound.play();
     }
 }
+
+function hideMobile() {
+    const footer = document.getElementById('footer');
+    const title = document.getElementById('title');
+    footer.style.display = 'none';
+    title.style.display = 'none';
+}
+
+function showMobile() {
+    const footer = document.getElementById('footer');
+    const title = document.getElementById('title');
+    footer.style.display = '';
+    title.style.display = '';
+}
