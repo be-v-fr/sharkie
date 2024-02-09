@@ -1,0 +1,157 @@
+@media only screen and (max-width: 720px) {
+    :root {
+        --canvasHeightResponsive: calc(100vw * 2 / 3);
+        --footerRightResponsive: 0;
+    }
+
+    #gameWrapper {
+        width: 100vw;
+        height: calc(100vw * 2 / 3);
+    }
+
+    canvas,
+    #overlay {
+        width: 100%;
+        height: 100%;
+    }
+
+    .overlayBg {
+        background-size: 140%;
+    }
+}
+
+@media only screen and (max-height: 640px) {
+    #title {
+        position: fixed;
+        top: calc((100vh - var(--canvasHeightResponsive)) / 2 + var(--canvasHeightResponsive) / 12);
+        z-index: 2;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+    }
+
+    #pageWrapper {
+        padding: 0;
+    }
+
+    h1 {
+        height: 64px;
+        font-size: 64px;
+        width: 200px;
+    }
+
+    footer {
+        position: fixed;
+        bottom: calc((100vh - var(--canvasHeightResponsive)) / 2 - 8px);
+        font-size: 12px;
+        right: var(--footerRightResponsive);
+    }
+}
+
+@media only screen and (max-width: 640px),
+(max-height: 480px) {
+    body {
+        height: 100vh;
+    }
+
+    #gameWrapper {
+        height: var(--canvasHeightResponsive);
+        max-height: 100vh;
+    }
+
+    canvas,
+    #overlay {
+        width: 100%;
+        height: 100%;
+    }
+
+    .close {
+        font-size: 32px;
+        border-radius: 50%;
+        padding-top: 3px;
+        width: 32px;
+        height: 32px;
+        margin-bottom: 6px;
+    }
+
+    .menuPageWrapper {
+        padding: 12px;
+        max-height: 100%;
+    }
+
+    .instructions {
+        font-size: 20px;
+    }
+
+    .attacks {
+        font-size: 14px;
+    }
+
+    #instrArrowKeys {
+        height: 80px;
+    }
+
+    #instrSpaceKey {
+        height: 34px;
+        padding-top: 4px;
+    }
+
+    #jellyfishWarning {
+        width: 72px;
+    }
+
+    .toxicBubbleKeys {
+        height: 24px;
+    }
+
+    .settings {
+        font-size: 32px;
+    }
+
+    .settings td:nth-child(1) {
+        padding-right: 96px;
+    }
+
+    .settings button {
+        font-size: 32px;
+        height: 40px;
+    }
+
+    .ingameSettingsWrapper {
+        height: calc(100% - 6px);
+    }
+
+    .ingameSettingsWrapper button img {
+        width: 18px;
+        height: 18px;
+    }
+
+    #endscreen {
+        font-size: 64px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .menuBtn {
+        font-size: 32px;
+    }
+
+    .menuPageWrapper {
+        max-width: 100%;
+    }
+
+    .ingameSettingsWrapper button img {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .instructions {
+        font-size: 16px;
+    }
+
+    .attacks {
+        font-size: 12px;
+    }
+}

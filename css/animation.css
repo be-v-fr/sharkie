@@ -1,0 +1,56 @@
+@keyframes moveBg {
+    0% {
+        background-position-x: 50%;
+        background-position-y: 40%;
+    }
+
+    25% {
+        background-position-x: 30%;
+        background-position-y: 50%;
+    }
+
+    50% {
+        background-position-x: 50%;
+        background-position-y: 60%;
+    }
+
+    75% {
+        background-position-x: 70%;
+        background-position-y: 50%;
+    }
+
+    100% {
+        background-position-x: 50%;
+        background-position-y: 40%;
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes slideUpIn {
+    0% {
+        transform: translateY(260px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
