@@ -60,8 +60,8 @@ function isLoaded() {
 
 function renderIngameOverlay() {
     overlay.classList.remove('overlayBg');
-    overlay.innerHTML = generateIngameSettings();
-    renderIngameSettings();
+    overlay.innerHTML = generateIngameControls();
+    renderIngameControls();
 }
 
 function showSettings() {
@@ -131,14 +131,14 @@ function setHardMode(on) {
 
 function updateSettings(ingame) {
     if (ingame) {
-        renderIngameSettings();
+        renderIngameControls();
     } else {
         renderMenuSettings();
     }
     saveSettings();
 }
 
-function renderIngameSettings() {
+function renderIngameControls() {
     const soundImg = document.getElementById('ingameSoundBtnImg');
     const musicImg = document.getElementById('ingameMusicBtnImg');
     if (settings['sound']) {
@@ -306,7 +306,7 @@ function generateMenuSettings() {
     `;
 }
 
-function generateIngameSettings() {
+function generateIngameControls() {
     return /* html */ `
         <div class="ingameSettingsWrapper">
             <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
