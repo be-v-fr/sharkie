@@ -19,10 +19,13 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     color: white;
+    font-family: var(--regularFont);
 }
 
 .preventSelect {
+    -webkit-touch-callout: none;
     -webkit-user-select: none;
+    -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
@@ -46,6 +49,10 @@ canvas {
     text-shadow: var(--textShadow);
     border-radius: var(--canvasRadius);
     overflow: hidden;
+}
+
+.showOnPortrait {
+    display: none;
 }
 
 .overlayBg {
@@ -343,6 +350,14 @@ footer {
 
 .settings td:nth-child(3) button {
     border-radius: 0 var(--canvasRadius) var(--canvasRadius) 0;
+}
+
+.ingameInterface {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .ingameSettingsWrapper {

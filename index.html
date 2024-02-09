@@ -40,8 +40,12 @@
             <h1>Sharkie</h1>
         </a>
         <div id="gameWrapper">
-            <canvas id="canvas" class="preventSelect" width="720" height="480"></canvas>
-            <div id="overlay" class="overlayBg preventSelect"></div>
+            <canvas id="canvas" class="preventSelect hideOnPortrait" width="720" height="480"></canvas>
+            <div id="overlay" class="overlayBg preventSelect hideOnPortrait"></div>
+            <div class="turnDeviceMsg showOnPortrait">
+                Turn your device<br>horizontally to play!
+                <img src="./img/marks/icons/landscape_mode.png" alt="Use landscape mode">
+            </div>
         </div>
     </div>
     <footer id="footer">

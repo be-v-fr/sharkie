@@ -1,3 +1,78 @@
+/* ES GIBT MOBILGERÄTE MIT HÖHERER AUFLÖSUNG!! AUCH TABLETS!! WO GRENZE WÄHLEN?? */
+@media only screen and (min-width: 720px) {
+    .ingameControlsWrapper {
+        display: none;
+    }
+}
+
+.ingameControlsWrapper {
+    padding: 32px 72px;
+}
+
+.keyRow {
+    padding-top: 6px;
+}
+
+.xAndSpaceRow {
+    padding: 6px 40px;
+}
+
+.ingameControlsWrapper button img {
+    display: block;
+    height: 48px;
+    opacity: 0.68;
+}
+
+.keyRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.keyRow div {
+    display: flex;
+}
+
+#ingameDOWN {
+    transform: rotate(180deg);
+}
+
+#ingameLEFT {
+    transform: rotate(-90deg);
+}
+
+#ingameRIGHT {
+    transform: rotate(90deg);
+}
+
+@media only screen and (max-width: 720px) and (orientation: portrait) {
+    .showOnPortrait {
+        display: initial;
+    }
+
+    .turnDeviceMsg {
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: var(--mainShadow);
+        width: 100%;
+        height: 100%;
+        font-size: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        text-shadow: var(--textShadow);
+    }
+
+    .turnDeviceMsg img {
+        padding-top: 16px;
+        width: 88px;
+    }
+
+    .hideOnPortrait {
+        display: none !important;
+    }
+}
+
 @media only screen and (max-width: 720px) {
     :root {
         --canvasHeightResponsive: calc(100vw * 2 / 3);
@@ -118,7 +193,8 @@
     }
 
     .ingameSettingsWrapper {
-        height: calc(100% - 6px);
+        height: auto;
+        padding-top: 8px;
     }
 
     .ingameSettingsWrapper button img {
@@ -132,12 +208,25 @@
 }
 
 @media only screen and (max-width: 576px) {
+    .turnDeviceMsg {
+        flex-direction: row;
+        gap: 24px;
+    }
+
     .menuBtn {
         font-size: 32px;
     }
 
     .menuPageWrapper {
         max-width: 100%;
+    }
+
+    .ingameControlsWrapper {
+        padding: 24px 48px;
+    }
+
+    .ingameControlsWrapper button img {
+        height: 40px;
     }
 
     .ingameSettingsWrapper button img {
@@ -153,5 +242,9 @@
 
     .attacks {
         font-size: 12px;
+    }
+
+    .ingameControlsWrapper button img {
+        height: 36px;
     }
 }

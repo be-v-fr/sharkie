@@ -2,7 +2,7 @@ let canvas;
 let overlay;
 let keyboard = new Keyboard();
 let level1;
-let world;
+let world = null;
 let settings = {
     'sound': true,
     'music': true,
@@ -308,11 +308,62 @@ function generateMenuSettings() {
 
 function generateIngameControls() {
     return /* html */ `
-        <div class="ingameSettingsWrapper">
-            <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
-            <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
+        <div class="ingameInterface">
+            <div class="ingameSettingsWrapper">
+                <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
+                <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
+            </div>
+            <div class="ingameControlsWrapper">
+                <div class="keyRow">
+                    <div>
+                        <button id="ingameUP" ${generateControlListeners('UP')}>
+                            <img src="../img/buttons/Key/up key.png">
+                        </button>
+                        <button id="ingameDOWN" ${generateControlListeners('DOWN')}>
+                            <img src="../img/buttons/Key/up key.png">
+                        </button>
+                    </div>
+                    <div>
+                        <button id="ingameLEFT" ${generateControlListeners('LEFT')}>
+                            <img src="../img/buttons/Key/up key.png">
+                        </button>
+                        <button id="ingameRIGHT" ${generateControlListeners('RIGHT')}>
+                            <img src="../img/buttons/Key/up key.png">
+                        </button>
+                    </div>
+                </div>
+                <div class="keyRow xAndSpaceRow">
+                    <button id="ingameX" ${generateControlListeners('X')}>
+                        <img src="../img/buttons/Key/X key.png">
+                    </button>
+                    <button id="ingameSPACE" ${generateControlListeners('SPACE')}>
+                        <img src="../img/buttons/Key/Space Bar Key.png">
+                    </button>
+                </div>
+            </div>
         </div>
     `;
+}
+
+function generateControlListeners(key) {
+    return `onmousedown="ingameControls('${key}', true)" ontouchstart="ingameControls('${key}', true)"
+    onmouseup="ingameControls('${key}', false)" ontouchend="ingameControls('${key}', false)"`;
+}
+
+function ingameControls(key, down) {
+    if(world != null) {
+        const btn = getBtnFromKey(key);
+        eval(`world.keyboard.${key} = ${down}`);
+        if(down) {
+            btn.style.opacity = '1';
+        } else {
+            btn.style.opacity = '';
+        }
+    }
+}
+
+function getBtnFromKey(key) {
+    return document.getElementById('ingame' + key);
 }
 
 function generateEndscreen(message) {
