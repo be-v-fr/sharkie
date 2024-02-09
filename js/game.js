@@ -30,7 +30,8 @@ function start() {
 
 function load() {
     const loadingBar = document.getElementById('loadingBar');
-    hideMobile();
+    toggleMobile(false);
+    addResizeListener();
     preload();
     generateLevel1();
     world = new World(canvas, keyboard);
@@ -70,18 +71,16 @@ function showSettings() {
 }
 
 function goToMenuSubpage() {
-    hideMobile();
-    addReturnListener();
+    toggleMobile(false);
+    addMenuListeners();
+    addResizeListener();
 }
 
-function addReturnListener() {
-    overlay.addEventListener('mouseup', returnToMain);
-}
 
 function returnToMain() {
     overlay.innerHTML = generateStartscreen();
-    overlay.removeEventListener('mouseup', returnToMain);
-    showMobile();
+    removeMenuListeners();
+    toggleMobile(true);
 }
 
 function setSound(on) {

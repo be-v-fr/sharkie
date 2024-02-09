@@ -565,6 +565,19 @@ footer {
         font-size: 32px;
         height: 40px;
     }
+
+    .ingameSettingsWrapper {
+        height: calc(100% - 6px);
+    }
+
+    .ingameSettingsWrapper button img {
+        width: 18px;
+        height: 18px;
+    }
+
+    #endscreen {
+        font-size: 64px;
+    }
 }
 
 @media only screen and (max-width: 576px) {
@@ -574,6 +587,11 @@ footer {
 
     .menuPageWrapper {
         max-width: 100%;
+    }
+
+    .ingameSettingsWrapper button img {
+        width: 16px;
+        height: 16px;
     }
 }
 

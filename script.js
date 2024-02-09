@@ -51,16 +51,41 @@ function playMenuSound() {
     }
 }
 
-function hideMobile() {
-    const footer = document.getElementById('footer');
-    const title = document.getElementById('title');
-    footer.style.display = 'none';
-    title.style.display = 'none';
+function toggleMobile(show) {
+    if (window.innerHeight <= 640) {
+        const footer = document.getElementById('footer');
+        const title = document.getElementById('title');
+        if (show) {
+            footer.style.display = '';
+            title.style.display = '';
+        } else {
+            footer.style.display = 'none';
+            title.style.display = 'none';
+        }
+    } else {
+        footer.style.display = '';
+        title.style.display = '';        
+    }
 }
 
-function showMobile() {
-    const footer = document.getElementById('footer');
-    const title = document.getElementById('title');
-    footer.style.display = '';
-    title.style.display = '';
+function displayOnResize() {
+    toggleMobile(false);
+}
+
+function addMenuListeners() {
+    addReturnListener();
+    addResizeListener();        
+}
+
+function addReturnListener() {
+    overlay.addEventListener('mouseup', returnToMain);
+}
+
+function addResizeListener() {
+    window.addEventListener('resize', displayOnResize);
+}
+
+function removeMenuListeners() {
+    overlay.removeEventListener('mouseup', returnToMain);    
+    window.addEventListener('resize', displayOnResize);
 }
