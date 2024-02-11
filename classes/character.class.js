@@ -8,6 +8,9 @@ class Character extends Movable {
     lastBubble = 0;
     slapping = false;
 
+    /**
+     * Konstruktor
+     */
     constructor() {
         super().loadImage('../img/sharkie/1.IDLE/1.png');
         this.xStart = 140;
@@ -17,6 +20,16 @@ class Character extends Movable {
         this.recoveryDuration = 1000;
         this.initFrame(30, 108, 90, 60);
         this.swimAndSinkY();
+        this.loadAllImages();
+        this.animate('idle');
+        this.loadAllSounds();
+    }
+
+
+    /**
+     * sämtliche Sprites laden
+     */
+    loadAllImages() {
         this.loadImages('idle', '../img/sharkie/1.IDLE/', 18);
         this.loadImages('rest', '../img/sharkie/2.LONG_IDLE/I', 14);
         this.loadImages('swim', '../img/sharkie/3.SWIM/', 6);
@@ -28,7 +41,13 @@ class Character extends Movable {
         this.loadImages('shocked', '../img/sharkie/5.Hurt/2.Shocked/', 3);
         this.loadImages('die normal', '../img/sharkie/6.Dead/1.Poisoned/', 12);
         this.loadImages('die shocked', '../img/sharkie/6.Dead/2.Shocked/', 10);
-        this.animate('idle');
+    }
+
+
+    /**
+     * sämtliche Sounds laden
+     */
+    loadAllSounds() {
         this.sounds = {
             'swimming': new Audio('../audio/sharkie_swim.mp3'),
             'swim up': new Audio('../audio/sharkie_swim_up.mp3'),
@@ -43,6 +62,10 @@ class Character extends Movable {
         this.sounds['hurt'].volume = 0.5;
     }
 
+
+    /**
+     * Handlung nach Keyboardabfrage ausführen
+     */
     act() {
         let key = world.keyboard;
         this.actLeftRight(key);
@@ -51,6 +74,11 @@ class Character extends Movable {
         this.actNone(key);
     }
 
+
+    /**
+     * Handlungen links und rechts
+     * @param {object} key - Keyboard-Objekt 
+     */
     actLeftRight(key) {
         if (key.RIGHT && !key.LEFT && this.state != 'swim blocked right') {
             if (this.state != 'swim right') {
@@ -69,14 +97,29 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Überprüfung, ob rechter Level-Rand erreicht wurde
+     * @returns {boolean} - Level-Rand erreicht?
+     */
     crossesRightMargin() {
         return world.bossFight && this.x >= world.boss.xStart + 212;
     }
 
+
+    /**
+     * Überprüfung, ob linker Level-Rand erreicht wurde (bewegt sich mit Spielfortschritt nach rechts)
+     * @returns {boolean} - Level-Rand erreicht?
+     */
     crossesLeftMargin() {
         return this.x < 50 || (world.bossFight && this.x <= world.boss.xStart - 388);
     }
 
+
+    /**
+     * Handlungen oben und unten
+     * @param {object} key - Keyboard-Objekt 
+     */
     actUpDown(key) {
         if (key.UP) {
             this.swimY(true);
@@ -85,6 +128,11 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Handlungen ohne bestimmte Richtung
+     * @param {object} key - Keyboard-Objekt 
+     */
     actOther(key) {
         if (key.SPACE && Date.now() - this.lastBubble > 750 && !this.state.includes('attacking')) {
             this.state = this.state + 'attacking';
@@ -96,6 +144,10 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Automatische Auswahl der Attacke
+     */
     selectAttack() {
         let threshold = 96;
         let close = world.enemies.filter(e => this.checkVerticalOverlap(e) && e.state != 'dead');
@@ -111,6 +163,11 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Handlungen ohne Tastendruck
+     * @param {object} key - Keyboard-Objekt 
+     */
     actNone(key) {
         if (this.state != 'rest' && this.state != 'hit' && this.state != 'dead') {
             if (this.noKey(key) && this.state != 'idle') {
@@ -121,25 +178,43 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Abfrage, ob keine Taste gedrückt wird
+     * @param {object} key - Keyboard-Objekt 
+     * @returns {boolean} - keine Taste gedrückt?
+     */
     noKey(key) {
         return !key.RIGHT && !key.LEFT && !key.UP && !key.DOWN && !key.SPACE;
     }
 
+
+    /**
+     * Status resetten
+     */
     clearState() {
         if (this.state == 'rest') {
             this.clearRest();
         }
-        // this.slapping = false;
-        this.idleSince = Date.now() * 2; // timestamp in ferner Zukunft
+        this.idleSince = Date.now() * 2;
         this.clearIntervals();
     }
 
+
+    /**
+     * Schlafmodus beenden
+     */
     clearRest() {
         this.sounds['snoring'].loop = false;
         this.sounds['snoring'].pause();
         this.sounds['snoring'].currentTime = 0;
     }
 
+
+    /**
+     * Schwimmaktion horizontal
+     * @param {boolean} right - Richtung (true = rechts, false = links) 
+     */
     swim(right) {
         this.clearState();
         this.otherDirection = !right;
@@ -153,24 +228,47 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Schwimmaktion vertikal
+     * @param {boolean} up - Richtung (true = oben, false = unten) 
+     */
     swimY(up) {
         const speed = 3;
         if (up) {
-            if (this.speedY >= -speed * 0.9) {
-                this.playSound('swim up');
-            }
-            this.speedY = -speed;
+            this.swimUp(speed);
         } else {
-            if (this.speedY <= speed * 0.7) {
-                this.playSound('swim down');
-            }
-            this.speedY = speed * 0.8;
+            this.swimDown(speed);
         }
         if (!this.state.includes('swim')) {
             this.clearState();
             this.animate('swim');
             this.state = 'swim';
         }
+    }
+
+
+    /**
+     * nach oben schwimmen
+     * @param {number} speed - Tempo
+     */
+    swimUp(speed) {
+        if (this.speedY >= -speed * 0.9) {
+            this.playSound('swim up');
+        }
+        this.speedY = -speed;
+    }
+
+
+    /**
+     * nach unten schwimmen
+     * @param {number} speed - Tempo
+     */
+    swimDown(speed) {
+        if (this.speedY <= speed * 0.7) {
+            this.playSound('swim down');
+        }
+        this.speedY = speed * 0.8;
     }
 
     block(right) {

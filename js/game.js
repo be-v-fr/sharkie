@@ -350,22 +350,6 @@ function generateControlListeners(key) {
     onmouseup="ingameControls('${key}', false)" ontouchend="ingameControls('${key}', false)"`;
 }
 
-function ingameControls(key, down) {
-    if(world != null) {
-        const btn = getBtnFromKey(key);
-        eval(`world.keyboard.${key} = ${down}`);
-        if(down) {
-            btn.style.opacity = '1';
-        } else {
-            btn.style.opacity = '';
-        }
-    }
-}
-
-function getBtnFromKey(key) {
-    return document.getElementById('ingame' + key);
-}
-
 function generateEndscreen(message) {
     return /* html */ `
         <div id="endscreen">

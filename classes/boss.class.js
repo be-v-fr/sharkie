@@ -4,6 +4,10 @@ class Boss extends Movable {
     attackId = '';
     xStartAbsolute;
 
+    /**
+     * Konstruktor
+     * @param {number} xStartAbsolute - absolute Startposition, in die die Relativbewegung des Bodens noch nicht eingerechnet wurde
+     */
     constructor(xStartAbsolute) {
         super().loadImage('../img/enemy/3 Final Enemy/1.Introduce/1.png');
         this.x = -1000;
@@ -32,11 +36,19 @@ class Boss extends Movable {
         };
     }
 
+
+    /**
+     * alle Bewegungs- und Animationsintervalle löschen
+     */
     clearAllIntervals() {
         this.clearIntervals();
         this.clearBossIntervals();
     }
 
+
+    /**
+     * für den Boss spezielle Bewegungsintervalle löschen
+     */
     clearBossIntervals() {
         clearInterval(this.moveIntervalId);
         if (this.attackId != '') {
@@ -45,6 +57,10 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Boss spawnen
+     */
     spawn() {
         this.setSpawningPosition();
         this.startBossMusic();
@@ -61,15 +77,29 @@ class Boss extends Movable {
         this.animate('floating');
     }
 
+
+    /**
+     * relative x-Koordinate des Spawning-Punkts festlegen 
+     */
     setSpawningPosition() {
         this.xStart = this.xStartAbsolute + world.floor.x;
     }
 
+
+    /**
+     * Musik-Track wechseln
+     */
     startBossMusic() {
         music['main'].pause();
         music['boss'].play();
     }
 
+
+    /**
+     * Grundzyklus der Boss-Bewegung und -Aktionen
+     * @param {number} horizontal - Anzahl Iterationsschritte für x-Bewegung
+     * @param {number} vertical - Anzahl Iterationsschritte für y-Bewegung
+     */
     setCycle(horizontal, vertical) {
         this.moveIntervalId = setInterval(() => {
             horizontal %= 150;
@@ -81,11 +111,22 @@ class Boss extends Movable {
         }, 1000 / 30);
     }
 
+
+    /**
+     * Bewegungszyklus
+     * @param {number} horizontal - Anzahl Iterationsschritte für x-Bewegung
+     * @param {number} vertical - Anzahl Iterationsschritte für y-Bewegung
+     */
     moveCycle(horizontal, vertical) {
         this.moveHorizontal(horizontal);
         this.moveVertical(vertical);
     }
 
+
+    /**
+     * x-Bewegungszyklus
+     * @param {number} index - Anzahl Iterationsschritte
+     */
     moveHorizontal(index) {
         if (index < 120) {
             this.x -= 2;
@@ -94,6 +135,11 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * y-Bewegungszyklus
+     * @param {number} index - Anzahl Iterationsschritte
+     */
     moveVertical(index) {
         if (index < 65) {
             this.y -= 3;
@@ -102,6 +148,10 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Handlungen ausführen (mögliche Handlungen: 1. attackieren, 2. zum Character drehen)
+     */
     act() {
         if (this.isReadyForAction()) {
             this.setDirection();
@@ -111,10 +161,19 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Abfrage der Handlungsfähigkeit
+     * @returns {boolean} - Bedingung für neue Handlung erfüllt?
+     */
     isReadyForAction() {
         return this.attackId == '' && this.singleAnimationId == '' && Date.now() - this.lastHit > this.recoveryDuration / 3;
     }
 
+
+    /**
+     * Boss nach Character-Position ausrichten
+     */
     setDirection() {
         if (world.character.x > this.x + 100) {
             this.otherDirection = true;
@@ -123,6 +182,10 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Attacke ausführen
+     */
     attack() {
         this.playAnimationOnce('attack');
         this.playSound('attack');
@@ -136,6 +199,11 @@ class Boss extends Movable {
         }, 1000 / 30)
     }
 
+
+    /**
+     * Bewegungsschritt der Attacke
+     * @param {number} index - aktueller Iterationsschritt
+     */
     attackMove(index) {
         if (index < 18) {
             this.startAttack(index);
@@ -144,6 +212,11 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Bewegungsschritt in erster (Start-)Phase der Attacke
+     * @param {number} index - aktueller Iterationsschritt
+     */
     startAttack(index) {
         if (this.otherDirection) {
             this.x += index;
@@ -152,6 +225,11 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Bewegungsschritt in zweiter (Schluss-)Phase der Attacke
+     * @param {number} index - aktueller Iterationsschritt
+     */
     endAttack(index) {
         if (this.otherDirection) {
             this.x -= (index - 18);
@@ -160,11 +238,19 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Attacke löschen
+     */
     finishAttack() {
         clearInterval(this.attackId);
         this.attackId = '';
     }
 
+
+    /**
+     * Verletzung: Statusänderung, Bewegung und Animation
+     */
     hurt() {
         this.clearBossIntervals();
         this.stopSound('attack');
@@ -173,6 +259,10 @@ class Boss extends Movable {
         this.retreat();
     }
 
+
+    /**
+     * Rückzug zum Spawning-Punkt
+     */
     retreat() {
         let speed = Math.abs(this.x - this.xStart);
         const incline = Math.abs(this.y / speed);
@@ -181,13 +271,16 @@ class Boss extends Movable {
             this.retreatX(speed);
             this.retreatY(incline, speed);
             if (this.x == this.xStart && this.y == 0) {
-                clearInterval(this.moveIntervalId);
-                this.state = '';
-                this.setCycle(0, 0);
+                this.restartCycle();
             }
         }, 1000 / 60);
     }
 
+
+    /**
+     * x-Bewegung des Rückzugs
+     * @param {number} speed - Tempo 
+     */
     retreatX(speed) {
         if (this.x <= this.xStart - speed) {
             this.x += speed;
@@ -198,6 +291,12 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * y-Bewegung des Rückzugs
+     * @param {number} incline - Seitenverhältnis des y-Tempos zum x-Tempo
+     * @param {number} speed - Tempo 
+     */
     retreatY(incline, speed) {
         if (this.y <= -speed) {
             this.y += speed * incline;
@@ -208,18 +307,40 @@ class Boss extends Movable {
         }
     }
 
+
+    /**
+     * Zyklus neu starten
+     */
+        restartCycle() {
+            clearInterval(this.moveIntervalId);
+            this.state = '';
+            this.setCycle(0, 0);
+        }
+
+
+    /** 
+     * Sterben
+    */
     die() {
         if (this.state != 'dead') {
             this.state = 'dead';
             this.clearAllIntervals();
             this.playAnimationOnce('die');
             this.playSound('die');
-            music['boss'].pause();
-            music['main'].currentTime = 0;
-            music['main'].play();
+            this.endBossMusic();
             setTimeout(() => {
                 world.win();
             }, 700);
         }
+    }
+
+
+    /**
+     * von Bossmusik zu normaler Musik wechseln
+     */
+    endBossMusic() {
+        music['boss'].pause();
+        music['main'].currentTime = 0;
+        music['main'].play();
     }
 }

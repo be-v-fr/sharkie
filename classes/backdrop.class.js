@@ -3,6 +3,11 @@ class Backdrop extends Movable {
     height = 480;
     speed = 0.18
 
+    /**
+     * Konstruktor
+     * @param {number} layer - Ebene des Hintergrunds 
+     * @param {number} x - x-Position des Bildes
+     */
     constructor(layer, x) {
         let path = './img/background/Layers/';
         let speedFactor = 1;
@@ -35,6 +40,10 @@ class Backdrop extends Movable {
         this.speedFactor = speedFactor;
     }
 
+    
+    /**
+     * x-Bewegungsrichtung ändern
+     */
     turnAround() {
         clearInterval(this.moveIntervalId);
         this.speed = -this.speed;

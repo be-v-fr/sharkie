@@ -61,6 +61,7 @@
         text-align: center;
         align-items: center;
         text-shadow: var(--textShadow);
+        backdrop-filter: blur(3px);
     }
 
     .turnDeviceMsg img {
