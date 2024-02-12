@@ -1,4 +1,9 @@
 class Coin extends Item {
+    /**
+     * Konstruktor
+     * @param {Number} xStart - x-Startposition
+     * @param {Number} y - y-Position
+     */
     constructor(xStart, y) {
         super(xStart, y).loadImage('./img/marks/1.Coins/1.png');
         this.width = 32;
@@ -6,6 +11,9 @@ class Coin extends Item {
         this.initFrame(0, 0, this.width, this.height);
     }
 
+    /**
+     * Coin wird gesammelt
+     */
     collect() {
         super.collect();
         world.character.coins++;

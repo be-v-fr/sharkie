@@ -7,7 +7,19 @@ class Keyboard {
     X = false;
     noControls = false;
 
+    /**
+     * Konstruktor
+     */
     constructor() {
+        this.addKeyDownListener();
+        this.addKeyUpListener();
+    }
+
+
+    /**
+     * Listener mit Funktion für keydown-Event
+     */
+    addKeyDownListener() {
         document.addEventListener('keydown', (ev) => {
             let get = ev.key;
             if (!this.noControls) {
@@ -19,6 +31,13 @@ class Keyboard {
                 this.setKey('this.X', 'x', get, true);
             }
         });
+    }
+
+
+    /**
+     * Listener mit Funktion für keyup-Event
+     */
+    addKeyUpListener() {
         document.addEventListener('keyup', (ev) => {
             let get = ev.key;
             this.setKey('this.LEFT', 'ArrowLeft', get, false);
@@ -30,12 +49,25 @@ class Keyboard {
         });
     }
 
+
+    /**
+     * Key-Attribut der Keyboard-Klasse festlegen
+     * @param {String} set - Key-Klassenattribut als String 
+     * @param {String} key - Event-Key-Name als String 
+     * @param {String} get - Name der gedrückten Taste 
+     * @param {Boolean} down - true = keydown, false = keyup 
+     */
     setKey(set, key, get, down) {
         if (get == key) {
             eval(`${set} = ${down}`);
         }
     }
 
+
+    /**
+     * Steuerung deaktivieren
+     * @param {Boolean} noControls - true = deaktiviert 
+     */
     toggleControls(noControls) {
         this.noControls = noControls;
         if (noControls) {
@@ -43,6 +75,10 @@ class Keyboard {
         }
     }
 
+
+    /**
+     * alle Tasten auf false setzen
+     */
     deactivateControls() {
         this.LEFT = false;
         this.RIGHT = false;

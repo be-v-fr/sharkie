@@ -1,29 +1,36 @@
-class Jellyfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch andere Gegner einzubinden, ohne aber Code doppelt schreiben zu müssen??
+class Jellyfish extends Movable {
     width = 64;
     height = 64;
     color;
 
+    /**
+     * Konstruktor
+     * @param {String} color - Farbe (grün/lila)
+     * @param {Number} x - x-Position
+     * @param {Number} y - y-Position
+     */
     constructor(color, x, y) {
         super().loadImage(`../img/enemy/2.Jellyfish/${color}/1.png`);
         this.color = color;
-        if (color == 'green') {
-            if (settings['hardMode']) {
-                this.damage = 20;
-            } else {
-                this.damage = 12;
-            }
-        } else {
-            if (settings['hardMode']) {
-                this.damage = 8;
-            } else {
-                this.damage = 4;
-            }
-        }
+        this.setDamage(color);
         this.x = x;
         this.y = y;
         this.health = 1;
         this.initFrame(8, 6, 48, 48);
         this.animate(`normal ${color}`);
         this.moveX(-0.18);
+    }
+
+
+    /**
+     * Schaden festlegen (für Kollision mit Character)
+     * @param {String} color - Farbe (grün/lila)
+     */
+    setDamage(color) {
+        if (color == 'green') {
+            this.setDamage(12, 20);
+        } else {
+            this.setDamage(4, 8);
+        }
     }
 }

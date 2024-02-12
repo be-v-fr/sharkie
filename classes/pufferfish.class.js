@@ -3,21 +3,26 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
     height = 56;
     speed = -0.6 * (1 + Math.random());
 
+    /**
+     * Konstruktor
+     * @param {Number} x - x-Position
+     * @param {Number} y - y-Position 
+     */
     constructor(x, y) {
         super().loadImage('../img/enemy/1.Pufferfish/1.Swim/1.png');
         this.x = x + Math.random() * 500;
         this.y = y + Math.random() * 100;
-        if (settings['hardMode']) {
-            this.damage = 10;
-        } else {
-            this.damage = 5;
-        }
+        this.setDamage(5, 10);
         this.health = 1;
         this.initFrame(3, 6, 48, 32);
         this.animate('normal');
         this.moveX(this.speed);
     }
 
+
+    /**
+     * Attacke ausführen
+     */
     attack() {
         this.state = 'attacking';
         clearInterval(this.animateIntervalId);
@@ -31,14 +36,22 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         }, 420);
     }
 
+
+    /**
+     * sterben
+     */
     die() {
-        this.state = 'dead';
+        super.die();
         this.clearIntervals();
         this.playSound('die');
         this.playAnimationOnce('die');
         this.driftUp();
     }
 
+
+    /**
+     * nach oben treiben
+     */
     driftUp() {
         let speedY = 1.5;
         setInterval(() => {

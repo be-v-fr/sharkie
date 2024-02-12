@@ -24,12 +24,21 @@ class World {
     bossFight = false;
     setWorld = '';
 
+    /**
+     * Konstruktor
+     * @param {Object} canvas - Canvas-Objekt
+     * @param {Object} keyboard - Keyboard-Objekt
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
     }
 
+
+    /**
+     * Spielwelt starten
+     */
     start() {
         this.floor.moveX(-this.floor.speed);
         this.stats[1].update(this.character.coins);
@@ -40,6 +49,10 @@ class World {
         music['main'].play();
     }
 
+
+    /**
+     * Werte aktualisieren
+     */
     set() {
         this.setWorld = setInterval(() => {
             if (!this.stop) {
@@ -56,6 +69,10 @@ class World {
         }, 5);
     }
 
+
+    /**
+     * Hintergrund aktualisieren
+     */
     setBackdrop() {
         this.setFloor();
         for (let i = 0; i < this.backdrop.length; i++) {
@@ -66,6 +83,10 @@ class World {
         }
     }
 
+
+    /**
+     * Boden aktualisieren
+     */
     setFloor() {
         if (this.character.state == 'swim left' && this.floor.speed > 0) {
             this.floor.turnAround();
@@ -76,10 +97,19 @@ class World {
         }
     }
 
+
+    /**
+     * Movable-Objekte an Boden ausrichten
+     * @param {Array} mov - Movable-Array 
+     */
     adjustToFloor(mov) {
         mov.forEach(m => { m.x = m.xStart + this.floor.x });
     }
 
+
+    /**
+     * Positionen prüfen und reagieren
+     */
     checkPositions() {
         setInterval(() => {
             this.checkObstacles();
@@ -91,6 +121,10 @@ class World {
         }, 100);
     }
 
+
+    /**
+     * Hindernisse prüfen und reagieren
+     */
     checkObstacles() {
         this.obstacles.forEach(o => {
             this.checkCharCollision(o);
@@ -105,6 +139,10 @@ class World {
         });
     }
 
+
+    /**
+     * Items prüfen und reagieren
+     */
     checkItems() {
         for (let i = this.items.length - 1; i >= 0; i--) {
             const item = this.items[i];
@@ -115,6 +153,10 @@ class World {
         }
     }
 
+
+    /**
+     * Gegner prüfen und reagieren
+     */
     checkEnemies() {
         for (let i = this.enemies.length - 1; i >= 0; i--) {
             const enemy = this.enemies[i];
@@ -131,11 +173,21 @@ class World {
         }
     }
 
+
+    /**
+     * Character in Bezug auf Gegner prüfen
+     * @param {Object} enemy - Gegner-Objekt 
+     */
     checkCharacter(enemy) {
         this.checkPufferfishAttack(enemy);
         this.checkCharCollision(enemy);
     }
 
+
+    /**
+     * prüfen, ob Pufferfish Attacke starten soll oder nicht
+     * @param {Object} enemy - Pufferfish-Objekt
+     */
     checkPufferfishAttack(enemy) {
         if (enemy instanceof Pufferfish && enemy.state != 'attacking' && enemy.state != 'dead') {
             if (enemy.x - this.character.x < 100 + 320 * (1 - Math.random())) {
@@ -144,6 +196,11 @@ class World {
         }
     }
 
+
+    /**
+     * Character in Bezug auf Kollision mit Objekt prüfen
+     * @param {Object} obj - Movable-Objekt 
+     */
     checkCharCollision(obj) {
         if (this.character.isColliding(obj)) {
             if (this.character.slapping && !(obj instanceof Obstacle) && !(obj instanceof Jellyfish && obj.color == 'green')) {
@@ -160,6 +217,11 @@ class World {
         }
     }
 
+
+    /**
+     * Bubbles in Bezug auf Gegner prüfen
+     * @param {Object} enemy - Gegner-Objekt 
+     */
     checkBubbles(enemy) {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {
             let bubble = this.bubbles[i];
@@ -173,6 +235,13 @@ class World {
         }
     }
 
+
+    /**
+     * Treffer von Bubble auf Gegner ausführen
+     * @param {Object} bubble - Bubble-Objekt
+     * @param {Object} enemy - Gegner-Objekt
+     * @param {Number} i - Index der Bubble im bubbles-Array
+     */
     enemyHitByBubble(bubble, enemy, i) {
         enemy.hit(bubble);
         if (enemy instanceof Jellyfish) {
@@ -184,12 +253,20 @@ class World {
         }
     }
 
+
+    /**
+     * Bosskampf starten
+     */
     initBossFight() {
         this.bossFight = true;
         clearInterval(this.floor.moveIntervalId);
         this.boss.spawn();
     }
 
+
+    /**
+     * Spielanzeige rendern
+     */
     draw() {
         if (!this.stop) {
             this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -206,35 +283,61 @@ class World {
         }
     }
 
+
+    /**
+     * Hintergrund rendern
+     */
     addBackdrop() {
         this.addObjectsToMap(this.backdrop);
     }
 
+
+    /**
+     * Objekte rendern
+     * @param {Array} obj - Objekt-Array 
+     */
     addObjectsToMap(obj) {
         obj.forEach(o => { this.addToMap(o) });
     }
 
+
+    /**
+     * Objekt rendern
+     * @param {Object} vis - Visible-Objekt 
+     */
     addToMap(vis) {
         if (vis.otherDirection) {
             this.flipImage(vis);
         }
         vis.draw(this.ctx);
-        // vis.drawFrame(this.ctx);
         if (vis.otherDirection) {
             this.unflipImage();
         }
     }
 
+
+    /**
+     * Bild horizontal spiegeln
+     * @param {Object} vis - Visible-Objekt 
+     */
     flipImage(vis) {
         this.ctx.save();
         this.ctx.translate(2 * vis.x + vis.width, 0);
         this.ctx.scale(-1, 1);
     }
 
+    
+    /**
+     * Bildspiegelung aufheben
+     */
     unflipImage() {
         this.ctx.restore();
     }
 
+
+    /**
+     * Render-Methode neu aufrufen
+     */
     recallDraw() {
         let self = this;
         requestAnimationFrame(function () {
@@ -242,6 +345,10 @@ class World {
         });
     }
 
+
+    /**
+     * Spiel gewinnen
+     */
     win() {
         this.stop = true;
         clearInterval(this.setWorld);
@@ -250,6 +357,10 @@ class World {
         endscreen.classList.add('winscreen');
     }
 
+
+    /**
+     * Spiel verlieren
+     */
     lose() {
         this.stop = true;
         this.boss.clearAllIntervals();

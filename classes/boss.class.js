@@ -13,11 +13,10 @@ class Boss extends Movable {
         this.x = -1000;
         this.xStartAbsolute = xStartAbsolute;
         this.y = 0;
+        this.setDamage(10, 20);
         if (settings['hardMode']) {
-            this.damage = 20;
             this.health = 60;
         } else {
-            this.damage = 10;
             this.health = 40;
         }
         this.recoveryDuration = 1800;

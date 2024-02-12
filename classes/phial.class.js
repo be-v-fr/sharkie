@@ -1,4 +1,9 @@
 class Phial extends Item {
+    /**
+     * Konstruktor
+     * @param {Number} xStart - x-Startposition
+     * @param {Number} y - y-Position
+     */
     constructor(xStart, y) {
         super(xStart, y).loadImage('./img/marks/2.Poison/1.png');
         this.width = 78;
@@ -10,6 +15,10 @@ class Phial extends Item {
         this.animate('bubbling');
     }
 
+    
+    /**
+     * Phial wird gesammelt
+     */
     collect() {
         super.collect();
         if (world.character.poison <= 80) {

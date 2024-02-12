@@ -1,4 +1,9 @@
 class Item extends Movable {
+    /**
+     * Konstruktor
+     * @param {Number} xStart - x-Startposition
+     * @param {Number} y - y-Position
+     */
     constructor(xStart, y) {
         super();
         this.xStart = xStart;
@@ -6,6 +11,9 @@ class Item extends Movable {
         this.damage = 0;
     }
 
+    /**
+     * Item wird gesammelt
+     */
     collect() {
         this.playSound('collect');
     }

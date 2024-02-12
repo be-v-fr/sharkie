@@ -43,19 +43,35 @@ class Character extends Movable {
      */
     actLeftRight(key) {
         if (key.RIGHT && !key.LEFT && this.state != 'swim blocked right') {
-            if (this.state != 'swim right') {
-                this.swim(true);
-            }
-            if (this.crossesRightMargin()) {
-                this.block(true);
-            }
+            this.actLeft();
         } else if (key.LEFT && !key.RIGHT && this.state != 'swim blocked left') {
-            if (this.state != 'swim left') {
-                this.swim(false);
-            }
-            if (this.crossesLeftMargin()) {
-                this.block(false);
-            }
+            this.actRight();
+        }
+    }
+
+
+    /**
+     * Handlungsausführung links
+     */
+    actLeft() {
+        if (this.state != 'swim right') {
+            this.swim(true);
+        }
+        if (this.crossesRightMargin()) {
+            this.block(true);
+        }        
+    }
+
+
+    /**
+     * Handlungsausführung rechts
+     */
+    actRight() {
+        if (this.state != 'swim left') {
+            this.swim(false);
+        }
+        if (this.crossesLeftMargin()) {
+            this.block(false);
         }
     }
 
@@ -309,7 +325,7 @@ class Character extends Movable {
     newBubbleAfterTimeout(isAttacking, isToxic) {
         setTimeout(() => {
             if (isAttacking && this.state != 'hit' && !this.isDead()) {
-                createBubbleObject(isToxic);
+                this.createBubbleObject(isToxic);
             }
             this.removeAttackFromState();
         }, 640);
