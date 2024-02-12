@@ -20,33 +20,7 @@ class Character extends Movable {
         this.recoveryDuration = 1000;
         this.initFrame(30, 108, 90, 60);
         this.swimAndSinkY();
-        this.animate('idle');
         this.sounds['hurt'].volume = 0.5;
-    }
-
-
-    /**
-     * Handlung nach Keyboardabfrage ausführen
-     */
-    act() {
-        let key = world.keyboard;
-        this.actLeftRight(key);
-        this.actUpDown(key);
-        this.actOther(key);
-        this.actNone(key);
-    }
-
-
-    /**
-     * Handlungen links und rechts
-     * @param {Object} key - Keyboard-Objekt 
-     */
-    actLeftRight(key) {
-        if (key.RIGHT && !key.LEFT && this.state != 'swim blocked right') {
-            this.actLeft();
-        } else if (key.LEFT && !key.RIGHT && this.state != 'swim blocked left') {
-            this.actRight();
-        }
     }
 
 
@@ -59,7 +33,7 @@ class Character extends Movable {
         }
         if (this.crossesRightMargin()) {
             this.block(true);
-        }        
+        }
     }
 
 
@@ -95,35 +69,6 @@ class Character extends Movable {
 
 
     /**
-     * Handlungen oben und unten
-     * @param {Object} key - Keyboard-Objekt 
-     */
-    actUpDown(key) {
-        if (key.UP) {
-            this.swimY(true);
-        } else if (key.DOWN) {
-            this.swimY(false);
-        }
-    }
-
-
-    /**
-     * Handlungen ohne bestimmte Richtung
-     * @param {Object} key - Keyboard-Objekt 
-     */
-    actOther(key) {
-        if (key.SPACE && Date.now() - this.lastBubble > 750 && !this.state.includes('attacking')) {
-            this.state = this.state + 'attacking';
-            if (key.X) {
-                this.bubble(true);
-            } else {
-                this.selectAttack();
-            }
-        }
-    }
-
-
-    /**
      * Automatische Auswahl der Attacke
      */
     selectAttack() {
@@ -139,31 +84,6 @@ class Character extends Movable {
         } else {
             this.slap();
         }
-    }
-
-
-    /**
-     * Handlungen ohne Tastendruck
-     * @param {Object} key - Keyboard-Objekt 
-     */
-    actNone(key) {
-        if (this.state != 'rest' && this.state != 'hit' && this.state != 'dead') {
-            if (this.noKey(key) && this.state != 'idle') {
-                this.idle();
-            } else if (Date.now() - this.idleSince > 4000) {
-                this.rest();
-            }
-        }
-    }
-
-
-    /**
-     * Abfrage, ob keine Taste gedrückt wird
-     * @param {Object} key - Keyboard-Objekt 
-     * @returns {Boolean} - keine Taste gedrückt?
-     */
-    noKey(key) {
-        return !key.RIGHT && !key.LEFT && !key.UP && !key.DOWN && !key.SPACE;
     }
 
 
@@ -399,139 +319,13 @@ class Character extends Movable {
     reactToHit(obj) {
         if (!this.isDead()) {
             if (obj instanceof Jellyfish && obj.color == 'green') {
-                this.playAnimationOnce('shocked');
-                this.playSound('shocked');
+                this.playAnimationOnceWithSound('sound');
             } else {
-                this.playAnimationOnce('hurt');
-                this.playSound('hurt');
+                this.playAnimationOnceWithSound('hurt');
             }
             this.animate('idle');
             this.recover();
         }
-    }
-
-
-    /**
-     * von Objekt abprallen
-     * @param {Object} obj - Objekt der Kollision
-     */
-    bounce(obj) {
-        let bouncing = false;
-        for (let i = 0; i < obj.frames.length; i++) {
-            const x = this.getBounceX(obj, this.frames[0], obj.frames[i]);
-            const y = this.getBounceY(obj, this.frames[0], obj.frames[i]);
-            if (this.bounceX(x) || this.bounceY(y)) {
-                bouncing = true;
-            }
-        }
-        if (!bouncing) {
-            this.bounceException();
-        }
-    }
-
-
-    /**
-     * in x-Richtung abprallen
-     * @param {Boolean} right - Richtung (true = rechts, false = links) 
-     * @returns {Boolean} true, falls ein Abprallen in x-Richtung geschieht 
-     */
-    bounceX(right) {
-        if (right != null) {
-            this.bounceXPosition(right);
-            clearInterval(this.moveIntervalId);
-            this.otherDirection = !right;
-            this.moveX(this.speed / 4);
-            return true;
-        }
-    }
-
-
-    /**
-     * x-Verschiebung durch horizontales Abprallen, unter Berücksichtigung des Level-Rands
-     * @param {Boolean} right - Richtung (true = rechts, false = links) 
-     */
-    bounceXPosition(right) {
-        if (right) {
-            this.x += 12;
-            if (this.crossesRightMargin()) {
-                this.x -= 12;
-            }
-        } else {
-            this.x -= 12;
-            if (this.crossesLeftMargin()) {
-                this.x += 12;
-            }
-        }
-    }
-
-
-    /**
-     * in y-Richtung abprallen
-     * @param {Boolean} down - Richtung (true = unten, false = oben) 
-     * @returns {Boolean} true, falls ein Abprallen in y-Richtung geschieht 
-     */
-    bounceY(down) {
-        if (down != null) {
-            if (down) {
-                this.y += 20;
-            } else {
-                this.y -= 20;
-            }
-            return true;
-        }
-    }
-
-
-    /**
-     * horizontale Abprallrichtung bestimmen
-     * @param {Object} obj - Objekt der Kollision 
-     * @param {Array} frameThis - Offset-Frame des Characters
-     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
-     * @returns {Boolean} true = nach rechts, false = nach links, null = keine x-Bewegung
-     */
-    getBounceX(obj, frameThis, frameObj) {
-        if (this.frameCollision(obj, frameThis, frameObj)) {
-            const thisLeftEdge = this.x + frameThis[0];
-            const objLeftEdge = obj.x + frameObj[0];
-            if (thisLeftEdge <= objLeftEdge) {
-                return false;
-            } else if (thisLeftEdge + frameThis[2] >= objLeftEdge + frameObj[2]) {
-                return true;
-            }
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     * vertikale Abprallrichtung bestimmen
-     * @param {Object} obj - Objekt der Kollision 
-     * @param {Array} frameThis - Offset-Frame des Characters
-     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
-     * @returns {Boolean} true = nach unten, false = nach oben, null = keine y-Bewegung
-     */
-    getBounceY(obj, frameThis, frameObj) {
-        if (this.frameCollision(obj, frameThis, frameObj)) {
-            const thisUpperEdge = this.y + frameThis[1];
-            const objUpperEdge = obj.y + frameObj[1];
-            if (thisUpperEdge <= objUpperEdge) {
-                return false;
-            } else if (thisUpperEdge + frameThis[3] >= objUpperEdge + frameObj[3]) {
-                return true;
-            }
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     * Abprall-Ausnahme (falls das Abprallen zu weit in eine neue Kollision hineinführt)
-     */
-    bounceException() {
-        this.x -= 100;
-        this.y = 100;
     }
 
 

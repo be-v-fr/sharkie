@@ -35,6 +35,16 @@ class Movable extends Visible {
 
 
     /**
+     * Animation und Sound einmalig abspielen
+     * @param {String} name - Name von Animation und Sound (muss identisch sein) 
+     */
+    playAnimationOnceWithSound(name) {
+        this.playAnimationOnce(name);
+        this.playSound(name);        
+    }
+
+
+    /**
      * Schaden festlegen
      * @param {Number} normal - Schaden im normalen Modus
      * @param {Number} hard - Schaden im schweren Modus
@@ -213,9 +223,6 @@ class Movable extends Visible {
             this.health = 0;
             this.die(obj);
         } else {
-            if (this instanceof Boss) {
-                this.bossHit();
-            }
             this.lastHit = Date.now();
         }
     }
@@ -227,15 +234,6 @@ class Movable extends Visible {
      */
     canGetHit() {
         return !(this instanceof Boss) || this.isRecovered();
-    }
-
-
-    /**
-     * dieses Objekt ist ein Boss-Objekt und wird getroffen
-     */
-    bossHit() {
-        this.state = 'hit';
-        this.hurt();
     }
 
 
@@ -263,5 +261,129 @@ class Movable extends Visible {
      */
     die() {
         this.state = 'dead';
+    }
+
+
+    /**
+ * von Objekt abprallen
+ * @param {Object} obj - Objekt der Kollision
+ */
+    bounce(obj) {
+        let bouncing = false;
+        for (let i = 0; i < obj.frames.length; i++) {
+            const x = this.getBounceX(obj, this.frames[0], obj.frames[i]);
+            const y = this.getBounceY(obj, this.frames[0], obj.frames[i]);
+            if (this.bounceX(x) || this.bounceY(y)) {
+                bouncing = true;
+            }
+        }
+        if (!bouncing) {
+            this.bounceException();
+        }
+    }
+
+
+    /**
+     * in x-Richtung abprallen
+     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     * @returns {Boolean} true, falls ein Abprallen in x-Richtung geschieht 
+     */
+    bounceX(right) {
+        if (right != null) {
+            this.bounceXPosition(right);
+            clearInterval(this.moveIntervalId);
+            this.otherDirection = !right;
+            this.moveX(this.speed / 4);
+            return true;
+        }
+    }
+
+
+    /**
+     * x-Verschiebung durch horizontales Abprallen, unter Berücksichtigung des Level-Rands
+     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     */
+    bounceXPosition(right) {
+        if (right) {
+            this.x += 12;
+            if (this.crossesRightMargin()) {
+                this.x -= 12;
+            }
+        } else {
+            this.x -= 12;
+            if (this.crossesLeftMargin()) {
+                this.x += 12;
+            }
+        }
+    }
+
+
+    /**
+     * in y-Richtung abprallen
+     * @param {Boolean} down - Richtung (true = unten, false = oben) 
+     * @returns {Boolean} true, falls ein Abprallen in y-Richtung geschieht 
+     */
+    bounceY(down) {
+        if (down != null) {
+            if (down) {
+                this.y += 20;
+            } else {
+                this.y -= 20;
+            }
+            return true;
+        }
+    }
+
+
+    /**
+     * horizontale Abprallrichtung bestimmen
+     * @param {Object} obj - Objekt der Kollision 
+     * @param {Array} frameThis - Offset-Frame des Characters
+     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
+     * @returns {Boolean} true = nach rechts, false = nach links, null = keine x-Bewegung
+     */
+    getBounceX(obj, frameThis, frameObj) {
+        if (this.frameCollision(obj, frameThis, frameObj)) {
+            const thisLeftEdge = this.x + frameThis[0];
+            const objLeftEdge = obj.x + frameObj[0];
+            if (thisLeftEdge <= objLeftEdge) {
+                return false;
+            } else if (thisLeftEdge + frameThis[2] >= objLeftEdge + frameObj[2]) {
+                return true;
+            }
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * vertikale Abprallrichtung bestimmen
+     * @param {Object} obj - Objekt der Kollision 
+     * @param {Array} frameThis - Offset-Frame des Characters
+     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
+     * @returns {Boolean} true = nach unten, false = nach oben, null = keine y-Bewegung
+     */
+    getBounceY(obj, frameThis, frameObj) {
+        if (this.frameCollision(obj, frameThis, frameObj)) {
+            const thisUpperEdge = this.y + frameThis[1];
+            const objUpperEdge = obj.y + frameObj[1];
+            if (thisUpperEdge <= objUpperEdge) {
+                return false;
+            } else if (thisUpperEdge + frameThis[3] >= objUpperEdge + frameObj[3]) {
+                return true;
+            }
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * Abprall-Ausnahme (falls das Abprallen zu weit in eine neue Kollision hineinführt)
+     */
+    bounceException() {
+        this.x -= 100;
+        this.y = 100;
     }
 }

@@ -45,7 +45,7 @@ const ANIMATIONS = {
 
 const SOUNDS = {
     'Boss': {
-        'intro': new Audio('../audio/boss_splash.mp3'),
+        'introduce': new Audio('../audio/boss_splash.mp3'),
         'attack': new Audio('../audio/boss_bite.mp3'),
         'hurt': new Audio('../audio/boss_hurt.mp3'),
         'die': new Audio('../audio/boss_die.mp3')

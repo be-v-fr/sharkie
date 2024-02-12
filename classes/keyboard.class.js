@@ -86,4 +86,77 @@ class Keyboard {
         this.DOWN = false;
         this.SPACE = false;
     }
+
+
+    /**
+     * Abfrage, ob keine Taste gedrückt wird
+     * @returns {Boolean} - keine Taste gedrückt?
+     */
+    noKey() {
+        return !this.RIGHT && !this.LEFT && !this.UP && !this.DOWN && !this.SPACE;
+    }
+
+
+    /**
+     * Character spielen
+     */
+    play() {
+        this.playLeftRight();
+        this.playUpDown();
+        this.playOther();
+        this.playNone();
+    }
+
+
+    /**
+     * Handlungen links und rechts
+     */
+    playLeftRight() {
+        if (this.RIGHT && !this.LEFT && world.character.state != 'swim blocked right') {
+            world.character.actLeft();
+        } else if (this.LEFT && !this.RIGHT && world.character.state != 'swim blocked left') {
+            world.character.actRight();
+        }
+    }
+
+
+    /**
+     * Handlungen oben und unten
+     */
+    playUpDown() {
+        if (this.UP) {
+            world.character.swimY(true);
+        } else if (this.DOWN) {
+            world.character.swimY(false);
+        }
+    }
+
+
+    /**
+     * Handlungen ohne bestimmte Richtung
+     */
+    playOther() {
+        if (this.SPACE && Date.now() - world.character.lastBubble > 750 && !world.character.state.includes('attacking')) {
+            world.character.state = world.character.state + 'attacking';
+            if (this.X) {
+                world.character.bubble(true);
+            } else {
+                world.character.selectAttack();
+            }
+        }
+    }
+
+
+    /**
+     * Handlungen ohne Tastendruck
+     */
+    playNone() {
+        if (world.character.state != 'rest' && world.character.state != 'hit' && world.character.state != 'dead') {
+            if (this.noKey() && world.character.state != 'idle') {
+                world.character.idle();
+            } else if (Date.now() - world.character.idleSince > 4000) {
+                world.character.rest();
+            }
+        }
+    }
 }

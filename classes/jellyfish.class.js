@@ -28,9 +28,9 @@ class Jellyfish extends Movable {
      */
     setDamage(color) {
         if (color == 'green') {
-            this.setDamage(12, 20);
+            super.setDamage(12, 20);
         } else {
-            this.setDamage(4, 8);
+            super.setDamage(4, 8);
         }
     }
 }

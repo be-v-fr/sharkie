@@ -64,7 +64,7 @@ class World {
                     this.adjustToFloor(this.obstacles);
                     this.adjustToFloor(this.items);
                 }
-                this.character.act();
+                this.keyboard.play();
             }
         }, 5);
     }
