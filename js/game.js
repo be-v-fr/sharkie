@@ -8,13 +8,11 @@ let settings = {
     'music': true,
     'hardMode': false
 };
-const listMark = /* html */ `
-                        <svg width="32" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="4" y1="2" x2="4" y2="18" stroke="white" stroke-width="2"/>
-                            <line x1="3" y1="17" x2="30" y2="17" stroke="white" stroke-width="2"/>
-                        </svg>
-`;
 
+
+/**
+ * Initialisierung
+ */
 function init() {
     canvas = document.getElementById('canvas');
     overlay = document.getElementById('overlay');
@@ -23,11 +21,19 @@ function init() {
     loadSettings();
 }
 
+
+/**
+ * Spiel starten
+ */
 function start() {
     overlay.innerHTML = generateLoadingscreen();
     load();
 }
 
+
+/**
+ * Bilddateien laden
+ */
 function load() {
     const loadingBar = document.getElementById('loadingBar');
     toggleMobile(false);
@@ -36,7 +42,7 @@ function load() {
     generateLevel1();
     world = new World(canvas, keyboard);
     const waitUntilLoaded = setInterval(() => {
-        loadingBar.style.width = loadingProgress() + '%';
+        loadingBar.style.width = getLoadingProgress() + '%';
         if (isLoaded()) {
             clearInterval(waitUntilLoaded);
             world.start();
@@ -45,31 +51,57 @@ function load() {
     }, 10);
 }
 
+
+/**
+ * Bilddateien von Klassen laden, die nicht mit dem world-Konstruktor instanziiert werden
+ */
 function preload() {
     new Bubble(0, 0, false, 0);
     new Bubble(0, 0, true, 0);
 }
 
-function loadingProgress() {
+
+/**
+ * Ladefortschritt abfragen
+ * @returns {Number} prozentualer Fortschritt
+ */
+function getLoadingProgress() {
     return 100 * loadingCounter / TOTAL_NR_OF_IMAGES;
 }
 
+
+/**
+ * Abfrage, ob Laden abgeschlossen wurde
+ * @returns {Boolean} true = abgeschlossen, false = nicht abgeschlossen
+ */
 function isLoaded() {
     return loadingCounter >= TOTAL_NR_OF_IMAGES;
 }
 
+
+/**
+ * Ingame-Interface ins Overlay rendern
+ */
 function renderIngameOverlay() {
     overlay.classList.remove('overlayBg');
     overlay.innerHTML = generateIngameControls();
     renderIngameControls();
 }
 
+
+/**
+ * Menüseite "Settings" anzeigen
+ */
 function showSettings() {
     overlay.innerHTML = generateMenuSettings();
     renderMenuSettings();
     goToMenuSubpage();
 }
 
+
+/**
+ * Menüseite aufrufen
+ */
 function goToMenuSubpage() {
     toggleMobile(false);
     addMenuListeners();
@@ -77,12 +109,20 @@ function goToMenuSubpage() {
 }
 
 
+/**
+ * zurück zum Hauptmenü
+ */
 function returnToMain() {
     overlay.innerHTML = generateStartscreen();
     removeMenuListeners();
     toggleMobile(true);
 }
 
+
+/**
+ * Sound an/aus (im Menü)
+ * @param {Boolean} on - true = an, false = aus
+ */
 function setSound(on) {
     settings['sound'] = on;
     if (!settings['sound']) {
@@ -90,12 +130,22 @@ function setSound(on) {
     }
 }
 
+
+/**
+ * Musik an/aus (im Menü)
+ * @param {Boolean} on - true = an, false = aus
+ */
 function setMenuMusic(on) {
     if (settings['sound']) {
         setMusic(on);
     }
 }
 
+
+/**
+ * Musik an/aus (ingame)
+ * @param {Boolean} on - true = an, false = aus
+ */
 function setMusic(on) {
     settings['music'] = on;
     if (on) {
@@ -108,6 +158,10 @@ function setMusic(on) {
     }
 }
 
+
+/**
+ * Sound togglen (ingame)
+ */
 function toggleIngameSound() {
     const btn = document.getElementById('ingameSoundBtn');
     settings['sound'] = !settings['sound'];
@@ -117,6 +171,10 @@ function toggleIngameSound() {
     btn.blur();
 }
 
+
+/**
+ * Musik togglen (ingame)
+ */
 function toggleIngameMusic() {
     const btn = document.getElementById('ingameMusicBtn');
     settings['music'] = !settings['music'];
@@ -125,10 +183,20 @@ function toggleIngameMusic() {
     btn.blur();
 }
 
+
+/**
+ * Schwierigkeit festlegen
+ * @param {Boolean} on - true = schwer, false = normal 
+ */
 function setHardMode(on) {
     settings['hardMode'] = on;
 }
 
+
+/**
+ * Settings aktualisieren...
+ * @param {Boolean} ingame - true = ...im Spiel, false = ...im Menü
+ */
 function updateSettings(ingame) {
     if (ingame) {
         renderIngameControls();
@@ -138,6 +206,10 @@ function updateSettings(ingame) {
     saveSettings();
 }
 
+
+/**
+ * Buttons für Ingame-Settings rendern
+ */
 function renderIngameControls() {
     const soundImg = document.getElementById('ingameSoundBtnImg');
     const musicImg = document.getElementById('ingameMusicBtnImg');
@@ -154,6 +226,10 @@ function renderIngameControls() {
     }
 }
 
+
+/**
+ * Buttons für Menü-Settings rendern
+ */
 function renderMenuSettings() {
     const sound0 = document.getElementById('sound0');
     const sound1 = document.getElementById('sound1');
@@ -169,6 +245,11 @@ function renderMenuSettings() {
     styleSettingsBtns('hardMode', hardMode0, hardMode1);
 }
 
+
+/**
+ * bestimmte CSS-Klassen von Buttons der Settings-Menüseite löschen
+ * @param {Array} btns - Button-Elemente
+ */
 function clearSettingsBtnClasses(btns) {
     for (let i = 0; i < btns.length; i++) {
         const btn = btns[i];
@@ -176,6 +257,13 @@ function clearSettingsBtnClasses(btns) {
     }
 }
 
+
+/**
+ * bestimmte CSS-Klassen zu Buttons der Settings-Menüseite zuweisen
+ * @param {String} key - Einstellungsparameter (JSON-Key aus settings-Array) 
+ * @param {*} btn0 - Button für Einstellung "aus"
+ * @param {*} btn1 - Button für Einstellung "an"
+ */
 function styleSettingsBtns(key, btn0, btn1) {
     if (settings[key]) {
         btn0.classList.add('settingsBtnInactive');
@@ -186,17 +274,30 @@ function styleSettingsBtns(key, btn0, btn1) {
     }
 }
 
+
+/**
+ * Anleitung anzeigen
+ */
 function showInstructions() {
     overlay.innerHTML = generateInstructions();
     goToMenuSubpage();
 }
 
+
+/**
+ * Endscreen anzeigen
+ * @param {String} message - Nachricht 
+ */
 function showEndscreen(message) {
     overlay.innerHTML = generateEndscreen(message);
     document.addEventListener('click', endGame);
     document.addEventListener('keypress', endGame);
 }
 
+
+/**
+ * Spiel beenden
+ */
 function endGame() {
     document.removeEventListener('click', endGame);
     document.removeEventListener('keypress', endGame);
@@ -205,155 +306,4 @@ function endGame() {
     world = null;
     overlay.classList.add('overlayBg');
     returnToMain();
-}
-
-function generateStartscreen() {
-    return /* html */ `
-        <button class="menuBtn rotateLeft" onclick="start()" onmousedown="playMenuSound()">Start Game</button>
-        <button class="menuBtn rotateRight" onclick="showInstructions()" onmousedown="playMenuSound()">Instructions</button>
-        <button class="menuBtn rotateRight" onclick="showSettings()" onmousedown="playMenuSound()">Settings</button>
-    `;
-}
-
-function generateLoadingscreen() {
-    return /* html */ `
-        <div id="loadingWrapper">
-            <div id="loadingBarBg">
-                <div id="loadingBar"></div>
-            </div>
-        </div>
-    `;
-}
-
-function generateInstructions() {
-    return /* html */ `
-        <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
-            <button class="close" onclick="returnToMain()">X</button>
-            <div class="instructions">
-                <table class="instructionsMain">
-                    <tr>
-                        <td>
-                            <img id="instrArrowKeys" src="../img/buttons/Key/arrow keys.png">
-                        </td>
-                        <td>
-                            <div class="tdContainer">    
-                                Move
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img id="instrSpaceKey" src="../img/buttons/Key/Space Bar Key.png">
-                        </td>
-                        <td>
-                            <div class="tdContainer">    
-                                Bubble Attack / Fin Slap
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <table class="attacks">
-                    <tr>
-                        <td>${listMark}</td>
-                        <td>
-                            <div class="tdContainer instructionsSlap">
-                                <p>When facing a near opponent, Sharkie will execute a slap. Do not touch electric jellyfish!</p>
-                                <img id="jellyfishWarning" src="../img/marks/warning.png">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>${listMark}</td>
-                        <td>
-                            <div class="tdContainer">
-                                <img class="toxicBubbleKeys" src="../img/buttons/Key/X Key.png"> + 
-                                <img class="toxicBubbleKeys" src="../img/buttons/Key/Space Bar Key.png">
-                                Toxic Bubble
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    `;
-}
-
-function generateMenuSettings() {
-    return /* html */ `
-        <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
-            <button class="close" onclick="returnToMain()">X</button>
-            <table class="settings" onclick="updateSettings(false)">
-                <tr>
-                    <td><span>Sound</span></td>
-                    <td><button id="sound1" onclick="setSound(true)" onmousedown="playMenuSound()">on</button></td>
-                    <td><button id="sound0" onclick="setSound(false)" onmousedown="playMenuSound()">off</button></td>
-                </tr>
-                <tr>
-                    <td>
-                        ${listMark}         
-                        <span>Music</span>
-                    </td>
-                    <td><button id="music1" onclick="setMenuMusic(true)" onmousedown="playMenuSound()">on</button></td>
-                    <td><button id="music0" onclick="setMenuMusic(false)" onmousedown="playMenuSound()">off</button></td>
-                </tr>
-                <tr>    
-                    <td><span>Difficulty</span></td>
-                    <td><button id="hardMode0" onclick="setHardMode(false)" onmousedown="playMenuSound()">normal</button></td>
-                    <td><button id="hardMode1" onclick="setHardMode(true)" onmousedown="playMenuSound()">hard</button></td>
-                </tr>
-            </table>
-        </div>
-    `;
-}
-
-function generateIngameControls() {
-    return /* html */ `
-        <div class="ingameInterface">
-            <div class="ingameSettingsWrapper">
-                <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
-                <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
-            </div>
-            <div class="ingameControlsWrapper">
-                <div class="keyRow">
-                    <div>
-                        <button id="ingameUP" ${generateControlListeners('UP')}>
-                            <img src="../img/buttons/Key/up key.png">
-                        </button>
-                        <button id="ingameDOWN" ${generateControlListeners('DOWN')}>
-                            <img src="../img/buttons/Key/up key.png">
-                        </button>
-                    </div>
-                    <div>
-                        <button id="ingameLEFT" ${generateControlListeners('LEFT')}>
-                            <img src="../img/buttons/Key/up key.png">
-                        </button>
-                        <button id="ingameRIGHT" ${generateControlListeners('RIGHT')}>
-                            <img src="../img/buttons/Key/up key.png">
-                        </button>
-                    </div>
-                </div>
-                <div class="keyRow xAndSpaceRow">
-                    <button id="ingameX" ${generateControlListeners('X')}>
-                        <img src="../img/buttons/Key/X key.png">
-                    </button>
-                    <button id="ingameSPACE" ${generateControlListeners('SPACE')}>
-                        <img src="../img/buttons/Key/Space Bar Key.png">
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function generateControlListeners(key) {
-    return `onmousedown="ingameControls('${key}', true)" ontouchstart="ingameControls('${key}', true)"
-    onmouseup="ingameControls('${key}', false)" ontouchend="ingameControls('${key}', false)"`;
-}
-
-function generateEndscreen(message) {
-    return /* html */ `
-        <div id="endscreen">
-            <p class="endscreenMsg">${message}</p>
-        </div>
-    `;
 }
