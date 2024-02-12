@@ -5,8 +5,8 @@ class Backdrop extends Movable {
 
     /**
      * Konstruktor
-     * @param {number} layer - Ebene des Hintergrunds 
-     * @param {number} x - x-Position des Bildes
+     * @param {Number} layer - Ebene des Hintergrunds 
+     * @param {Number} x - x-Position des Bildes
      */
     constructor(layer, x) {
         let path = './img/background/Layers/';

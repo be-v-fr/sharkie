@@ -8,10 +8,10 @@ class Bubble extends Movable {
 
     /**
      * Konstruktor
-     * @param {number} x - x-Koordinate
-     * @param {number} y - y-Koordinate
-     * @param {boolean} isToxic - giftige (true) oder normale (false) Bubble
-     * @param {boolean} goLeft - Bewegungsrichtung der Bubble 
+     * @param {Number} x - x-Koordinate
+     * @param {Number} y - y-Koordinate
+     * @param {Boolean} isToxic - giftige (true) oder normale (false) Bubble
+     * @param {Boolean} goLeft - Bewegungsrichtung der Bubble 
      */
     constructor(x, y, isToxic, goLeft) {
         if (isToxic) {
@@ -19,8 +19,6 @@ class Bubble extends Movable {
         } else {
             super().loadImage('../img/sharkie/4.Attack/Bubble trap/Bubble.png');
         }
-        this.loadImages('green jellyfish', '../img/enemy/2.Jellyfish/Dead/green/', 4);
-        this.loadImages('lila jellyfish', '../img/enemy/2.Jellyfish/Dead/lila/', 4);
         this.x = x;
         this.y = y;
         this.initFrame(0, 0, this.width, this.height);
@@ -32,10 +30,6 @@ class Bubble extends Movable {
             this.speed *= 1.8;
         }
         this.driftXY(this.speed);
-        this.sounds = {
-            'blow': new Audio('../audio/bubble.mp3'),
-            'pop': new Audio('../audio/bubble_pop.mp3'),
-        };
         if (isLoaded()) {
             this.playSound('blow');
         }
@@ -44,7 +38,7 @@ class Bubble extends Movable {
 
     /**
      * x- und y-Bewegung der Bubble
-     * @param {number} speed - Tempo 
+     * @param {Number} speed - Tempo 
      */
     driftXY(speed) {
         let counter = 0;
@@ -61,7 +55,7 @@ class Bubble extends Movable {
 
     /**
      * Aufblasen der Bubble
-     * @param {number} counter - aktueller Iterationsschritt 
+     * @param {Number} counter - aktueller Iterationsschritt 
      */
     growToFullSize(counter) {
         const factor = 1 + 0.03 * (6 - counter);
@@ -74,7 +68,7 @@ class Bubble extends Movable {
 
     /**
      * Jellyfish einfangen
-     * @param {boolean} color - Farbe des Jellyfish (grün/lila) 
+     * @param {Boolean} color - Farbe des Jellyfish (grün/lila) 
      */
     catchJellyfish(color) {
         this.playSound('blow');

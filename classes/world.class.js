@@ -109,7 +109,7 @@ class World {
         for (let i = this.items.length - 1; i >= 0; i--) {
             const item = this.items[i];
             if (this.character.isColliding(item)) {
-                this.character.collectItem(item);
+                item.collect();
                 this.items = removeAt(i, this.items);
             }
         }

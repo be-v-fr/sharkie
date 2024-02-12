@@ -5,7 +5,6 @@ class Jellyfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch a
 
     constructor(color, x, y) {
         super().loadImage(`../img/enemy/2.Jellyfish/${color}/1.png`);
-        this.loadImages('normal', `../img/enemy/2.Jellyfish/${color}/`, 4);
         this.color = color;
         if (color == 'green') {
             if (settings['hardMode']) {
@@ -24,7 +23,7 @@ class Jellyfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch a
         this.y = y;
         this.health = 1;
         this.initFrame(8, 6, 48, 48);
-        this.animate('normal');
+        this.animate(`normal ${color}`);
         this.moveX(-0.18);
     }
 }

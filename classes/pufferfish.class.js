@@ -14,13 +14,6 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         }
         this.health = 1;
         this.initFrame(3, 6, 48, 32);
-        this.sounds = {
-            'die': new Audio('../audio/pufferfish_die.mp3')
-        };
-        this.loadImages('normal', '../img/enemy/1.Pufferfish/1.Swim/', 5);
-        this.loadImages('transition', '../img/enemy/1.Pufferfish/2.Transition/', 5);
-        this.loadImages('blown', '../img/enemy/1.Pufferfish/3.Bubbleswim/', 5);
-        this.loadImages('die', '../img/enemy/1.Pufferfish/4.Die/', 3);
         this.animate('normal');
         this.moveX(this.speed);
     }

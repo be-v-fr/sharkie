@@ -4,8 +4,12 @@ class Coin extends Item {
         this.width = 32;
         this.height = 32;
         this.initFrame(0, 0, this.width, this.height);
-        this.sounds = {
-            'collect': new Audio('../audio/coin.mp3')
-        };
+    }
+
+    collect() {
+        super.collect();
+        world.character.coins++;
+        const progress = 100 * world.character.coins / world.numberOfCoins;
+        world.stats[1].update(progress);
     }
 }

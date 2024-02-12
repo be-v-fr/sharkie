@@ -20,45 +20,7 @@ class Character extends Movable {
         this.recoveryDuration = 1000;
         this.initFrame(30, 108, 90, 60);
         this.swimAndSinkY();
-        this.loadAllImages();
         this.animate('idle');
-        this.loadAllSounds();
-    }
-
-
-    /**
-     * sämtliche Sprites laden
-     */
-    loadAllImages() {
-        this.loadImages('idle', '../img/sharkie/1.IDLE/', 18);
-        this.loadImages('rest', '../img/sharkie/2.LONG_IDLE/I', 14);
-        this.loadImages('swim', '../img/sharkie/3.SWIM/', 6);
-        this.loadImages('bubble normal', '../img/sharkie/4.Attack/normal_bubble/', 8);
-        this.loadImages('bubble toxic', '../img/sharkie/4.Attack/toxic_bubble/', 8);
-        this.loadImages('no toxic', '../img/sharkie/4.Attack/toxic_bubble/empty/', 8);
-        this.loadImages('slap', '../img/sharkie/4.Attack/Fin slap/', 8);
-        this.loadImages('hurt', '../img/sharkie/5.Hurt/1.Poisoned/', 5);
-        this.loadImages('shocked', '../img/sharkie/5.Hurt/2.Shocked/', 3);
-        this.loadImages('die normal', '../img/sharkie/6.Dead/1.Poisoned/', 12);
-        this.loadImages('die shocked', '../img/sharkie/6.Dead/2.Shocked/', 10);
-    }
-
-
-    /**
-     * sämtliche Sounds laden
-     */
-    loadAllSounds() {
-        this.sounds = {
-            'swimming': new Audio('../audio/sharkie_swim.mp3'),
-            'swim up': new Audio('../audio/sharkie_swim_up.mp3'),
-            'swim down': new Audio('../audio/sharkie_swim_down.mp3'),
-            'hurt': new Audio('../audio/sharkie_hurt.mp3'),
-            'shocked': new Audio('../audio/sharkie_shocked.mp3'),
-            'die': new Audio('../audio/sharkie_die.mp3'),
-            'die shocked': new Audio('../audio/sharkie_die_shocked.mp3'),
-            'snoring': new Audio('../audio/sharkie_long_idle.mp3'),
-            'slap': new Audio('../audio/sharkie_slap.mp3')
-        };
         this.sounds['hurt'].volume = 0.5;
     }
 
@@ -77,7 +39,7 @@ class Character extends Movable {
 
     /**
      * Handlungen links und rechts
-     * @param {object} key - Keyboard-Objekt 
+     * @param {Object} key - Keyboard-Objekt 
      */
     actLeftRight(key) {
         if (key.RIGHT && !key.LEFT && this.state != 'swim blocked right') {
@@ -100,7 +62,7 @@ class Character extends Movable {
 
     /**
      * Überprüfung, ob rechter Level-Rand erreicht wurde
-     * @returns {boolean} - Level-Rand erreicht?
+     * @returns {Boolean} - Level-Rand erreicht?
      */
     crossesRightMargin() {
         return world.bossFight && this.x >= world.boss.xStart + 212;
@@ -109,7 +71,7 @@ class Character extends Movable {
 
     /**
      * Überprüfung, ob linker Level-Rand erreicht wurde (bewegt sich mit Spielfortschritt nach rechts)
-     * @returns {boolean} - Level-Rand erreicht?
+     * @returns {Boolean} - Level-Rand erreicht?
      */
     crossesLeftMargin() {
         return this.x < 50 || (world.bossFight && this.x <= world.boss.xStart - 388);
@@ -118,7 +80,7 @@ class Character extends Movable {
 
     /**
      * Handlungen oben und unten
-     * @param {object} key - Keyboard-Objekt 
+     * @param {Object} key - Keyboard-Objekt 
      */
     actUpDown(key) {
         if (key.UP) {
@@ -131,7 +93,7 @@ class Character extends Movable {
 
     /**
      * Handlungen ohne bestimmte Richtung
-     * @param {object} key - Keyboard-Objekt 
+     * @param {Object} key - Keyboard-Objekt 
      */
     actOther(key) {
         if (key.SPACE && Date.now() - this.lastBubble > 750 && !this.state.includes('attacking')) {
@@ -166,7 +128,7 @@ class Character extends Movable {
 
     /**
      * Handlungen ohne Tastendruck
-     * @param {object} key - Keyboard-Objekt 
+     * @param {Object} key - Keyboard-Objekt 
      */
     actNone(key) {
         if (this.state != 'rest' && this.state != 'hit' && this.state != 'dead') {
@@ -181,8 +143,8 @@ class Character extends Movable {
 
     /**
      * Abfrage, ob keine Taste gedrückt wird
-     * @param {object} key - Keyboard-Objekt 
-     * @returns {boolean} - keine Taste gedrückt?
+     * @param {Object} key - Keyboard-Objekt 
+     * @returns {Boolean} - keine Taste gedrückt?
      */
     noKey(key) {
         return !key.RIGHT && !key.LEFT && !key.UP && !key.DOWN && !key.SPACE;
@@ -213,7 +175,7 @@ class Character extends Movable {
 
     /**
      * Schwimmaktion horizontal
-     * @param {boolean} right - Richtung (true = rechts, false = links) 
+     * @param {Boolean} right - Richtung (true = rechts, false = links) 
      */
     swim(right) {
         this.clearState();
@@ -231,7 +193,7 @@ class Character extends Movable {
 
     /**
      * Schwimmaktion vertikal
-     * @param {boolean} up - Richtung (true = oben, false = unten) 
+     * @param {Boolean} up - Richtung (true = oben, false = unten) 
      */
     swimY(up) {
         const speed = 3;
@@ -250,7 +212,7 @@ class Character extends Movable {
 
     /**
      * nach oben schwimmen
-     * @param {number} speed - Tempo
+     * @param {Number} speed - Tempo
      */
     swimUp(speed) {
         if (this.speedY >= -speed * 0.9) {
@@ -262,7 +224,7 @@ class Character extends Movable {
 
     /**
      * nach unten schwimmen
-     * @param {number} speed - Tempo
+     * @param {Number} speed - Tempo
      */
     swimDown(speed) {
         if (this.speedY <= speed * 0.7) {
@@ -271,6 +233,11 @@ class Character extends Movable {
         this.speedY = speed * 0.8;
     }
 
+
+    /**
+     * Bewegung blockieren
+     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     */
     block(right) {
         clearInterval(this.moveIntervalId);
         if (right) {
@@ -280,6 +247,10 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * keine Aktion ausführen
+     */
     idle() {
         this.clearState();
         this.animate('idle');
@@ -287,6 +258,10 @@ class Character extends Movable {
         this.state = 'idle';
     }
 
+
+    /**
+     * in Schlafmodus übergehen
+     */
     rest() {
         this.clearState();
         this.animate('rest');
@@ -295,10 +270,14 @@ class Character extends Movable {
         this.playSound('snoring');
     }
 
+
+    /**
+     * Bubble abfeuern
+     * @param {Boolean} isToxic - Art der Bubble (true = giftig, false = normal)  
+     */
     bubble(isToxic) {
         if (isToxic && this.poison == 0) {
-            this.playAnimationOnce('no toxic');
-            this.newBubbleAfterTimeout(false, isToxic);
+            this.failBubbleAttack()
         } else {
             if (isToxic) {
                 this.poison -= 20;
@@ -312,6 +291,48 @@ class Character extends Movable {
         this.idle();
     }
 
+
+    /**
+     * bei giftiger Bubble-Attacke scheitern (da Poison leer)
+     */
+    failBubbleAttack() {
+        this.playAnimationOnce('no toxic');
+        this.newBubbleAfterTimeout(false, true);
+    }
+
+
+    /**
+     * Bubble nach Verzögerung abfeuern
+     * @param {Boolean} isAttacking - Attacke ausführen (true) oder abbrechen (false)
+     * @param {Boolean} isToxic - Art der Bubble (true = giftig, false = normal)  
+     */
+    newBubbleAfterTimeout(isAttacking, isToxic) {
+        setTimeout(() => {
+            if (isAttacking && this.state != 'hit' && !this.isDead()) {
+                createBubbleObject(isToxic);
+            }
+            this.removeAttackFromState();
+        }, 640);
+        this.lastBubble = Date.now();
+    }
+
+
+    /**
+     * Bubble-Objekt erzeugen und zu world.bubbles hinzufügen
+     * @param {Boolean} isToxic - Art der Bubble (true = giftig, false = normal)  
+     */
+    createBubbleObject(isToxic) {
+        if (this.otherDirection) {
+            world.bubbles.push(new Bubble(this.x + 8, this.y + 120, isToxic, this.otherDirection));
+        } else {
+            world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
+        }
+    }
+
+
+    /**
+     * Slap-Attacke einmalig ausführen
+     */
     slap() {
         if (!this.slapping) {
             this.slapping = true;
@@ -326,12 +347,21 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Attacke aus Status löschen
+     */
     removeAttackFromState() {
         if (this.state.includes('attacking')) {
             this.state.slice(0, -10);
         }
     }
 
+
+    /**
+     * Character verletzt sich
+     * @param {Object} obj - Objekt, das Verletzung ausgelöst hat 
+     */
     hurt(obj) {
         if (!this.isDead()) {
             if (this.state != 'hit') {
@@ -345,6 +375,11 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Character reagiert objektabhängig auf Verletzung
+     * @param {Object} obj - Objekt, das Verletzung ausgelöst hat 
+     */
     reactToHit(obj) {
         if (!this.isDead()) {
             if (obj instanceof Jellyfish && obj.color == 'green') {
@@ -359,6 +394,11 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * von Objekt abprallen
+     * @param {Object} obj - Objekt der Kollision
+     */
     bounce(obj) {
         let bouncing = false;
         for (let i = 0; i < obj.frames.length; i++) {
@@ -373,6 +413,12 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * in x-Richtung abprallen
+     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     * @returns {Boolean} true, falls ein Abprallen in x-Richtung geschieht 
+     */
     bounceX(right) {
         if (right != null) {
             this.bounceXPosition(right);
@@ -383,6 +429,11 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * x-Verschiebung durch horizontales Abprallen, unter Berücksichtigung des Level-Rands
+     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     */
     bounceXPosition(right) {
         if (right) {
             this.x += 12;
@@ -397,6 +448,12 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * in y-Richtung abprallen
+     * @param {Boolean} down - Richtung (true = unten, false = oben) 
+     * @returns {Boolean} true, falls ein Abprallen in y-Richtung geschieht 
+     */
     bounceY(down) {
         if (down != null) {
             if (down) {
@@ -408,6 +465,14 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * horizontale Abprallrichtung bestimmen
+     * @param {Object} obj - Objekt der Kollision 
+     * @param {Array} frameThis - Offset-Frame des Characters
+     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
+     * @returns {Boolean} true = nach rechts, false = nach links, null = keine x-Bewegung
+     */
     getBounceX(obj, frameThis, frameObj) {
         if (this.frameCollision(obj, frameThis, frameObj)) {
             const thisLeftEdge = this.x + frameThis[0];
@@ -422,6 +487,14 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * vertikale Abprallrichtung bestimmen
+     * @param {Object} obj - Objekt der Kollision 
+     * @param {Array} frameThis - Offset-Frame des Characters
+     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
+     * @returns {Boolean} true = nach unten, false = nach oben, null = keine y-Bewegung
+     */
     getBounceY(obj, frameThis, frameObj) {
         if (this.frameCollision(obj, frameThis, frameObj)) {
             const thisUpperEdge = this.y + frameThis[1];
@@ -436,11 +509,19 @@ class Character extends Movable {
         }
     }
 
+
+    /**
+     * Abprall-Ausnahme (falls das Abprallen zu weit in eine neue Kollision hineinführt)
+     */
     bounceException() {
         this.x -= 100;
         this.y = 100;
     }
 
+
+    /**
+     * von Verletzung erholen
+     */
     recover() {
         setTimeout(() => {
             world.keyboard.toggleControls(false);
@@ -448,44 +529,13 @@ class Character extends Movable {
         }, 400);
     }
 
-    newBubbleAfterTimeout(isAttacking, isToxic) {
-        setTimeout(() => {
-            if (isAttacking && this.state != 'hit' && !this.isDead()) {
-                if (this.otherDirection) {
-                    world.bubbles.push(new Bubble(this.x + 8, this.y + 120, isToxic, this.otherDirection));
-                } else {
-                    world.bubbles.push(new Bubble(this.x + 110, this.y + 120, isToxic, this.otherDirection));
-                }
-            }
-            this.removeAttackFromState();
-        }, 640);
-        this.lastBubble = Date.now();
-    }
 
-    collectItem(item) {
-        item.playSound('collect');
-        if (item instanceof Coin) {
-            this.collectCoin();
-        } else {
-            this.collectPhial();
-        }
-    }
-
-    collectCoin() {
-        this.coins++;
-        const progress = 100 * this.coins / world.numberOfCoins;
-        world.stats[1].update(progress);
-    }
-
-    collectPhial() {
-        if (this.poison <= 80) {
-            this.poison += 20;
-            world.stats[2].update(this.poison);
-        }
-    }
-
+    /**
+     * sterben
+     * @param {Object} obj - Objekt, das den Tod ausgelöst hat 
+     */
     die(obj) {
-        this.state = 'dead';
+        super.die();
         if (obj instanceof Jellyfish && obj.color == 'green') {
             this.playSound('shocked');
             this.playAnimationOnce('die shocked');
@@ -494,8 +544,6 @@ class Character extends Movable {
             this.playAnimationOnce('die normal');
             this.playSoundAfterDelay(200, 'die');
         }
-        setTimeout(() => {
-            world.lose();
-        }, 1000);
+        setTimeout(() => world.lose(), 1000);
     }
 }

@@ -13,6 +13,10 @@ class Visible {
     loopAnimation = true;
     frames = [];
 
+    constructor() {
+        this.loadAnimations();
+    }
+
     loadImage(path) {
         this.img = new Image();
         this.promise(this.img, path);
@@ -25,6 +29,16 @@ class Visible {
             let img = new Image();
             this.promise(img, path);
             this.imageCache[name].push(img);
+        }
+    }
+
+    loadAnimations() {
+        const classToString = this.constructor.name;
+        if (ANIMATIONS[classToString]) {
+            for (let i = 0; i < ANIMATIONS[classToString].length; i++) {
+                const animation = ANIMATIONS[classToString][i];
+                this.loadImages(animation[0], animation[1], animation[2]);
+            }
         }
     }
 
@@ -113,7 +127,7 @@ class Visible {
         if (settings['sound']) {
             this.sounds[sound].pause();
             this.sounds[sound].currentTime = 0;
-        }        
+        }
     }
 
     playSoundAfterDelay(ms, sound) {

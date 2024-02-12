@@ -1,6 +1,4 @@
 class Phial extends Item {
-    // Animation hinzufügen
-    // schräg positionieren
     constructor(xStart, y) {
         super(xStart, y).loadImage('./img/marks/2.Poison/1.png');
         this.width = 78;
@@ -9,12 +7,14 @@ class Phial extends Item {
         if (Math.random() > 0.5) {
             this.otherDirection = true;
         }
-        this.loadImages('bubbling', './img/marks/2.Poison/animated/', 8);
-        this.sounds = {
-            'collect': new Audio('../audio/collect.mp3')
-        };
         this.animate('bubbling');
-        // einfachste Lösung: Neigung in Bildern festlegen, dort auch Erde hinzufügen
-        // über otherDirection Bild flippen
+    }
+
+    collect() {
+        super.collect();
+        if (world.character.poison <= 80) {
+            world.character.poison += 20;
+            world.stats[2].update(world.character.poison);
+        }
     }
 }

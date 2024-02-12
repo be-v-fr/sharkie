@@ -16,6 +16,14 @@ class Movable extends Visible {
 
     constructor() {
         super();
+        this.loadSounds();
+    }
+
+    loadSounds() {
+        const classToString = this.constructor.name;
+        if (SOUNDS[classToString]) {
+            this.sounds = SOUNDS[classToString];
+        }
     }
 
     clearIntervals() {
