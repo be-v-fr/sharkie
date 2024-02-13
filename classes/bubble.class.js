@@ -16,37 +16,43 @@ class Bubble extends Movable {
     constructor(x, y, isToxic, goLeft) {
         if (isToxic) {
             super().loadImage('../img/sharkie/4.Attack/Bubble trap/Poisoned Bubble.png');
+            this.damage *= 2;
+            this.speed *= 1.8;
         } else {
             super().loadImage('../img/sharkie/4.Attack/Bubble trap/Bubble.png');
         }
         this.x = x;
         this.y = y;
         this.initFrame(0, 0, this.width, this.height);
-        if (goLeft) {
-            this.speed = - this.speed
-        }
-        if (isToxic) {
-            this.damage *= 2;
-            this.speed *= 1.8;
-        }
-        this.driftXY(this.speed);
+        this.go(goLeft);
+    }
+
+
+    /**
+     * Start der Bubble vom Character aus
+     * @param {Boolean} goLeft - x-Richtung (true = nach links, false = nach rechts) 
+     */
+    go(goLeft) {
         if (isLoaded()) {
             this.playSound('blow');
         }
+        if(goLeft) {
+            this.speed = -this.speed;
+        }
+        this.driftXY();
     }
 
 
     /**
      * x- und y-Bewegung der Bubble
-     * @param {Number} speed - Tempo 
      */
-    driftXY(speed) {
+    driftXY() {
         let counter = 0;
         setInterval(() => {
             if (counter < 6) {
                 this.growToFullSize(counter);
             }
-            this.x += speed * (1 - (counter / 250));
+            this.x += this.speed * (1 - (counter / 250));
             this.y += 1.8 * (1 - (counter / 40));
             counter++;
         }, 1000 / 60);

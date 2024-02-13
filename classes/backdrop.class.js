@@ -26,7 +26,7 @@ class Backdrop extends Movable {
         {
             'dir': '1.Light',
             'speedFactor': 1
-        },
+        }
     ]
 
     /**
