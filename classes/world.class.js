@@ -22,7 +22,7 @@ class World {
     bubbles = [];
     stop = false;
     bossFight = false;
-    setWorld = '';
+    setWorld;
 
     /**
      * Konstruktor
@@ -189,7 +189,7 @@ class World {
      * @param {Object} enemy - Pufferfish-Objekt
      */
     checkPufferfishAttack(enemy) {
-        if (enemy instanceof Pufferfish && enemy.state != 'attacking' && enemy.state != 'dead') {
+        if (enemy instanceof Pufferfish && enemy.state != 'attacking' && !enemy.isDead()) {
             if (enemy.x - this.character.x < 100 + 320 * (1 - Math.random())) {
                 enemy.attack();
             }

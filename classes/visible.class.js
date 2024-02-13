@@ -9,7 +9,7 @@ class Visible {
     state = '';
     animateIntervalId;
     activeAnimation = '';
-    singleAnimationId = '';
+    singleAnimationId = -1;
     loopAnimation = true;
     frames = [];
 
@@ -99,7 +99,7 @@ class Visible {
         const numberOfSprites = this.imageCache[name].length;
         this.activeAnimation = name;
         this.animateIntervalId = setInterval(() => {
-            if (this.loopAnimation) {
+            if (this.loopAnimation && !this.isDead()) {
                 this.currentImg %= numberOfSprites;
                 this.img = this.imageCache[name][this.currentImg];
                 this.currentImg++;
@@ -114,7 +114,7 @@ class Visible {
      */
     playAnimationOnce(name) {
         this.loopAnimation = false;
-        if (this.singleAnimationId != '') {
+        if (this.singleAnimationId != -1) {
             clearInterval(this.singleAnimationId);
         }
         this.setSingleInterval(name);
@@ -143,7 +143,7 @@ class Visible {
      */
     stopSingleAnimation() {
         clearInterval(this.singleAnimationId);
-        this.singleAnimationId = '';
+        this.singleAnimationId = -1;
         this.loopAnimation = true;
     }
 

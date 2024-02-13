@@ -1,7 +1,7 @@
 class Boss extends Movable {
     width = 360;
     height = 480;
-    attackId = '';
+    attackId = -1;
     xStartAbsolute;
 
     /**
@@ -39,9 +39,9 @@ class Boss extends Movable {
      */
     clearBossIntervals() {
         clearInterval(this.moveIntervalId);
-        if (this.attackId != '') {
+        if (this.attackId != -1) {
             clearInterval(this.attackId);
-            this.attackId = '';
+            this.attackId = -1;
         }
     }
 
@@ -154,7 +154,7 @@ class Boss extends Movable {
      * @returns {Boolean} - Bedingung für neue Handlung erfüllt?
      */
     isReadyForAction() {
-        return this.attackId == '' && this.singleAnimationId == '' && Date.now() - this.lastHit > this.recoveryDuration / 3;
+        return this.attackId == -1 && this.singleAnimationId == -1 && Date.now() - this.lastHit > this.recoveryDuration / 3;
     }
 
 
@@ -230,7 +230,7 @@ class Boss extends Movable {
      */
     finishAttack() {
         clearInterval(this.attackId);
-        this.attackId = '';
+        this.attackId = -1;
     }
 
 
@@ -299,11 +299,11 @@ class Boss extends Movable {
     /**
      * Zyklus neu starten
      */
-        restartCycle() {
-            clearInterval(this.moveIntervalId);
-            this.state = '';
-            this.setCycle(0, 0);
-        }
+    restartCycle() {
+        clearInterval(this.moveIntervalId);
+        this.state = '';
+        this.setCycle(0, 0);
+    }
 
 
     /** 
@@ -315,7 +315,10 @@ class Boss extends Movable {
             this.clearAllIntervals();
             this.playAnimationOnceWithSound('die');
             this.endBossMusic();
-            setTimeout(() => world.win(), 700);
+            setTimeout(() => {
+                world.win();
+                this.clearAllIntervals();
+            }, 2000);
         }
     }
 
