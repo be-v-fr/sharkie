@@ -40,7 +40,7 @@ class Movable extends Visible {
      */
     playAnimationOnceWithSound(name) {
         this.playAnimationOnce(name);
-        this.playSound(name);        
+        this.playSound(name);
     }
 
 
@@ -63,7 +63,9 @@ class Movable extends Visible {
      */
     clearIntervals() {
         clearInterval(this.moveIntervalId);
+        this.moveIntervalId = -1;
         clearInterval(this.animateIntervalId);
+        this.animateIntervalId = -1;
     }
 
 
@@ -218,12 +220,14 @@ class Movable extends Visible {
      * @param {Object} obj - Objekt der Kollision
      */
     hit(obj) {
-        this.health -= obj.damage;
-        if (this.health <= 0) {
-            this.health = 0;
-            this.die(obj);
-        } else {
-            this.lastHit = Date.now();
+        if (!this.isDead()) {
+            this.health -= obj.damage;
+            if (this.health <= 0) {
+                this.health = 0;
+                this.die(obj);
+            } else {
+                this.lastHit = Date.now();
+            }
         }
     }
 

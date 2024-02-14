@@ -240,11 +240,13 @@ class Boss extends Movable {
      */
     hit(obj) {
         super.hit(obj);
-        this.state = 'hit';
-        this.clearBossIntervals();
         this.stopSound('attack');
-        this.playAnimationOnceWithSound('hurt');
-        this.retreat();
+        if (!this.isDead()) {
+            this.state = 'hit';
+            this.clearBossIntervals();
+            this.playAnimationOnceWithSound('hurt');
+            this.retreat();
+        }
     }
 
 
@@ -318,7 +320,7 @@ class Boss extends Movable {
             setTimeout(() => {
                 world.win();
                 this.clearAllIntervals();
-            }, 2000);
+            }, 1000);
         }
     }
 
