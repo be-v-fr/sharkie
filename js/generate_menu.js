@@ -167,7 +167,8 @@ function generateIngameControls() {
  * @returns {String} HTML-String
  */
 function generateControlListeners(key) {
-    return `onmousedown="ingameControls('${key}', true)" ontouchstart="ingameControls('${key}', true)"
+    return `onmousedown="ingameControls('${key}', true); event.preventDefault()" 
+    ontouchstart="ingameControls('${key}', true); event.preventDefault()"
     onmouseup="ingameControls('${key}', false)" ontouchend="ingameControls('${key}', false)"`;
 }
 
