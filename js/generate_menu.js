@@ -19,7 +19,7 @@ function generateLoadingscreen() {
     return /* html */ `
         <div id="loadingWrapper">
             <div id="loadingBarBg">
-                <div id="loadingBar"></div>
+                <div id="loadingBar" style="width: 0"></div>
             </div>
         </div>
     `;

@@ -56,7 +56,7 @@ canvas {
 }
 
 .overlayBg {
-    background: url(./img/startscreen.png);
+    background: url('./img/startscreen.png');
     background-size: 1000px;
     animation-name: moveBg;
     animation-duration: 14s;
@@ -398,7 +398,7 @@ footer {
 }
 
 .winscreen {
-    background: url(../img/endscreen.png);
+    background: url('./img/endscreen.png');
 }
 
 .gameOver {

@@ -28,11 +28,13 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         clearInterval(this.animateIntervalId);
         this.playAnimationOnce('transition');
         setTimeout(() => {
-            clearInterval(this.moveIntervalId);
-            this.moveX(2.4 * this.speed * (1 + Math.random()));
-            this.animate('blown');
-            this.frames[0][1] -= 4;
-            this.frames[0][3] = 52;            
+            if (!this.isDead()) {
+                clearInterval(this.moveIntervalId);
+                this.moveX(2.4 * this.speed * (1 + Math.random()));
+                this.animate('blown');
+                this.frames[0][1] -= 4;
+                this.frames[0][3] = 52;
+            }
         }, 420);
     }
 
@@ -56,7 +58,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
         let speedY = 1.5;
         setInterval(() => {
             this.x -= 0.18;
-            if(speedY < 2.5) {
+            if (speedY < 2.5) {
                 speedY += 0.2;
             }
             this.y -= speedY;

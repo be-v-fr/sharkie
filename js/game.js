@@ -27,7 +27,7 @@ function init() {
  */
 function start() {
     overlay.innerHTML = generateLoadingscreen();
-    load();
+    setTimeout(() => load(), 500);
 }
 
 
