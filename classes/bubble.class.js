@@ -15,11 +15,11 @@ class Bubble extends Movable {
      */
     constructor(x, y, isToxic, goLeft) {
         if (isToxic) {
-            super().loadImage('../img/sharkie/4.Attack/Bubble trap/Poisoned Bubble.png');
+            super().loadImage('./img/sharkie/attack/bubble_trap/poisoned.png');
             this.damage *= 2;
             this.speed *= 1.8;
         } else {
-            super().loadImage('../img/sharkie/4.Attack/Bubble trap/Bubble.png');
+            super().loadImage('./img/sharkie/attack/bubble_trap/normal.png');
         }
         this.x = x;
         this.y = y;

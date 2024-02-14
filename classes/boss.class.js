@@ -9,7 +9,7 @@ class Boss extends Movable {
      * @param {Number} xStartAbsolute - absolute Startposition, in die die Relativbewegung des Bodens noch nicht eingerechnet wurde
      */
     constructor(xStartAbsolute) {
-        super().loadImage('../img/enemy/3 Final Enemy/1.Introduce/1.png');
+        super().loadImage('./img/enemy/boss/introduce/1.png');
         this.x = -1000;
         this.xStartAbsolute = xStartAbsolute;
         this.y = 0;

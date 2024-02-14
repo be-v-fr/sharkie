@@ -4,27 +4,27 @@ class Backdrop extends Movable {
     speed = 0.18
     layerData = [
         {
-            'dir': '5.Water',
+            'name': 'water',
             'speedFactor': 0.25
         },
 
         {
-            'dir': '4.Fondo',
+            'name': 'intermediate_1',
             'speedFactor': 0.4
         },
 
         {
-            'dir': '3.Fondo',
+            'name': 'intermediate_2',
             'speedFactor': 0.45
         },
 
         {
-            'dir': '2.Floor',
+            'name': 'floor',
             'speedFactor': 1
         },
 
         {
-            'dir': '1.Light',
+            'name': 'light',
             'speedFactor': 1
         }
     ]
@@ -35,7 +35,7 @@ class Backdrop extends Movable {
      * @param {Number} x - x-Position des Bildes
      */
     constructor(layer, x) {
-        super().loadImage(`./img/background/Layers/${this.layerData[layer]['dir']}/D.png`);
+        super().loadImage(`./img/background/layers/${this.layerData[layer]['name']}.png`);
         this.x = x;
         this.xStart = this.x;
         this.speedFactor = this.layerData[layer]['speedFactor'];

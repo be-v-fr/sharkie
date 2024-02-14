@@ -10,7 +10,7 @@ class Jellyfish extends Movable {
      * @param {Number} y - y-Position
      */
     constructor(color, x, y) {
-        super().loadImage(`../img/enemy/2.Jellyfish/${color}/1.png`);
+        super().loadImage(`./img/enemy/jellyfish/${color}/1.png`);
         this.color = color;
         this.setDamage(color);
         this.x = x;

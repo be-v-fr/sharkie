@@ -214,15 +214,15 @@ function renderIngameControls() {
     const soundImg = document.getElementById('ingameSoundBtnImg');
     const musicImg = document.getElementById('ingameMusicBtnImg');
     if (settings['sound']) {
-        soundImg.src = '../img/marks/icons/sound.svg';
+        soundImg.src = './img/marks/icons/sound.svg';
         if (settings['music']) {
-            musicImg.src = '../img/marks/icons/music.svg';
+            musicImg.src = './img/marks/icons/music.svg';
         } else {
-            musicImg.src = '../img/marks/icons/music_disabled.svg';
+            musicImg.src = './img/marks/icons/music_disabled.svg';
         }
     } else {
-        soundImg.src = '../img/marks/icons/sound_disabled.svg';
-        musicImg.src = '../img/marks/icons/music_disabled.svg';
+        soundImg.src = './img/marks/icons/sound_disabled.svg';
+        musicImg.src = './img/marks/icons/music_disabled.svg';
     }
 }
 

@@ -12,7 +12,7 @@ class Character extends Movable {
      * Konstruktor
      */
     constructor() {
-        super().loadImage('../img/sharkie/1.IDLE/1.png');
+        super().loadImage('./img/sharkie/idle/1.png');
         this.xStart = 140;
         this.x = this.xStart;
         this.y = 100;

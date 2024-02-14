@@ -180,7 +180,7 @@ footer {
 }
 
 #loadingBarBg {
-    background: url('./img/marks/green/loading_bar/loadingBar_Bg.png');
+    background: url('./img/marks/stats/loading_bar/loading_bar_bg.png');
     border-radius: 8px;
     border: 1px solid white;
     width: 100%;
@@ -189,7 +189,7 @@ footer {
 }
 
 #loadingBar {
-    background: url('./img/marks/green/loading_bar/loadingBar.png');
+    background: url('./img/marks/stats/loading_bar/loading_bar.png');
     background-size: auto 15px;
     border-radius: 8px;
     border-right: 1px solid white;

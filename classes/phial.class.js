@@ -5,7 +5,7 @@ class Phial extends Item {
      * @param {Number} y - y-Position
      */
     constructor(xStart, y) {
-        super(xStart, y).loadImage('./img/marks/2.Poison/1.png');
+        super(xStart, y).loadImage('./img/marks/poison/1.png');
         this.width = 78;
         this.height = 88;
         this.initFrame(15, 38, 34, 37);

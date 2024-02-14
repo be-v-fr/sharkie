@@ -9,7 +9,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
      * @param {Number} y - y-Position 
      */
     constructor(x, y) {
-        super().loadImage('../img/enemy/1.Pufferfish/1.Swim/1.png');
+        super().loadImage('./img/enemy/pufferfish/swim/1.png');
         this.x = x + Math.random() * 500;
         this.y = y + Math.random() * 100;
         this.setDamage(5, 10);

@@ -5,10 +5,11 @@ class Coin extends Item {
      * @param {Number} y - y-Position
      */
     constructor(xStart, y) {
-        super(xStart, y).loadImage('./img/marks/1.Coins/1.png');
+        super(xStart, y).loadImage('./img/marks/coin/1.png');
         this.width = 32;
         this.height = 32;
         this.initFrame(0, 0, this.width, this.height);
+        this.animate('normal');
     }
 
     /**

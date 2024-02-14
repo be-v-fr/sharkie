@@ -38,7 +38,7 @@ function generateInstructions() {
                 <table class="instructionsMain">
                     <tr>
                         <td>
-                            <img id="instrArrowKeys" src="../img/buttons/Key/arrow keys.png">
+                            <img id="instrArrowKeys" src="./img/buttons/key/arrow.png">
                         </td>
                         <td>
                             <div class="tdContainer">    
@@ -48,7 +48,7 @@ function generateInstructions() {
                     </tr>
                     <tr>
                         <td>
-                            <img id="instrSpaceKey" src="../img/buttons/Key/Space Bar Key.png">
+                            <img id="instrSpaceKey" src="./img/buttons/key/space.png">
                         </td>
                         <td>
                             <div class="tdContainer">    
@@ -63,7 +63,7 @@ function generateInstructions() {
                         <td>
                             <div class="tdContainer instructionsSlap">
                                 <p>When facing a near opponent, Sharkie will execute a slap. Do not touch electric jellyfish!</p>
-                                <img id="jellyfishWarning" src="../img/marks/warning.png">
+                                <img id="jellyfishWarning" src="./img/marks/warning.png">
                             </div>
                         </td>
                     </tr>
@@ -71,8 +71,8 @@ function generateInstructions() {
                         <td>${listMark}</td>
                         <td>
                             <div class="tdContainer">
-                                <img class="toxicBubbleKeys" src="../img/buttons/Key/X Key.png"> + 
-                                <img class="toxicBubbleKeys" src="../img/buttons/Key/Space Bar Key.png">
+                                <img class="toxicBubbleKeys" src="./img/buttons/key/x.png"> + 
+                                <img class="toxicBubbleKeys" src="./img/buttons/key/space.png">
                                 Toxic Bubble
                             </div>
                         </td>
@@ -125,34 +125,34 @@ function generateIngameControls() {
     return /* html */ `
         <div class="ingameInterface">
             <div class="ingameSettingsWrapper">
-                <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="../img/marks/icons/sound.svg"></button>
-                <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="../img/marks/icons/music.svg"></button>
+                <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="./img/marks/icons/sound.svg"></button>
+                <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="./img/marks/icons/music.svg"></button>
             </div>
             <div class="ingameControlsWrapper">
                 <div class="keyRow">
                     <div>
                         <button id="ingameUP" ${generateControlListeners('UP')}>
-                            <img src="../img/buttons/Key/up key.png">
+                            <img src="./img/buttons/key/up.png">
                         </button>
                         <button id="ingameDOWN" ${generateControlListeners('DOWN')}>
-                            <img src="../img/buttons/Key/up key.png">
+                            <img src="./img/buttons/key/up.png">
                         </button>
                     </div>
                     <div>
                         <button id="ingameLEFT" ${generateControlListeners('LEFT')}>
-                            <img src="../img/buttons/Key/up key.png">
+                            <img src="./img/buttons/key/up.png">
                         </button>
                         <button id="ingameRIGHT" ${generateControlListeners('RIGHT')}>
-                            <img src="../img/buttons/Key/up key.png">
+                            <img src="./img/buttons/key/up.png">
                         </button>
                     </div>
                 </div>
                 <div class="keyRow xAndSpaceRow">
                     <button id="ingameX" ${generateControlListeners('X')}>
-                        <img src="../img/buttons/Key/X key.png">
+                        <img src="./img/buttons/key/x.png">
                     </button>
                     <button id="ingameSPACE" ${generateControlListeners('SPACE')}>
-                        <img src="../img/buttons/Key/Space Bar Key.png">
+                        <img src="./img/buttons/key/space.png">
                     </button>
                 </div>
             </div>

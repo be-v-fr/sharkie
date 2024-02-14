@@ -5,7 +5,7 @@ class Obstacle extends Movable {
      * @param {Number} xStart - x-Startposition 
      */
     constructor(type, xStart) {
-        super().loadImage(`./img/background/Barrier/${type}.png`);
+        super().loadImage(`./img/background/barrier/${type}.png`);
         this.setDamage(2, 5);
         this.setTypeProperties(type);
         this.xStart = xStart;
