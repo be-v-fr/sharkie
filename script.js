@@ -57,7 +57,7 @@ function saveSettings() {
 function initMusic() {
     music['main'].loop = true;
     music['boss'].loop = true;
-    setMusic(true);
+    setMusic(settings['music']);
 }
 
 
