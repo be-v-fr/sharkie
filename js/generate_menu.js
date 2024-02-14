@@ -167,9 +167,19 @@ function generateIngameControls() {
  * @returns {String} HTML-String
  */
 function generateControlListeners(key) {
-    return `onmousedown="ingameControls('${key}', true); event.preventDefault()" 
-    ontouchstart="ingameControls('${key}', true); event.preventDefault()"
-    onmouseup="ingameControls('${key}', false)" ontouchend="ingameControls('${key}', false)"`;
+    return `onmousedown=${generateListenerAction(key, true)} ontouchstart=${generateListenerAction(key, true)} 
+    onmouseup=${generateListenerAction(key, false)} ontouchend=${generateListenerAction(key, false)}`;
+}
+
+
+/**
+ * Aktionen für Event-Listener erzeugen
+ * @param {String} key - Name des Buttons/der Taste
+ * @param {Boolean} down - Status der Taste (true = gedrückt, false = nicht gedrückt)
+ * @returns {String} HTML-String
+ */
+function generateListenerAction(key, down) {
+    return `"ingameControls('${key}', '${down}'); event.preventDefault(); event.stopPropagation()"`;
 }
 
 
