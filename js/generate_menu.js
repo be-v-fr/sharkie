@@ -131,18 +131,18 @@ function generateIngameControls() {
             <div class="ingameControlsWrapper">
                 <div class="keyRow">
                     <div>
-                        <button id="ingameUP" ${generateControlListeners('UP')}>
-                            <img src="./img/buttons/key/up.png">
-                        </button>
-                        <button id="ingameDOWN" ${generateControlListeners('DOWN')}>
-                            <img src="./img/buttons/key/up.png">
-                        </button>
-                    </div>
-                    <div>
                         <button id="ingameLEFT" ${generateControlListeners('LEFT')}>
                             <img src="./img/buttons/key/up.png">
                         </button>
                         <button id="ingameRIGHT" ${generateControlListeners('RIGHT')}>
+                            <img src="./img/buttons/key/up.png">
+                        </button>
+                    </div>
+                    <div>
+                        <button id="ingameDOWN" ${generateControlListeners('DOWN')}>
+                            <img src="./img/buttons/key/up.png">
+                        </button>
+                        <button id="ingameUP" ${generateControlListeners('UP')}>
                             <img src="./img/buttons/key/up.png">
                         </button>
                     </div>
@@ -179,7 +179,7 @@ function generateControlListeners(key) {
  * @returns {String} HTML-String
  */
 function generateListenerAction(key, down) {
-    return `"ingameControls('${key}', '${down}'); event.preventDefault(); event.stopPropagation()"`;
+    return `"ingameControls('${key}', ${down}); event.preventDefault(); event.stopPropagation()"`;
 }
 
 

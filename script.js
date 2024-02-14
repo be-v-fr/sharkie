@@ -171,10 +171,10 @@ function ingameControls(key, down) {
     if(world != null) {
         const btn = getBtnFromKey(key);
         eval(`world.keyboard.${key} = ${down}`);
-        if(down) {
-            btn.style.opacity = '1';
+        if(down == true) {
+            btn.style.opacity = '0.94';
         } else {
-            btn.style.opacity = '';
+            btn.style.opacity = '0.68';
         }
     }
 }

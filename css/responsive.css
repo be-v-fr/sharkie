@@ -17,10 +17,14 @@
     padding: 6px 40px;
 }
 
+.ingameControlsWrapper button {
+    opacity: 0.68;
+    transition: 75ms;
+}
+
 .ingameControlsWrapper button img {
     display: block;
     height: 48px;
-    opacity: 0.68;
 }
 
 .keyRow {
