@@ -1,11 +1,10 @@
 const TOTAL_NR_OF_IMAGES = 211;
 let loadingCounter = 0;
+let animations = {};
+let sounds = {}
 let imagePaths = [];
 const menuSound = new Audio('./audio/bubble_pop.mp3');
-const music = {
-    'main': new Audio('./audio/music/main.mp3'),
-    'boss': new Audio('./audio/music/boss.mp3')
-};
+let music = {};
 const listMark = /* html */ `
                         <svg width="32" height="24" xmlns="http://www.w3.org/2000/svg">
                             <line x1="4" y1="2" x2="4" y2="18" stroke="white" stroke-width="2"/>
@@ -55,6 +54,10 @@ function saveSettings() {
  * Musik initialisieren
  */
 function initMusic() {
+    music = {
+        'main': new Audio('./audio/music/main.mp3'),
+        'boss': new Audio('./audio/music/boss.mp3')
+    };
     music['main'].loop = true;
     music['boss'].loop = true;
     setMusic(settings['music']);
@@ -113,7 +116,7 @@ function toggleMobile(show) {
         }
     } else {
         footer.style.display = '';
-        title.style.display = '';        
+        title.style.display = '';
     }
 }
 
@@ -133,7 +136,7 @@ function displayOnResize() {
  */
 function addMenuListeners() {
     addReturnListener();
-    addResizeListener();        
+    addResizeListener();
 }
 
 
@@ -157,7 +160,7 @@ function addResizeListener() {
  * Event-Listener für Menü entfernen
  */
 function removeMenuListeners() {
-    overlay.removeEventListener('mouseup', returnToMain);    
+    overlay.removeEventListener('mouseup', returnToMain);
     window.addEventListener('resize', displayOnResize);
 }
 
@@ -168,10 +171,10 @@ function removeMenuListeners() {
  * @param {Boolean} down - true = key aktiv, false = key nicht aktiv 
  */
 function ingameControls(key, down) {
-    if(world != null) {
+    if (world != null) {
         const btn = getBtnFromKey(key);
         eval(`world.keyboard.${key} = ${down}`);
-        if(down == true) {
+        if (down == true) {
             btn.style.opacity = '0.94';
         } else {
             btn.style.opacity = '0.68';

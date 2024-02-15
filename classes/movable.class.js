@@ -28,8 +28,8 @@ class Movable extends Visible {
      */
     loadSounds() {
         const classToString = this.constructor.name;
-        if (SOUNDS[classToString]) {
-            this.sounds = SOUNDS[classToString];
+        if (sounds[classToString]) {
+            this.sounds = sounds[classToString];
         }
     }
 

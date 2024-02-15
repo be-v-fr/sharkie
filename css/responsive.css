@@ -1,4 +1,3 @@
-/* ES GIBT MOBILGERÄTE MIT HÖHERER AUFLÖSUNG!! AUCH TABLETS!! WO GRENZE WÄHLEN?? */
 @media only screen and (min-width: 720px) {
     .ingameControlsWrapper {
         display: none;
@@ -86,7 +85,7 @@
 
     #gameWrapper {
         width: 100vw;
-        height: calc(100vw * 2 / 3);
+        height: var(--canvasHeightResponsive);
     }
 
     canvas,
@@ -97,6 +96,16 @@
 
     .overlayBg {
         background-size: 140%;
+    }
+
+    .ingameSettingsWrapper {
+        height: auto;
+        padding-top: 8px;
+    }
+
+    .ingameSettingsWrapper button img {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -197,18 +206,14 @@
         height: 40px;
     }
 
-    .ingameSettingsWrapper {
-        height: auto;
-        padding-top: 8px;
-    }
-
-    .ingameSettingsWrapper button img {
-        width: 18px;
-        height: 18px;
-    }
-
     #endscreen {
         font-size: 64px;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    #gameWrapper {
+        max-width: 150vh;
     }
 }
 

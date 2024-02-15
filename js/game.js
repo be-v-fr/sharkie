@@ -19,6 +19,8 @@ function init() {
     overlay.innerHTML = generateStartscreen();
     loadSettings();
     initMusic();
+    initAnimationPaths();
+    initSoundsPaths();
 }
 
 

@@ -53,9 +53,9 @@ class Visible {
      */
     loadAnimations() {
         const classToString = this.constructor.name;
-        if (ANIMATIONS[classToString]) {
-            for (let i = 0; i < ANIMATIONS[classToString].length; i++) {
-                const animation = ANIMATIONS[classToString][i];
+        if (animations[classToString]) {
+            for (let i = 0; i < animations[classToString].length; i++) {
+                const animation = animations[classToString][i];
                 this.loadImages(animation[0], animation[1], animation[2]);
             }
         }
