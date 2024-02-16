@@ -5,8 +5,8 @@ class Boss extends Movable {
     xStartAbsolute;
 
     /**
-     * Konstruktor
-     * @param {Number} xStartAbsolute - absolute Startposition, in die die Relativbewegung des Bodens noch nicht eingerechnet wurde
+     * constructor
+     * @param {Number} xStartAbsolute - absolute starting position, disregarding relative floor movement
      */
     constructor(xStartAbsolute) {
         super().loadImage('./img/enemy/boss/introduce/1.png');
@@ -26,7 +26,7 @@ class Boss extends Movable {
 
 
     /**
-     * alle Bewegungs- und Animationsintervalle löschen
+     * clear all movement and animation intervals
      */
     clearAllIntervals() {
         this.clearIntervals();
@@ -35,7 +35,7 @@ class Boss extends Movable {
 
 
     /**
-     * für den Boss spezielle Bewegungsintervalle löschen
+     * clear boss specific movement intervals
      */
     clearBossIntervals() {
         clearInterval(this.moveIntervalId);
@@ -47,7 +47,7 @@ class Boss extends Movable {
 
 
     /**
-     * Boss spawnen
+     * spawn boss
      */
     spawn() {
         this.setSpawningPosition();
@@ -66,7 +66,7 @@ class Boss extends Movable {
 
 
     /**
-     * relative x-Koordinate des Spawning-Punkts festlegen 
+     * set relative x spawning position 
      */
     setSpawningPosition() {
         this.xStart = this.xStartAbsolute + world.floor.x;
@@ -74,7 +74,7 @@ class Boss extends Movable {
 
 
     /**
-     * Musik-Track wechseln
+     * change music track
      */
     startBossMusic() {
         music['main'].pause();
@@ -83,9 +83,9 @@ class Boss extends Movable {
 
 
     /**
-     * Grundzyklus der Boss-Bewegung und -Aktionen
-     * @param {Number} horizontal - Anzahl Iterationsschritte für x-Bewegung
-     * @param {Number} vertical - Anzahl Iterationsschritte für y-Bewegung
+     * set basic cycle of boss movement and actions
+     * @param {Number} horizontal - number of iteration steps for x movement
+     * @param {Number} vertical - number of iteration steps for y movement
      */
     setCycle(horizontal, vertical) {
         this.moveIntervalId = setInterval(() => {
@@ -100,9 +100,9 @@ class Boss extends Movable {
 
 
     /**
-     * Bewegungszyklus
-     * @param {Number} horizontal - Anzahl Iterationsschritte für x-Bewegung
-     * @param {Number} vertical - Anzahl Iterationsschritte für y-Bewegung
+     * movement cycle
+     * @param {Number} horizontal - number of iteration steps for x movement
+     * @param {Number} vertical - number of iteration steps for y movement
      */
     moveCycle(horizontal, vertical) {
         this.moveHorizontal(horizontal);
@@ -111,8 +111,8 @@ class Boss extends Movable {
 
 
     /**
-     * x-Bewegungszyklus
-     * @param {Number} index - Anzahl Iterationsschritte
+     * movement cycle along x axis
+     * @param {Number} index - number of iteration steps
      */
     moveHorizontal(index) {
         if (index < 120) {
@@ -124,8 +124,8 @@ class Boss extends Movable {
 
 
     /**
-     * y-Bewegungszyklus
-     * @param {Number} index - Anzahl Iterationsschritte
+     * movement cycle along y axis
+     * @param {Number} index - number of iteration steps
      */
     moveVertical(index) {
         if (index < 65) {
@@ -137,12 +137,12 @@ class Boss extends Movable {
 
 
     /**
-     * Handlungen ausführen (mögliche Handlungen: 1. attackieren, 2. zum Character drehen)
+     * perform actions ((a) attack, (b) face character)
      */
     act() {
         if (this.isReadyForAction()) {
             this.setDirection();
-            if (Math.random() < 0.03) {
+            if (Math.random() < 0.025) {
                 this.attack();
             }
         }
@@ -150,8 +150,8 @@ class Boss extends Movable {
 
 
     /**
-     * Abfrage der Handlungsfähigkeit
-     * @returns {Boolean} - Bedingung für neue Handlung erfüllt?
+     * request readiness for new action
+     * @returns {Boolean} - are the conditions for a new action fulfilled?
      */
     isReadyForAction() {
         return this.attackId == -1 && this.singleAnimationId == -1 && Date.now() - this.lastHit > this.recoveryDuration / 3;
@@ -159,7 +159,7 @@ class Boss extends Movable {
 
 
     /**
-     * Boss nach Character-Position ausrichten
+     * set boss to face character
      */
     setDirection() {
         if (world.character.x > this.x + 100) {
@@ -171,7 +171,7 @@ class Boss extends Movable {
 
 
     /**
-     * Attacke ausführen
+     * perform attack
      */
     attack() {
         this.playAnimationOnceWithSound('attack', 1000 / 12);
@@ -187,8 +187,8 @@ class Boss extends Movable {
 
 
     /**
-     * Bewegungsschritt der Attacke
-     * @param {Number} index - aktueller Iterationsschritt
+     * movement iteration step of attack
+     * @param {Number} index - current iteration step
      */
     attackMove(index) {
         if (index < 18) {
@@ -200,8 +200,8 @@ class Boss extends Movable {
 
 
     /**
-     * Bewegungsschritt in erster (Start-)Phase der Attacke
-     * @param {Number} index - aktueller Iterationsschritt
+     * movement iteration step during first attack phase
+     * @param {Number} index - current iteration step
      */
     startAttack(index) {
         if (this.otherDirection) {
@@ -213,8 +213,8 @@ class Boss extends Movable {
 
 
     /**
-     * Bewegungsschritt in zweiter (Schluss-)Phase der Attacke
-     * @param {Number} index - aktueller Iterationsschritt
+     * movement iteration step during second (final) attack phase
+     * @param {Number} index - current iteration step
      */
     endAttack(index) {
         if (this.otherDirection) {
@@ -226,7 +226,7 @@ class Boss extends Movable {
 
 
     /**
-     * Attacke löschen
+     * finish and clear attack
      */
     finishAttack() {
         clearInterval(this.attackId);
@@ -235,8 +235,8 @@ class Boss extends Movable {
 
 
     /**
-     * Treffer durch Objekt: Statusänderung, Bewegung und Animation
-     * @param {Object} obj - verletzendes Objekt 
+     * hit by object: status change, movement and animation
+     * @param {Object} obj - hitting object
      */
     hit(obj) {
         super.hit(obj);
@@ -251,7 +251,7 @@ class Boss extends Movable {
 
 
     /**
-     * Rückzug zum Spawning-Punkt
+     * move back to spawning position to restart main cycle
      */
     retreat() {
         let speed = Math.abs(this.x - this.xStart);
@@ -268,8 +268,8 @@ class Boss extends Movable {
 
 
     /**
-     * x-Bewegung des Rückzugs
-     * @param {Number} speed - Tempo 
+     * retreat movement along x axis
+     * @param {Number} speed - movement speed 
      */
     retreatX(speed) {
         if (this.x <= this.xStart - speed) {
@@ -283,9 +283,9 @@ class Boss extends Movable {
 
 
     /**
-     * y-Bewegung des Rückzugs
-     * @param {Number} incline - Seitenverhältnis des y-Tempos zum x-Tempo
-     * @param {Number} speed - Tempo 
+     * retreat movement along y axis
+     * @param {Number} incline - ratio of effective y speed to x speed
+     * @param {Number} speed - x movement speed 
      */
     retreatY(incline, speed) {
         if (this.y <= -speed) {
@@ -299,7 +299,7 @@ class Boss extends Movable {
 
 
     /**
-     * Zyklus neu starten
+     * restart main cycle
      */
     restartCycle() {
         clearInterval(this.moveIntervalId);
@@ -309,8 +309,8 @@ class Boss extends Movable {
 
 
     /** 
-     * Sterben
-    */
+     * die (causing game win)
+     */
     die() {
         if (this.state != 'dead') {
             this.state = 'dead';
@@ -326,7 +326,7 @@ class Boss extends Movable {
 
 
     /**
-     * von Bossmusik zu normaler Musik wechseln
+     * change music back to main track
      */
     endBossMusic() {
         music['boss'].pause();

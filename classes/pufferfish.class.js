@@ -1,12 +1,12 @@
-class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch andere Gegner einzubinden, ohne aber Code doppelt schreiben zu müssen??
+class Pufferfish extends Movable {
     width = 56;
     height = 56;
     speed = -0.6 * (1 + Math.random());
 
     /**
-     * Konstruktor
-     * @param {Number} x - x-Position
-     * @param {Number} y - y-Position 
+     * constructor
+     * @param {Number} x - x position
+     * @param {Number} y - y position 
      */
     constructor(x, y) {
         super().loadImage('./img/enemy/pufferfish/swim/1.png');
@@ -21,7 +21,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
 
 
     /**
-     * Attacke ausführen
+     * execute attack towards character
      */
     attack() {
         this.state = 'attacking';
@@ -40,7 +40,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
 
 
     /**
-     * sterben
+     * this function handles the pufferfish's death
      */
     die() {
         super.die();
@@ -52,7 +52,7 @@ class Pufferfish extends Movable { // weitere Klasse "Enemy" erstellen, um auch 
 
 
     /**
-     * nach oben treiben
+     * drift up after dying
      */
     driftUp() {
         let speedY = 1.5;

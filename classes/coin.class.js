@@ -1,8 +1,8 @@
 class Coin extends Item {
     /**
-     * Konstruktor
-     * @param {Number} xStart - x-Startposition
-     * @param {Number} y - y-Position
+     * constructor
+     * @param {Number} xStart - x starting position
+     * @param {Number} y - y position
      */
     constructor(xStart, y) {
         super(xStart, y).loadImage('./img/marks/coin/1.png');
@@ -13,7 +13,7 @@ class Coin extends Item {
     }
 
     /**
-     * Coin wird gesammelt
+     * this coin is being collected
      */
     collect() {
         super.collect();

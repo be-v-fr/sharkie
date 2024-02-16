@@ -15,7 +15,7 @@ class Movable extends Visible {
     recoveryDuration;
 
     /**
-     * Konstruktor
+     * constructor
      */
     constructor() {
         super();
@@ -24,7 +24,7 @@ class Movable extends Visible {
 
 
     /**
-     * Sounds laden (mit Daten aus path.js)
+     * load sounds (using data from 'js/path.js')
      */
     loadSounds() {
         const classToString = this.constructor.name;
@@ -35,9 +35,9 @@ class Movable extends Visible {
 
 
     /**
-     * Animation und Sound einmalig abspielen
-     * @param {String} name - Name von Animation und Sound (muss identisch sein)
-     * @param {Number} ms - frame interval in milliseconds  
+     * play animation and sound
+     * @param {String} name - animation and sound name (required to be identical for both)
+     * @param {Number} ms - frame interval in milliseconds
      */
     playAnimationOnceWithSound(name, ms) {
         this.playAnimationOnce(name, ms);
@@ -46,9 +46,9 @@ class Movable extends Visible {
 
 
     /**
-     * Schaden festlegen
-     * @param {Number} normal - Schaden im normalen Modus
-     * @param {Number} hard - Schaden im schweren Modus
+     * set collision damage taken by colliding object
+     * @param {Number} normal - damage in normal difficulty mode
+     * @param {Number} hard - damage in hard mode
      */
     setDamage(normal, hard) {
         if (settings['hardMode']) {
@@ -60,7 +60,7 @@ class Movable extends Visible {
 
 
     /**
-     * Intervalle für Bewegung und Animation löschen
+     * clear movement and animation intervals
      */
     clearIntervals() {
         clearInterval(this.moveIntervalId);
@@ -71,8 +71,8 @@ class Movable extends Visible {
 
 
     /**
-     * horizontal bewegen
-     * @param {Number} speed - Betrag des Tempos 
+     * move horizontally
+     * @param {Number} speed - absolute value of movement speed 
      */
     moveX(speed) {
         if (this.otherDirection) {
@@ -85,7 +85,7 @@ class Movable extends Visible {
 
 
     /**
-     * vertikal schwimmen und sinken
+     * vertical swimming and sinking movement
      */
     swimAndSinkY() {
         setInterval(() => {
@@ -100,8 +100,8 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob oberhalb von Boden
-     * @returns {Boolean} true = oberhalb, false = unterhalb
+     * request if this object is above ground
+     * @returns {Boolean} true = above ground, false = below ground y value
      */
     isAboveGround() {
         return this.y <= this.yMax;
@@ -109,8 +109,8 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob unterhalb von Maximalhöhe
-     * @returns {Boolean} true = unterhalb, false = oberhalb
+     * request if this object is below maximum height
+     * @returns {Boolean} true = below maximum height, false = above maximum y value
      */
     isBelowRoof() {
         return this.y >= this.yMin;
@@ -118,7 +118,8 @@ class Movable extends Visible {
 
 
     /**
-     * Überschreitung der y-Bewegungsgrenzen verhindern
+     * prevent this object from crossing y boundaries
+     * (by setting it to the border y value, respectively) 
      */
     restrictToYBoundaries() {
         this.speedY = 0;
@@ -131,7 +132,7 @@ class Movable extends Visible {
 
 
     /**
-     * sinken
+     * sinking acceleration from any previous speed, restricted to maximum sinking speed (this.speedSinking)
      */
     sink() {
         if (this.state != 'hit') {
@@ -147,9 +148,9 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob eine Kollision mit einem anderen Objekt stattfindet
-     * @param {Object} obj - Objekt der Kollision
-     * @returns {Boolean} true = Kollision, false = keine Kollision
+     * request if this object collides with another object
+     * @param {Object} obj - requested object
+     * @returns {Boolean} true = collision, false = no collision
      */
     isColliding(obj) {
         let collision = false;
@@ -165,11 +166,11 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob Kollision zwischen Offset-Frames stattfindet
-     * @param {Object} obj - Objekt der Kollision
-     * @param {Array} frameThis - Offset-Frame dieses Objekts
-     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
-     * @returns {Boolean} true = Kollision, false = keine Kollision
+     * request if there is a collision between offset rectangles ('frames') of this object and another one, respectively
+     * @param {Object} obj - requested object
+     * @param {Array} frameThis - offset rectangle of this object
+     * @param {Array} frameObj - offset rectangle of requested object
+     * @returns {Boolean} true = collision, false = no collision
      */
     frameCollision(obj, frameThis, frameObj) {
         return this.x + frameThis[0] + frameThis[2] >= obj.x + frameObj[0] &&
@@ -180,9 +181,9 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob eine vertikale Überlappung mit einem anderen Objekt vorliegt
-     * @param {Object} obj - Objekt der Kollision
-     * @returns {Boolean} true = Kollision, false = keine Kollision
+     * request if there is a vertical overlap with another object
+     * @param {Object} obj - requested object
+     * @returns {Boolean} true = collision, false = no collision
      */
     checkVerticalOverlap(obj) {
         return this.y + this.frames[0][1] + this.frames[0][3] >= obj.y + obj.frames[0][1] &&
@@ -191,10 +192,10 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob ein Mindestabstand zu einem Objekt nach links unterschritten wird
-     * @param {Object} obj - Objekt der Kollision
-     * @param {Number} threshold - Mindestabstand
-     * @returns true = Überschreitung, false = keine Überschreitung
+     * request if the distance this object has to another object on the left is below a minimum value 
+     * @param {Object} obj - requested object
+     * @param {Number} threshold - minimum value of distance
+     * @returns true = threshold has been crossed, false = beyond threshold
      */
     checkDistanceLeft(obj, threshold) {
         const thisX = this.x + this.frames[0][0];
@@ -204,10 +205,10 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob ein Mindestabstand zu einem Objekt nach rechts unterschritten wird
-     * @param {Object} obj - Objekt der Kollision
-     * @param {Number} threshold - Mindestabstand
-     * @returns true = Überschreitung, false = keine Überschreitung
+     * request if the distance this object has to another object on the right is below a minimum value 
+     * @param {Object} obj - requested object
+     * @param {Number} threshold - minimum value of distance
+     * @returns true = threshold has been crossed, false = beyond threshold
      */
     checkDistanceRight(obj, threshold) {
         const thisX = this.x + this.frames[0][0] + this.frames[0][2];
@@ -217,8 +218,8 @@ class Movable extends Visible {
 
 
     /**
-     * Treffer durch Objekt
-     * @param {Object} obj - Objekt der Kollision
+     * this function sets what happens when this object is hit by another object
+     * @param {Object} obj - object causing the hit
      */
     hit(obj) {
         if (!this.isDead()) {
@@ -234,8 +235,8 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob dieses Objekt aktuell getroffen werden kann (für Bosskampf)
-     * @returns {Boolean} true = Treffer möglich, false = kein Treffer möglich
+     * request if this object can currently be hit
+     * @returns {Boolean} true = can get hit, false = cannot get hit
      */
     canGetHit() {
         return !(this instanceof Boss) || this.isRecovered();
@@ -243,8 +244,8 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob dieses Objekt sich vom letzten Treffer erholt hat
-     * @returns {Boolean} true = erholt, false = noch nicht erholt
+     * request if this object has fully recovered from previous hit
+     * @returns {Boolean} true = is recovered, false = is not recovered yet
      */
     isRecovered() {
         return (!(this instanceof Boss) && this.state != 'hit' && this.state != 'dead') ||
@@ -253,8 +254,8 @@ class Movable extends Visible {
 
 
     /**
-     * Abfrage, ob dieses Objekt tot ist
-     * @returns {Boolean} true = tot, false = lebendig
+     * request if this object is dead
+     * @returns {Boolean} true = dead, false = alive
      */
     isDead() {
         return this.health == 0;
@@ -262,7 +263,7 @@ class Movable extends Visible {
 
 
     /**
-     * sterben
+     * this function handles the object's death
      */
     die() {
         this.state = 'dead';
@@ -270,9 +271,9 @@ class Movable extends Visible {
 
 
     /**
- * von Objekt abprallen
- * @param {Object} obj - Objekt der Kollision
- */
+     * bounce away from colliding object
+     * @param {Object} obj - colliding object
+     */
     bounce(obj) {
         let bouncing = false;
         for (let i = 0; i < obj.frames.length; i++) {
@@ -289,9 +290,9 @@ class Movable extends Visible {
 
 
     /**
-     * in x-Richtung abprallen
-     * @param {Boolean} right - Richtung (true = rechts, false = links) 
-     * @returns {Boolean} true, falls ein Abprallen in x-Richtung geschieht 
+     * bounce away along x axis
+     * @param {Boolean} right - direction (true = right, false = left) 
+     * @returns {Boolean} true, if there is a bounce motion along x axis
      */
     bounceX(right) {
         if (right != null) {
@@ -305,8 +306,8 @@ class Movable extends Visible {
 
 
     /**
-     * x-Verschiebung durch horizontales Abprallen, unter Berücksichtigung des Level-Rands
-     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     * set the x position caused by x bouncing (also considering the level margins) 
+     * @param {Boolean} right - direction (true = right, false = left) 
      */
     bounceXPosition(right) {
         if (right) {
@@ -324,9 +325,9 @@ class Movable extends Visible {
 
 
     /**
-     * in y-Richtung abprallen
-     * @param {Boolean} down - Richtung (true = unten, false = oben) 
-     * @returns {Boolean} true, falls ein Abprallen in y-Richtung geschieht 
+     * bounce away along y axis
+     * @param {Boolean} right - direction (true = right, false = left) 
+     * @returns {Boolean} true, if there is a bounce motion along y axis
      */
     bounceY(down) {
         if (down != null) {
@@ -341,11 +342,11 @@ class Movable extends Visible {
 
 
     /**
-     * horizontale Abprallrichtung bestimmen
-     * @param {Object} obj - Objekt der Kollision 
-     * @param {Array} frameThis - Offset-Frame des Characters
-     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
-     * @returns {Boolean} true = nach rechts, false = nach links, null = keine x-Bewegung
+     * request horizontal bouncing direction
+     * @param {Object} obj - colliding object
+     * @param {Array} frameThis - offset rectangle of this object
+     * @param {Array} frameObj - offset rectangle of colliding object
+     * @returns {Boolean} true = bounce to the left, false = bounce to the right, null = no x bounce
      */
     getBounceX(obj, frameThis, frameObj) {
         if (this.frameCollision(obj, frameThis, frameObj)) {
@@ -363,11 +364,11 @@ class Movable extends Visible {
 
 
     /**
-     * vertikale Abprallrichtung bestimmen
-     * @param {Object} obj - Objekt der Kollision 
-     * @param {Array} frameThis - Offset-Frame des Characters
-     * @param {Array} frameObj - Offset-Frame des kollidierenden Objekts
-     * @returns {Boolean} true = nach unten, false = nach oben, null = keine y-Bewegung
+     * request vertical bouncing direction
+     * @param {Object} obj - colliding object
+     * @param {Array} frameThis - offset rectangle of this object
+     * @param {Array} frameObj - offset rectangle of colliding object
+     * @returns {Boolean} true = bounce down, false = bounce up, null = no y bounce
      */
     getBounceY(obj, frameThis, frameObj) {
         if (this.frameCollision(obj, frameThis, frameObj)) {
@@ -385,7 +386,8 @@ class Movable extends Visible {
 
 
     /**
-     * Abprall-Ausnahme (falls das Abprallen zu weit in eine neue Kollision hineinführt)
+     * this function handles the case that bouncing places this object wrong
+     * it sets this object to the left and to the vertical middle of the screen
      */
     bounceException() {
         this.x -= 100;

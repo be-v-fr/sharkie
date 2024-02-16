@@ -4,15 +4,15 @@ class Jellyfish extends Movable {
     color;
 
     /**
-     * Konstruktor
-     * @param {String} color - Farbe (grün/lila)
-     * @param {Number} x - x-Position
-     * @param {Number} y - y-Position
+     * constructor
+     * @param {String} color - color (green/lila)
+     * @param {Number} x - x position
+     * @param {Number} y - y position
      */
     constructor(color, x, y) {
         super().loadImage(`./img/enemy/jellyfish/${color}/1.png`);
         this.color = color;
-        this.setDamage(color);
+        this.setDamage();
         this.x = x;
         this.y = y;
         this.health = 1;
@@ -23,11 +23,10 @@ class Jellyfish extends Movable {
 
 
     /**
-     * Schaden festlegen (für Kollision mit Character)
-     * @param {String} color - Farbe (grün/lila)
+     * set damage for character collision
      */
-    setDamage(color) {
-        if (color == 'green') {
+    setDamage() {
+        if (this.color == 'green') {
             super.setDamage(12, 20);
         } else {
             super.setDamage(4, 8);

@@ -7,11 +7,11 @@ class Level {
     floor;
 
     /**
-     * Konstruktor
-     * @param {Number} backdropUnits - Anzahl aufeinanderfolgender Hintergrundgrafiken
-     * @param {Array} enemies - Gegner-Objekte
-     * @param {Array} obstacles - Hindernis-Objekte
-     * @param {Array} items - Item-Objekte
+     * constructor
+     * @param {Number} backdropUnits - number of consecutive backdrop images placed next to each other
+     * @param {Array} enemies - contains enemy objects
+     * @param {Array} obstacles - contains obstacle objects
+     * @param {Array} items - contains item objects
      */
     constructor(backdropUnits, enemies, obstacles, items) {
         this.backdropUnits = backdropUnits;
@@ -25,8 +25,8 @@ class Level {
 
 
     /**
-     * alle Hintergrundlayer erzeugen
-     * @param {Number} repeat - Anzahl der Wiederholungen 
+     * create all stacked backdrop layers
+     * @param {Number} repeat - number of horizontal repetitions (fit to level length) 
      */
     createBackdrop(repeat) {
         for (let i = 0; i < 4; i++) {
@@ -40,8 +40,8 @@ class Level {
 
 
     /**
-     * Gesamtzahl der Coins im Level abfragen
-     * @returns {Number} Anzahl der Coins
+     * request total number of coins contained in this level
+     * @returns {Number} number of coins
      */
     getNumberOfCoins() {
         const coins = this.items.filter((i) => i instanceof Coin);

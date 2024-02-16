@@ -1,8 +1,8 @@
 class Obstacle extends Movable {
     /**
-     * Konstruktor
-     * @param {Number} type - Typ/Index des Obstacle 
-     * @param {Number} xStart - x-Startposition 
+     * constructor
+     * @param {Number} type - obstacle type
+     * @param {Number} xStart - x starting position 
      */
     constructor(type, xStart) {
         super().loadImage(`./img/background/barrier/${type}.png`);
@@ -14,8 +14,8 @@ class Obstacle extends Movable {
 
 
     /**
-     * Werte für Typen festlegen
-     * @param {Number} type - Typ/Index des Obstacle 
+     * set type-specific properties/coordinates
+     * @param {Number} type - obstacle type
      */
     setTypeProperties(type) {
         if (type == 1) {
@@ -29,7 +29,7 @@ class Obstacle extends Movable {
 
 
     /**
-     * Werte für Typ 1 festlegen
+     * set type 1 properties/coordinates
      */
     setType1Properties() {
         this.width = 720;
@@ -42,7 +42,7 @@ class Obstacle extends Movable {
 
 
     /**
-     * Werte für Typ 2 festlegen
+     * set type 2 properties/coordinates
      */
     setType2Properties() {
         this.width = 420;
@@ -54,7 +54,7 @@ class Obstacle extends Movable {
 
 
     /**
-     * Werte für Typ 3 festlegen
+     * set type 3 properties/coordinates
      */
     setType3Properties() {
         this.width = 120;

@@ -1,9 +1,9 @@
 class Stats extends Visible {
     /**
-     * Konstruktor
-     * @param {Number} x - x-Position
-     * @param {Number} y - y-Position
-     * @param {String} type - Typ der Statistik
+     * constructor
+     * @param {Number} x - x position on game canvas
+     * @param {Number} y - y position on game canvas
+     * @param {String} type - stats type (health/poison/coins)
      */
     constructor(x, y, type) {
         super().loadImage(`./img/marks/stats/${type}/6.png`);
@@ -17,8 +17,8 @@ class Stats extends Visible {
 
 
     /**
-     * Statistik aktualisieren
-     * @param {Number} value - Prozentwert der Statistik
+     * update stats object after change
+     * @param {Number} value - percentage value of stats object
      */
     update(value) {
         let index = this.resolveImageIndex(value);
@@ -27,9 +27,9 @@ class Stats extends Visible {
 
 
     /**
-     * zu Prozentwert gehörenden Bildindex abfragen
-     * @param {Number} value - Prozentwert der Statistik
-     * @returns {Number} Bildindex
+     * request the image index (within this object's image cache) corresponsing the given percentage value
+     * @param {Number} value - percentage value
+     * @returns {Number} image index
      */
     resolveImageIndex(value) {
         let index = 5;

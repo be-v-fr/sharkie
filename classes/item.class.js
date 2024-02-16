@@ -1,8 +1,8 @@
 class Item extends Movable {
     /**
-     * Konstruktor
-     * @param {Number} xStart - x-Startposition
-     * @param {Number} y - y-Position
+     * constructor
+     * @param {Number} xStart - x starting position
+     * @param {Number} y - y position
      */
     constructor(xStart, y) {
         super();
@@ -12,7 +12,7 @@ class Item extends Movable {
     }
 
     /**
-     * Item wird gesammelt
+     * this item is being collected
      */
     collect() {
         this.playSound('collect');

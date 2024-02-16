@@ -14,7 +14,7 @@ class Visible {
     frames = [];
 
     /**
-     * Konstruktor
+     * constructor
      */
     constructor() {
         this.loadAnimations();
@@ -22,8 +22,8 @@ class Visible {
 
 
     /**
-     * einzelnes Bild laden
-     * @param {String} path - Dateipfad 
+     * load/create single image from file path
+     * @param {String} path - image file path 
      */
     loadImage(path) {
         this.img = new Image();
@@ -32,10 +32,10 @@ class Visible {
 
 
     /**
-     * Bilder für Animation laden
-     * @param {String} name - Name der Animation
-     * @param {String} dir - Ordnerpfad
-     * @param {Number} numberOfSprites - Länge der Animation/Anzahl Sprites
+     * load/create images for an animation
+     * @param {String} name - animation name
+     * @param {String} dir - directory of images
+     * @param {Number} numberOfSprites - animation length/number of sprites
      */
     loadImages(name, dir, numberOfSprites) {
         this.imageCache[name] = [];
@@ -49,7 +49,7 @@ class Visible {
 
 
     /**
-     * alle Animationen laden (Daten aus path.js)
+     * load all animations for this class (using data from 'js/path.js')
      */
     loadAnimations() {
         const classToString = this.constructor.name;
@@ -63,9 +63,9 @@ class Visible {
 
 
     /**
-     * Ladevorgang für Bild einrichten
-     * @param {Object} img - Image-Objekt 
-     * @param {String} path - Dateipfad des Bildes
+     * create loading promise for image
+     * @param {Object} img - image object 
+     * @param {String} path - image file path
      */
     promise(img, path) {
         const loading = new Promise((resolve, reject) => {
@@ -81,8 +81,8 @@ class Visible {
 
 
     /**
-     * Ladevorgang abschließen
-     * @param {Promise} promise - Ladevorgang des Bildes 
+     * finish loading image by resolving promise
+     * @param {Promise} promise - loading promise for image 
      */
     resolve(promise) {
         promise.then(() => {
@@ -92,8 +92,8 @@ class Visible {
 
 
     /**
-     * zyklische Animation abspielen
-     * @param {String} name - Name der Animation 
+     * play cyclic animation
+     * @param {String} name - animation name 
      * @param {Number} ms - frame interval in milliseconds
      */
     animate(name, ms) {
@@ -112,8 +112,8 @@ class Visible {
 
 
     /**
-     * einzelne Animation abspielen
-     * @param {String} name - Name der Animation
+     * play single animation
+     * @param {String} name - animation name
      * @param {Number} ms - frame interval in milliseconds 
      */
     playAnimationOnce(name, ms) {
@@ -126,8 +126,8 @@ class Visible {
 
 
     /**
-     * Intervall für einmalige Animation setzen
-     * @param {String} name - Name der Animation
+     * create interval for single animation
+     * @param {String} name - animation name
      * @param {Number} ms - frame interval in milliseconds 
      */
     setSingleInterval(name, ms) {
@@ -144,7 +144,7 @@ class Visible {
 
 
     /**
-     * Intervall für einmalige Animation stoppen
+     * stop single animation by clearing the corresponding interval
      */
     stopSingleAnimation() {
         clearInterval(this.singleAnimationId);
@@ -154,8 +154,8 @@ class Visible {
 
 
     /**
-     * Objekt auf Canvas zeichnen
-     * @param {CanvasRenderingContext2D} ctx - Context des Canvas 
+     * draw object onto canvas
+     * @param {CanvasRenderingContext2D} ctx - canvas context
      */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -163,11 +163,11 @@ class Visible {
 
 
     /**
-     * Offset-Frame hinzufügen
-     * @param {Number} dX - x-Offset
-     * @param {Number} dY - y-Offset
-     * @param {Number} width - Breite des Frames
-     * @param {Number} height - Höhe des Frames
+     * add offset rectangle ('frame')
+     * @param {Number} dX - x offset left
+     * @param {Number} dY - y offset from the top
+     * @param {Number} width - rectangle/frame width
+     * @param {Number} height - rectangle/frame height
      */
     initFrame(dX, dY, width, height) {
         this.frames.push([dX, dY, width, height]);
@@ -175,8 +175,8 @@ class Visible {
 
 
     /**
-     * Sound abspielen
-     * @param {String} sound - Name des Sounds
+     * play single sound (from sound start)
+     * @param {String} sound - sound name
      */
     playSound(sound) {
         if (settings['sound']) {
@@ -187,8 +187,8 @@ class Visible {
 
 
     /**
-     * Sound stoppen
-     * @param {String} sound - Name des Sounds
+     * stop single sound
+     * @param {String} sound - sound name
      */
     stopSound(sound) {
         if (settings['sound']) {
@@ -199,9 +199,9 @@ class Visible {
 
 
     /**
-     * Sound nach Verzögerung abspielen
-     * @param {Number} ms - Verzögerung in Millisekunden
-     * @param {String} sound - Name des Sounds
+     * play single sound after a given delay 
+     * @param {Number} ms - delay in milliseconds
+     * @param {String} sound - sound name
      */
     playSoundAfterDelay(ms, sound) {
         setTimeout(() => {

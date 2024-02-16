@@ -25,9 +25,9 @@ class World {
     setWorld;
 
     /**
-     * Konstruktor
-     * @param {Object} canvas - Canvas-Objekt
-     * @param {Object} keyboard - Keyboard-Objekt
+     * constructor
+     * @param {Object} canvas - canvas object
+     * @param {Object} keyboard - keyboard object
      */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -37,7 +37,7 @@ class World {
 
 
     /**
-     * Spielwelt starten
+     * start ingame world/level
      */
     start() {
         this.floor.moveX(-this.floor.speed);
@@ -51,7 +51,7 @@ class World {
 
 
     /**
-     * Werte aktualisieren
+     * set current positions including character controls
      */
     set() {
         this.setWorld = setInterval(() => {
@@ -71,7 +71,7 @@ class World {
 
 
     /**
-     * Hintergrund aktualisieren
+     * set backdrop (motion specific to layer, relative to floor layer)
      */
     setBackdrop() {
         this.setFloor();
@@ -85,7 +85,7 @@ class World {
 
 
     /**
-     * Boden aktualisieren
+     * set backdrop floor layer
      */
     setFloor() {
         if (this.character.state == 'swim left' && this.floor.speed > 0) {
@@ -99,8 +99,8 @@ class World {
 
 
     /**
-     * Movable-Objekte an Boden ausrichten
-     * @param {Array} mov - Movable-Array 
+     * adjust movable objects relative to floor position
+     * @param {Array} mov - movable objects 
      */
     adjustToFloor(mov) {
         mov.forEach(m => { m.x = m.xStart + this.floor.x });
@@ -108,7 +108,7 @@ class World {
 
 
     /**
-     * Positionen prüfen und reagieren
+     * check and handle positions
      */
     checkPositions() {
         setInterval(() => {
@@ -123,7 +123,7 @@ class World {
 
 
     /**
-     * Hindernisse prüfen und reagieren
+     * check and handle obstacles (character and bubble interaction)
      */
     checkObstacles() {
         this.obstacles.forEach(o => {
@@ -141,7 +141,7 @@ class World {
 
 
     /**
-     * Items prüfen und reagieren
+     * check and handle items (character interaction)
      */
     checkItems() {
         for (let i = this.items.length - 1; i >= 0; i--) {
@@ -155,7 +155,7 @@ class World {
 
 
     /**
-     * Gegner prüfen und reagieren
+     * check and handle enemies (character and bubble interaction)
      */
     checkEnemies() {
         for (let i = this.enemies.length - 1; i >= 0; i--) {
@@ -175,8 +175,8 @@ class World {
 
 
     /**
-     * Character in Bezug auf Gegner prüfen
-     * @param {Object} enemy - Gegner-Objekt 
+     * check character with respect to a given enemy
+     * @param {Object} enemy - enemy object
      */
     checkCharacter(enemy) {
         this.checkPufferfishAttack(enemy);
@@ -185,8 +185,8 @@ class World {
 
 
     /**
-     * prüfen, ob Pufferfish Attacke starten soll oder nicht
-     * @param {Object} enemy - Pufferfish-Objekt
+     * check if a pufferfish will attack now
+     * @param {Object} enemy - pufferfish object
      */
     checkPufferfishAttack(enemy) {
         if (enemy instanceof Pufferfish && enemy.state != 'attacking' && !enemy.isDead()) {
@@ -198,8 +198,8 @@ class World {
 
 
     /**
-     * Character in Bezug auf Kollision mit Objekt prüfen
-     * @param {Object} obj - Movable-Objekt 
+     * check character with respect to a possible collision with a given object
+     * @param {Object} obj - movable object
      */
     checkCharCollision(obj) {
         if (this.character.isColliding(obj)) {
@@ -219,8 +219,8 @@ class World {
 
 
     /**
-     * Bubbles in Bezug auf Gegner prüfen
-     * @param {Object} enemy - Gegner-Objekt 
+     * check all bubbles with respect to a given enemy
+     * @param {Object} enemy - enemy object
      */
     checkBubbles(enemy) {
         for (let i = this.bubbles.length - 1; i >= 0; i--) {

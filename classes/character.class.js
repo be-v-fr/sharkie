@@ -9,7 +9,7 @@ class Character extends Movable {
     slapping = false;
 
     /**
-     * Konstruktor
+     * constructor
      */
     constructor() {
         super().loadImage('./img/sharkie/idle/1.png');
@@ -21,11 +21,12 @@ class Character extends Movable {
         this.initFrame(30, 108, 90, 60);
         this.swimAndSinkY();
         this.sounds['hurt'].volume = 0.5;
+        this.sounds['snoring'].loop = true;
     }
 
 
     /**
-     * Handlungsausführung links
+     * left arrow key actions
      */
     actLeft() {
         if (this.state != 'swim right') {
@@ -38,7 +39,7 @@ class Character extends Movable {
 
 
     /**
-     * Handlungsausführung rechts
+     * right arrow key actions
      */
     actRight() {
         if (this.state != 'swim left') {
@@ -51,8 +52,8 @@ class Character extends Movable {
 
 
     /**
-     * Überprüfung, ob rechter Level-Rand erreicht wurde
-     * @returns {Boolean} - Level-Rand erreicht?
+     * check if right level end has been crossed
+     * @returns {Boolean} - has the level end been crossed?
      */
     crossesRightMargin() {
         return world.bossFight && this.x >= world.boss.xStart + 212;
@@ -60,8 +61,8 @@ class Character extends Movable {
 
 
     /**
-     * Überprüfung, ob linker Level-Rand erreicht wurde (bewegt sich mit Spielfortschritt nach rechts)
-     * @returns {Boolean} - Level-Rand erreicht?
+     * check if left margin has been crossed (margin moves right with level progress)
+     * @returns {Boolean} - has the margin been crossed?
      */
     crossesLeftMargin() {
         return this.x < 50 || (world.bossFight && this.x <= world.boss.xStart - 388);
@@ -69,7 +70,7 @@ class Character extends Movable {
 
 
     /**
-     * Automatische Auswahl der Attacke
+     * automatic attack selection
      */
     selectAttack() {
         let threshold = 96;
@@ -88,7 +89,7 @@ class Character extends Movable {
 
 
     /**
-     * Status resetten
+     * reset character state
      */
     clearState() {
         if (this.state == 'rest') {
@@ -100,18 +101,17 @@ class Character extends Movable {
 
 
     /**
-     * Schlafmodus beenden
+     * end character sleep mode
      */
     clearRest() {
-        this.sounds['snoring'].loop = false;
         this.sounds['snoring'].pause();
         this.sounds['snoring'].currentTime = 0;
     }
 
 
     /**
-     * Schwimmaktion horizontal
-     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     * swim horizontally
+     * @param {Boolean} right - direction (true = right, false = left) 
      */
     swim(right) {
         this.clearState();
@@ -128,8 +128,8 @@ class Character extends Movable {
 
 
     /**
-     * Schwimmaktion vertikal
-     * @param {Boolean} up - Richtung (true = oben, false = unten) 
+     * swim vertically
+     * @param {Boolean} up - direction (true = up, false = down) 
      */
     swimY(up) {
         const speed = 3;
@@ -147,8 +147,8 @@ class Character extends Movable {
 
 
     /**
-     * nach oben schwimmen
-     * @param {Number} speed - Tempo
+     * swim up
+     * @param {Number} speed - swimming speed
      */
     swimUp(speed) {
         if (this.speedY >= -speed * 0.9) {
@@ -159,8 +159,8 @@ class Character extends Movable {
 
 
     /**
-     * nach unten schwimmen
-     * @param {Number} speed - Tempo
+     * swim down
+     * @param {Number} speed - swimming speed
      */
     swimDown(speed) {
         if (this.speedY <= speed * 0.7) {
@@ -171,8 +171,8 @@ class Character extends Movable {
 
 
     /**
-     * Bewegung blockieren
-     * @param {Boolean} right - Richtung (true = rechts, false = links) 
+     * block swimming
+     * @param {Boolean} right - direction (true = right, false = left) 
      */
     block(right) {
         clearInterval(this.moveIntervalId);
@@ -185,7 +185,7 @@ class Character extends Movable {
 
 
     /**
-     * keine Aktion ausführen
+     * perform no action
      */
     idle() {
         this.clearState();
@@ -196,21 +196,24 @@ class Character extends Movable {
 
 
     /**
-     * in Schlafmodus übergehen
+     * fall asleep
      */
     rest() {
         this.clearState();
         this.playAnimationOnce('fall asleep', 1000 / 6);
         this.animate('sleep', 1000 / 2);
         this.state = 'rest';
-        this.sounds['snoring'].loop = true;
-        this.playSound('snoring');
+        setTimeout(() => {
+            if(this.state = 'rest') {
+                this.playSound('snoring');
+            }
+        }, 1250);
     }
 
 
     /**
-     * Bubble abfeuern
-     * @param {Boolean} isToxic - Art der Bubble (true = giftig, false = normal)  
+     * shoot bubble
+     * @param {Boolean} isToxic - bubble type (true = toxic, false = normal)  
      */
     bubble(isToxic) {
         if (isToxic && this.poison == 0) {
@@ -230,7 +233,7 @@ class Character extends Movable {
 
 
     /**
-     * bei giftiger Bubble-Attacke scheitern (da Poison leer)
+     * fail toxic bubble attack (because character is out of poison)
      */
     failBubbleAttack() {
         this.playAnimationOnce('no toxic', 1000 / 12);
@@ -239,9 +242,9 @@ class Character extends Movable {
 
 
     /**
-     * Bubble nach Verzögerung abfeuern
-     * @param {Boolean} isAttacking - Attacke ausführen (true) oder abbrechen (false)
-     * @param {Boolean} isToxic - Art der Bubble (true = giftig, false = normal)  
+     * shoot bubble after delay
+     * @param {Boolean} isAttacking - perform attack (true) or cancel attack (false)
+     * @param {Boolean} isToxic - bubble type (true = toxic, false = normal)  
      */
     newBubbleAfterTimeout(isAttacking, isToxic) {
         setTimeout(() => {
@@ -255,8 +258,8 @@ class Character extends Movable {
 
 
     /**
-     * Bubble-Objekt erzeugen und zu world.bubbles hinzufügen
-     * @param {Boolean} isToxic - Art der Bubble (true = giftig, false = normal)  
+     * create bubble object and add to world.bubbles array
+     * @param {Boolean} isToxic - bubble type (true = toxic, false = normal)
      */
     createBubbleObject(isToxic) {
         if (this.otherDirection) {
@@ -268,7 +271,7 @@ class Character extends Movable {
 
 
     /**
-     * Slap-Attacke einmalig ausführen
+     * perform slap attack once
      */
     slap() {
         if (!this.slapping) {
@@ -286,7 +289,7 @@ class Character extends Movable {
 
 
     /**
-     * Attacke aus Status löschen
+     * clear attack from state string
      */
     removeAttackFromState() {
         if (this.state.includes('attacking')) {
@@ -296,8 +299,8 @@ class Character extends Movable {
 
 
     /**
-     * Character verletzt sich
-     * @param {Object} obj - Objekt, das Verletzung ausgelöst hat 
+     * character is being hurt
+     * @param {Object} obj - damage cause
      */
     hurt(obj) {
         if (!this.isDead()) {
@@ -314,8 +317,8 @@ class Character extends Movable {
 
 
     /**
-     * Character reagiert objektabhängig auf Verletzung
-     * @param {Object} obj - Objekt, das Verletzung ausgelöst hat 
+     * reaction to being hit, depending on object type causing the damage
+     * @param {Object} obj - damage cause
      */
     reactToHit(obj) {
         if (!this.isDead()) {
@@ -331,7 +334,7 @@ class Character extends Movable {
 
 
     /**
-     * von Verletzung erholen
+     * recover from hit
      */
     recover() {
         setTimeout(() => {
@@ -342,8 +345,8 @@ class Character extends Movable {
 
 
     /**
-     * sterben
-     * @param {Object} obj - Objekt, das den Tod ausgelöst hat 
+     * die
+     * @param {Object} obj - damage cause resulting in death
      */
     die(obj) {
         super.die();

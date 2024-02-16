@@ -30,9 +30,9 @@ class Backdrop extends Movable {
     ]
 
     /**
-     * Konstruktor
-     * @param {Number} layer - Ebene des Hintergrunds 
-     * @param {Number} x - x-Position des Bildes
+     * constructor
+     * @param {Number} layer - backdrop layer 
+     * @param {Number} x - x-position of image 
      */
     constructor(layer, x) {
         super().loadImage(`./img/background/layers/${this.layerData[layer]['name']}.png`);
@@ -43,7 +43,7 @@ class Backdrop extends Movable {
 
     
     /**
-     * x-Bewegungsrichtung ändern
+     * toggle movement direction along x-axis
      */
     turnAround() {
         clearInterval(this.moveIntervalId);

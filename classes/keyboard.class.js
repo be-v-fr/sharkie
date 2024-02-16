@@ -8,7 +8,7 @@ class Keyboard {
     noControls = false;
 
     /**
-     * Konstruktor
+     * constructor
      */
     constructor() {
         this.addKeyDownListener();
@@ -17,7 +17,7 @@ class Keyboard {
 
 
     /**
-     * Listener mit Funktion für keydown-Event
+     * add listener for keydown event
      */
     addKeyDownListener() {
         document.addEventListener('keydown', (ev) => {
@@ -35,7 +35,7 @@ class Keyboard {
 
 
     /**
-     * Listener mit Funktion für keyup-Event
+     * add listener for keyup event
      */
     addKeyUpListener() {
         document.addEventListener('keyup', (ev) => {
@@ -51,10 +51,10 @@ class Keyboard {
 
 
     /**
-     * Key-Attribut der Keyboard-Klasse festlegen
-     * @param {String} set - Key-Klassenattribut als String 
-     * @param {String} key - Event-Key-Name als String 
-     * @param {String} get - Name der gedrückten Taste 
+     * set selected key attribute of this keyboard object
+     * @param {String} set - key attribute (in this keyboard object) as string 
+     * @param {String} key - key name from event 
+     * @param {String} get - name of pressed key from event
      * @param {Boolean} down - true = keydown, false = keyup 
      */
     setKey(set, key, get, down) {
@@ -65,8 +65,8 @@ class Keyboard {
 
 
     /**
-     * Steuerung deaktivieren
-     * @param {Boolean} noControls - true = deaktiviert 
+     * toggle game controls
+     * @param {Boolean} noControls - true = deactivated 
      */
     toggleControls(noControls) {
         this.noControls = noControls;
@@ -77,7 +77,7 @@ class Keyboard {
 
 
     /**
-     * alle Tasten auf false setzen
+     * set all key attributes to false
      */
     deactivateControls() {
         this.LEFT = false;
@@ -89,8 +89,8 @@ class Keyboard {
 
 
     /**
-     * Abfrage, ob keine Taste gedrückt wird
-     * @returns {Boolean} - keine Taste gedrückt?
+     * request if no game control keys are pressed
+     * @returns {Boolean} - is no key pressed?
      */
     noKey() {
         return !this.RIGHT && !this.LEFT && !this.UP && !this.DOWN && !this.SPACE;
@@ -98,7 +98,7 @@ class Keyboard {
 
 
     /**
-     * Character spielen
+     * make character act by playing via keyboard
      */
     play() {
         this.playLeftRight();
@@ -109,7 +109,7 @@ class Keyboard {
 
 
     /**
-     * Handlungen links und rechts
+     * actions associated with left and right arrow keys
      */
     playLeftRight() {
         if (this.RIGHT && !this.LEFT && world.character.state != 'swim blocked right') {
@@ -121,7 +121,7 @@ class Keyboard {
 
 
     /**
-     * Handlungen oben und unten
+     * actions associated with up and down arrow keys
      */
     playUpDown() {
         if (this.UP) {
@@ -133,7 +133,8 @@ class Keyboard {
 
 
     /**
-     * Handlungen ohne bestimmte Richtung
+     * actions not associated with a specific direction
+     * (includes especially space key actions)
      */
     playOther() {
         if (this.SPACE && Date.now() - world.character.lastBubble > 750 && !world.character.state.includes('attacking')) {
@@ -148,7 +149,7 @@ class Keyboard {
 
 
     /**
-     * Handlungen ohne Tastendruck
+     * actions when no key is pressed at all
      */
     playNone() {
         if (world.character.state != 'rest' && world.character.state != 'hit' && world.character.state != 'dead') {

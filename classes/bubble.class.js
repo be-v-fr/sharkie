@@ -7,11 +7,11 @@ class Bubble extends Movable {
     sound;
 
     /**
-     * Konstruktor
-     * @param {Number} x - x-Koordinate
-     * @param {Number} y - y-Koordinate
-     * @param {Boolean} isToxic - giftige (true) oder normale (false) Bubble
-     * @param {Boolean} goLeft - Bewegungsrichtung der Bubble 
+     * constructor
+     * @param {Number} x - x position
+     * @param {Number} y - y position
+     * @param {Boolean} isToxic - bubble type (true = toxic, false = normal) 
+     * @param {Boolean} goLeft - bubble movement direction 
      */
     constructor(x, y, isToxic, goLeft) {
         if (isToxic) {
@@ -29,8 +29,8 @@ class Bubble extends Movable {
 
 
     /**
-     * Start der Bubble vom Character aus
-     * @param {Boolean} goLeft - x-Richtung (true = nach links, false = nach rechts) 
+     * bubble starts from character after initialization
+     * @param {Boolean} goLeft - x direction (true = left, false = right) 
      */
     go(goLeft) {
         if (isLoaded()) {
@@ -44,7 +44,7 @@ class Bubble extends Movable {
 
 
     /**
-     * x- und y-Bewegung der Bubble
+     * x and y movement of bubble
      */
     driftXY() {
         let counter = 0;
@@ -60,8 +60,8 @@ class Bubble extends Movable {
 
 
     /**
-     * Aufblasen der Bubble
-     * @param {Number} counter - aktueller Iterationsschritt 
+     * blowing up of bubble
+     * @param {Number} counter - current iteration step 
      */
     growToFullSize(counter) {
         const factor = 1 + 0.03 * (6 - counter);
@@ -73,8 +73,8 @@ class Bubble extends Movable {
 
 
     /**
-     * Jellyfish einfangen
-     * @param {Boolean} color - Farbe des Jellyfish (grün/lila) 
+     * bubble catches jellyfish
+     * @param {Boolean} color - color of jellyfish (green / lila) 
      */
     catchJellyfish(color) {
         this.playSound('blow');
