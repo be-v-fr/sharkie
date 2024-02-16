@@ -78,7 +78,7 @@ class Bubble extends Movable {
      */
     catchJellyfish(color) {
         this.playSound('blow');
-        this.animate(`${color} jellyfish`);
+        this.animate(`${color} jellyfish`, 1000 / 8);
         this.isEmpty = false;
     }
 }

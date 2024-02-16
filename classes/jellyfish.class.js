@@ -17,7 +17,7 @@ class Jellyfish extends Movable {
         this.y = y;
         this.health = 1;
         this.initFrame(8, 6, 48, 48);
-        this.animate(`normal ${color}`);
+        this.animate(`normal ${color}`, 1000 / 8);
         this.moveX(-0.18);
     }
 

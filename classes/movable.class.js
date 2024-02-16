@@ -36,10 +36,11 @@ class Movable extends Visible {
 
     /**
      * Animation und Sound einmalig abspielen
-     * @param {String} name - Name von Animation und Sound (muss identisch sein) 
+     * @param {String} name - Name von Animation und Sound (muss identisch sein)
+     * @param {Number} ms - frame interval in milliseconds  
      */
-    playAnimationOnceWithSound(name) {
-        this.playAnimationOnce(name);
+    playAnimationOnceWithSound(name, ms) {
+        this.playAnimationOnce(name, ms);
         this.playSound(name);
     }
 

@@ -19,7 +19,8 @@ function initAnimationPaths() {
 
         'Character': [
             ['idle', './img/sharkie/idle/', 18],
-            ['rest', './img/sharkie/sleep/', 14],
+            ['fall asleep', './img/sharkie/sleep/fall_asleep/', 10],
+            ['sleep', './img/sharkie/sleep/', 4],
             ['swim', './img/sharkie/swim/', 6],
             ['bubble normal', './img/sharkie/attack/normal_bubble/', 8],
             ['bubble toxic', './img/sharkie/attack/toxic_bubble/', 8],
@@ -37,7 +38,7 @@ function initAnimationPaths() {
         ],
 
         'Phial': [
-            ['bubbling', './img/marks/poison/', 8]
+            ['bubbling', './img/marks/poison/', 4]
         ],
 
         'Pufferfish': [

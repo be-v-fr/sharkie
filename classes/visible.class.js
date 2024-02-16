@@ -94,8 +94,9 @@ class Visible {
     /**
      * zyklische Animation abspielen
      * @param {String} name - Name der Animation 
+     * @param {Number} ms - frame interval in milliseconds
      */
-    animate(name) {
+    animate(name, ms) {
         const numberOfSprites = this.imageCache[name].length;
         this.activeAnimation = name;
         this.animateIntervalId = setInterval(() => {
@@ -103,29 +104,33 @@ class Visible {
                 this.currentImg %= numberOfSprites;
                 this.img = this.imageCache[name][this.currentImg];
                 this.currentImg++;
+            } else {
+                this.currentImg = 0;
             }
-        }, 1000 / 8);
+        }, ms);
     }
 
 
     /**
      * einzelne Animation abspielen
-     * @param {String} name - Name der Animation 
+     * @param {String} name - Name der Animation
+     * @param {Number} ms - frame interval in milliseconds 
      */
-    playAnimationOnce(name) {
+    playAnimationOnce(name, ms) {
         this.loopAnimation = false;
         if (this.singleAnimationId != -1) {
             clearInterval(this.singleAnimationId);
         }
-        this.setSingleInterval(name);
+        this.setSingleInterval(name, ms);
     }
 
 
     /**
      * Intervall für einmalige Animation setzen
-     * @param {String} name - Name der Animation 
+     * @param {String} name - Name der Animation
+     * @param {Number} ms - frame interval in milliseconds 
      */
-    setSingleInterval(name) {
+    setSingleInterval(name, ms) {
         const numberOfSprites = this.imageCache[name].length;
         let i = 0;
         this.singleAnimationId = setInterval(() => {
@@ -134,7 +139,7 @@ class Visible {
             if (i == numberOfSprites) {
                 this.stopSingleAnimation();
             }
-        }, 1000 / 12);
+        }, ms);
     }
 
 

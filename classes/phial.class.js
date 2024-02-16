@@ -12,7 +12,7 @@ class Phial extends Item {
         if (Math.random() > 0.5) {
             this.otherDirection = true;
         }
-        this.animate('bubbling');
+        this.animate('bubbling', 1000 / 4);
     }
 
     

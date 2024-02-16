@@ -1,4 +1,4 @@
-const TOTAL_NR_OF_IMAGES = 211;
+const TOTAL_NR_OF_IMAGES = 207;
 let loadingCounter = 0;
 let animations = {};
 let sounds = {}

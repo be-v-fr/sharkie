@@ -9,7 +9,7 @@ class Coin extends Item {
         this.width = 32;
         this.height = 32;
         this.initFrame(0, 0, this.width, this.height);
-        this.animate('normal');
+        this.animate('normal', 1000 / 6);
     }
 
     /**

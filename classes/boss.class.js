@@ -53,7 +53,7 @@ class Boss extends Movable {
         this.setSpawningPosition();
         this.startBossMusic();
         this.x = this.xStart;
-        this.playAnimationOnceWithSound('introduce');
+        this.playAnimationOnceWithSound('introduce', 1000 / 12);
         const moveSpawning = setInterval(() => {
             this.x -= 0.8;
             if (this.x <= this.xStart - 14) {
@@ -61,7 +61,7 @@ class Boss extends Movable {
                 clearInterval(moveSpawning);
             }
         }, 1000 / 60)
-        this.animate('floating');
+        this.animate('floating', 1000 / 8);
     }
 
 
@@ -174,7 +174,7 @@ class Boss extends Movable {
      * Attacke ausführen
      */
     attack() {
-        this.playAnimationOnceWithSound('attack');
+        this.playAnimationOnceWithSound('attack', 1000 / 12);
         let i = 0;
         this.attackId = setInterval(() => {
             this.attackMove(i);
@@ -244,7 +244,7 @@ class Boss extends Movable {
         if (!this.isDead()) {
             this.state = 'hit';
             this.clearBossIntervals();
-            this.playAnimationOnceWithSound('hurt');
+            this.playAnimationOnceWithSound('hurt', 1000 / 12);
             this.retreat();
         }
     }
@@ -315,7 +315,7 @@ class Boss extends Movable {
         if (this.state != 'dead') {
             this.state = 'dead';
             this.clearAllIntervals();
-            this.playAnimationOnceWithSound('die');
+            this.playAnimationOnceWithSound('die', 1000 / 12);
             this.endBossMusic();
             setTimeout(() => {
                 world.win();

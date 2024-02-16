@@ -116,7 +116,7 @@ class Character extends Movable {
     swim(right) {
         this.clearState();
         this.otherDirection = !right;
-        this.animate('swim');
+        this.animate('swim', 1000 / 8);
         this.moveX(this.speed);
         this.playSound('swimming');
         if (right) {
@@ -140,7 +140,7 @@ class Character extends Movable {
         }
         if (!this.state.includes('swim')) {
             this.clearState();
-            this.animate('swim');
+            this.animate('swim', 1000 / 8);
             this.state = 'swim';
         }
     }
@@ -189,7 +189,7 @@ class Character extends Movable {
      */
     idle() {
         this.clearState();
-        this.animate('idle');
+        this.animate('idle', 1000 / 8);
         this.idleSince = Date.now();
         this.state = 'idle';
     }
@@ -200,7 +200,8 @@ class Character extends Movable {
      */
     rest() {
         this.clearState();
-        this.animate('rest');
+        this.playAnimationOnce('fall asleep', 1000 / 6);
+        this.animate('sleep', 1000 / 2);
         this.state = 'rest';
         this.sounds['snoring'].loop = true;
         this.playSound('snoring');
@@ -218,9 +219,9 @@ class Character extends Movable {
             if (isToxic) {
                 this.poison -= 20;
                 world.stats[2].update(this.poison);
-                this.playAnimationOnce('bubble toxic');
+                this.playAnimationOnce('bubble toxic', 1000 / 12);
             } else {
-                this.playAnimationOnce('bubble normal');
+                this.playAnimationOnce('bubble normal', 1000 / 12);
             }
             this.newBubbleAfterTimeout(true, isToxic);
         }
@@ -232,7 +233,7 @@ class Character extends Movable {
      * bei giftiger Bubble-Attacke scheitern (da Poison leer)
      */
     failBubbleAttack() {
-        this.playAnimationOnce('no toxic');
+        this.playAnimationOnce('no toxic', 1000 / 12);
         this.newBubbleAfterTimeout(false, true);
     }
 
@@ -272,7 +273,7 @@ class Character extends Movable {
     slap() {
         if (!this.slapping) {
             this.slapping = true;
-            this.playAnimationOnce('slap');
+            this.playAnimationOnce('slap', 1000 / 12);
             setTimeout(() => {
                 if (this.slapping) {
                     this.playSound('slap');
@@ -319,11 +320,11 @@ class Character extends Movable {
     reactToHit(obj) {
         if (!this.isDead()) {
             if (obj instanceof Jellyfish && obj.color == 'green') {
-                this.playAnimationOnceWithSound('sound');
+                this.playAnimationOnceWithSound('shocked', 1000 / 12);
             } else {
-                this.playAnimationOnceWithSound('hurt');
+                this.playAnimationOnceWithSound('hurt', 1000 / 12);
             }
-            this.animate('idle');
+            this.animate('idle', 1000 / 8);
             this.recover();
         }
     }
@@ -348,10 +349,10 @@ class Character extends Movable {
         super.die();
         if (obj instanceof Jellyfish && obj.color == 'green') {
             this.playSound('shocked');
-            this.playAnimationOnce('die shocked');
+            this.playAnimationOnce('die shocked', 1000 / 12);
             this.playSoundAfterDelay(500, 'die shocked');
         } else {
-            this.playAnimationOnce('die normal');
+            this.playAnimationOnce('die normal', 1000 / 12);
             this.playSoundAfterDelay(200, 'die');
         }
         setTimeout(() => world.lose(), 1000);
