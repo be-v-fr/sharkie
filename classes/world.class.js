@@ -237,10 +237,10 @@ class World {
 
 
     /**
-     * Treffer von Bubble auf Gegner ausführen
-     * @param {Object} bubble - Bubble-Objekt
-     * @param {Object} enemy - Gegner-Objekt
-     * @param {Number} i - Index der Bubble im bubbles-Array
+     * this function handles a hit of an enemy by a bubble
+     * @param {Object} bubble - bubble object
+     * @param {Object} enemy - enemy object
+     * @param {Number} i - index of bubble within this.bubbles
      */
     enemyHitByBubble(bubble, enemy, i) {
         enemy.hit(bubble);
@@ -255,7 +255,7 @@ class World {
 
 
     /**
-     * Bosskampf starten
+     * boss fight initialization
      */
     initBossFight() {
         this.bossFight = true;
@@ -265,7 +265,7 @@ class World {
 
 
     /**
-     * Spielanzeige rendern
+     * draw game onto canvas
      */
     draw() {
         if (!this.stop) {
@@ -285,7 +285,7 @@ class World {
 
 
     /**
-     * Hintergrund rendern
+     * add backdrop to canvas drawing
      */
     addBackdrop() {
         this.addObjectsToMap(this.backdrop);
@@ -293,8 +293,8 @@ class World {
 
 
     /**
-     * Objekte rendern
-     * @param {Array} obj - Objekt-Array 
+     * add object array to canvas drawing
+     * @param {Array} obj - objects
      */
     addObjectsToMap(obj) {
         obj.forEach(o => { this.addToMap(o) });
@@ -302,8 +302,8 @@ class World {
 
 
     /**
-     * Objekt rendern
-     * @param {Object} vis - Visible-Objekt 
+     * add sinlge object to canvas drawing
+     * @param {Object} vis - visible object 
      */
     addToMap(vis) {
         if (vis.otherDirection) {
@@ -317,8 +317,8 @@ class World {
 
 
     /**
-     * Bild horizontal spiegeln
-     * @param {Object} vis - Visible-Objekt 
+     * mirror image horizontally
+     * @param {Object} vis - visible object 
      */
     flipImage(vis) {
         this.ctx.save();
@@ -328,7 +328,7 @@ class World {
 
     
     /**
-     * Bildspiegelung aufheben
+     * stop mirroring images
      */
     unflipImage() {
         this.ctx.restore();
@@ -336,7 +336,7 @@ class World {
 
 
     /**
-     * Render-Methode neu aufrufen
+     * recall canvas drawing method to draw the next frame
      */
     recallDraw() {
         let self = this;
@@ -347,7 +347,7 @@ class World {
 
 
     /**
-     * Spiel gewinnen
+     * this function handles a game win
      */
     win() {
         this.stop = true;
@@ -359,7 +359,7 @@ class World {
 
 
     /**
-     * Spiel verlieren
+     * this function handles a game over (lost)
      */
     lose() {
         this.stop = true;
