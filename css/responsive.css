@@ -1,8 +1,25 @@
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 1400px) {
     .ingameControlsWrapper {
         display: none;
     }
 }
+
+@media only screen and (max-width: 1399px) {
+    #ingameSettingsWrapper {
+        height: auto;
+        padding-top: 8px;
+    }
+
+    #ingameSettingsWrapper button img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .mobileCenter {
+        justify-content: center !important;
+    }
+}
+
 
 .ingameControlsWrapper {
     padding: 8px 12px;
@@ -96,16 +113,6 @@
 
     .overlayBg {
         background-size: 140%;
-    }
-
-    .ingameSettingsWrapper {
-        height: auto;
-        padding-top: 8px;
-    }
-
-    .ingameSettingsWrapper button img {
-        width: 18px;
-        height: 18px;
     }
 }
 
@@ -239,7 +246,7 @@
         height: 40px;
     }
 
-    .ingameSettingsWrapper button img {
+    #ingameSettingsWrapper button img {
         width: 16px;
         height: 16px;
     }

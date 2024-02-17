@@ -17,7 +17,8 @@ class World {
     stats = [
         new Stats(16, 2, 'health'),
         new Stats(16, 2 + 1 * 40, 'coins'),
-        new Stats(16, 2 + 2 * 40, 'poison')
+        new Stats(16, 2 + 2 * 40, 'poison'),
+        new Stats(514, -100, 'boss_health')
     ];
     bubbles = [];
     stop = false;
@@ -33,6 +34,7 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.stats[3].otherDirection = true;
     }
 
 
@@ -162,7 +164,7 @@ class World {
             const enemy = this.enemies[i];
             if (enemy.state != 'dead') {
                 this.checkCharacter(enemy);
-                if (enemy.isDead() && !(enemy instanceof Boss)) {
+                if (enemy instanceof Jellyfish && enemy.isDead()) {
                     this.enemies = removeAt(i, this.enemies);
                 } else {
                     this.checkBubbles(enemy);
@@ -258,9 +260,12 @@ class World {
      * boss fight initialization
      */
     initBossFight() {
+        const ingameSettings = document.getElementById('ingameSettingsWrapper');
+        ingameSettings.classList.add('mobileCenter');
         this.bossFight = true;
         clearInterval(this.floor.moveIntervalId);
         this.boss.spawn();
+        this.stats[3].y = 2;
     }
 
 

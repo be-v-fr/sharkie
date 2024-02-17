@@ -204,7 +204,7 @@ class Character extends Movable {
         this.animate('sleep', 1000 / 2);
         this.state = 'rest';
         setTimeout(() => {
-            if(this.state = 'rest') {
+            if (this.state = 'rest') {
                 this.playSound('snoring');
             }
         }, 1250);
@@ -277,13 +277,11 @@ class Character extends Movable {
         if (!this.slapping) {
             this.slapping = true;
             this.playAnimationOnce('slap', 1000 / 12);
+            this.playSoundAfterDelay(300, 'slap');
             setTimeout(() => {
-                if (this.slapping) {
-                    this.playSound('slap');
-                    this.slapping = false;
-                }
+                this.slapping = false;
                 this.removeAttackFromState();
-            }, 450);
+            }, 750);
         }
     }
 

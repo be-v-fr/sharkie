@@ -3,6 +3,7 @@ class Boss extends Movable {
     height = 480;
     attackId = -1;
     xStartAbsolute;
+    fullHealth;
 
     /**
      * constructor
@@ -14,14 +15,23 @@ class Boss extends Movable {
         this.xStartAbsolute = xStartAbsolute;
         this.y = 0;
         this.setDamage(10, 20);
-        if (settings['hardMode']) {
-            this.health = 60;
-        } else {
-            this.health = 40;
-        }
-        this.recoveryDuration = 1800;
+        this.setHealth();
+        this.recoveryDuration = 1600;
         this.initFrame(32, 240, 280, 140);
         this.initFrame(170, 170, 30, 100);
+    }
+
+
+    /**
+     * set full health and starting health according to game difficulty
+     */
+    setHealth() {
+        if (settings['hardMode']) {
+            this.fullHealth = 60;
+        } else {
+            this.fullHealth = 40;
+        }
+        this.health = this.fullHealth;
     }
 
 
@@ -154,7 +164,7 @@ class Boss extends Movable {
      * @returns {Boolean} - are the conditions for a new action fulfilled?
      */
     isReadyForAction() {
-        return this.attackId == -1 && this.singleAnimationId == -1 && Date.now() - this.lastHit > this.recoveryDuration / 3;
+        return this.attackId == -1 && this.singleAnimationId == -1 && Date.now() - this.lastHit > this.recoveryDuration / 2;
     }
 
 
@@ -240,6 +250,7 @@ class Boss extends Movable {
      */
     hit(obj) {
         super.hit(obj);
+        world.stats[3].update(this.getHealthPercentage());
         this.stopSound('attack');
         if (!this.isDead()) {
             this.state = 'hit';
@@ -247,6 +258,15 @@ class Boss extends Movable {
             this.playAnimationOnceWithSound('hurt', 1000 / 12);
             this.retreat();
         }
+    }
+
+
+    /**
+     * request relative rather than absolute health value
+     * @returns {Number} percentage value of health
+     */
+    getHealthPercentage() {
+        return 100* this.health / this.fullHealth; 
     }
 
 

@@ -124,7 +124,7 @@ function generateMenuSettings() {
 function generateIngameControls() {
     return /* html */ `
         <div class="ingameInterface">
-            <div class="ingameSettingsWrapper">
+            <div id="ingameSettingsWrapper">
                 <button id="ingameSoundBtn" onclick="toggleIngameSound()"><img id="ingameSoundBtnImg" src="./img/marks/icons/sound.svg"></button>
                 <button id="ingameMusicBtn" onclick="toggleIngameMusic()"><img id="ingameMusicBtnImg" src="./img/marks/icons/music.svg"></button>
             </div>

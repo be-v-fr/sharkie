@@ -360,7 +360,7 @@ footer {
     justify-content: space-between;
 }
 
-.ingameSettingsWrapper {
+#ingameSettingsWrapper {
     width: calc(100% - 12px);
     height: calc(100% - 12px);
     display: flex;
@@ -368,13 +368,13 @@ footer {
     justify-content: flex-end;
 }
 
-.ingameSettingsWrapper button img {
+#ingameSettingsWrapper button img {
     width: 24px;
     height: 24px;
     opacity: 0.8;
 }
 
-.ingameSettingsWrapper button img:hover {
+#ingameSettingsWrapper button img:hover {
     opacity: 1;
 }
 
