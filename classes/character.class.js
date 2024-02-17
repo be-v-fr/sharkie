@@ -226,7 +226,7 @@ class Character extends Movable {
             } else {
                 this.playAnimationOnce('bubble normal', 1000 / 12);
             }
-            this.newBubbleAfterTimeout(true, isToxic);
+            this.newBubbleAfterTimeout(isToxic);
         }
         this.idle();
     }
@@ -237,18 +237,19 @@ class Character extends Movable {
      */
     failBubbleAttack() {
         this.playAnimationOnce('no toxic', 1000 / 12);
-        this.newBubbleAfterTimeout(false, true);
+        setTimeout(() => {
+            this.removeAttackFromState();
+        }, 640);
     }
 
 
     /**
      * shoot bubble after delay
-     * @param {Boolean} isAttacking - perform attack (true) or cancel attack (false)
      * @param {Boolean} isToxic - bubble type (true = toxic, false = normal)  
      */
-    newBubbleAfterTimeout(isAttacking, isToxic) {
+    newBubbleAfterTimeout(isToxic) {
         setTimeout(() => {
-            if (isAttacking && this.state != 'hit' && !this.isDead()) {
+            if (this.state != 'hit' && !this.isDead()) {
                 this.createBubbleObject(isToxic);
             }
             this.removeAttackFromState();
