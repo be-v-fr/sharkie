@@ -13,9 +13,9 @@ const listMark = /* html */ `
 `;
 
 /**
- * JSON-Array im Local Storage speichern
- * @param {String} key - Key für Local Storafge 
- * @param {JSON} array - JSON-Array 
+ * save JSON array to local storage
+ * @param {String} key - key for local storage 
+ * @param {JSON} array - JSON array 
  */
 function setArray(key, array) {
     localStorage.setItem(key, JSON.stringify(array));
@@ -23,9 +23,9 @@ function setArray(key, array) {
 
 
 /**
- * JSON-Array aus Local Storage lesen
- * @param {String} key - Key für Local Storage 
- * @returns {JSON} JSON-Array
+ * load JSON array from local storage
+ * @param {String} key - key from local storage 
+ * @param {JSON} array - JSON array 
  */
 function getArray(key) {
     return JSON.parse(localStorage.getItem(key));
@@ -33,7 +33,7 @@ function getArray(key) {
 
 
 /**
- * Einstellungen laden
+ * load game settings
  */
 function loadSettings() {
     if (getArray('settings')) {
@@ -43,7 +43,7 @@ function loadSettings() {
 
 
 /**
- * Einstellungen speichern
+ * save game settings
  */
 function saveSettings() {
     setArray('settings', settings);
@@ -51,7 +51,7 @@ function saveSettings() {
 
 
 /**
- * Musik initialisieren
+ * initialize music, including music settings
  */
 function initMusic() {
     music = {
@@ -65,7 +65,7 @@ function initMusic() {
 
 
 /**
- * Musik-Tracks zurücksetzen
+ * reset music tracks to state directly after initialization
  */
 function resetMusic() {
     music['main'].pause();
@@ -76,10 +76,10 @@ function resetMusic() {
 
 
 /**
- * Eintrag aus Array löschen
- * @param {Number} index - Position im Array 
- * @param {Array} array - betroffener Array 
- * @returns {Array} aktualisierter Array
+ * delete entry from array by entry index
+ * @param {Number} index - entry index/position in array 
+ * @param {Array} array - requested array
+ * @returns {Array} updated shorter array
  */
 function removeAt(index, array) {
     return array.filter((elmnt) => {
@@ -89,7 +89,7 @@ function removeAt(index, array) {
 
 
 /**
- * Menü-Sound abspielen
+ * play menu sound
  */
 function playMenuSound() {
     if (settings['sound']) {
@@ -120,11 +120,10 @@ function toggleMobile(show) {
     }
 }
 
-
 /**
- * diese Funktion wird auf bestimmten Menüseiten aufgerufen, um zu verhindern, dass Elemente,
- * die in der Mobilanzeige normalerweise verborgen werden, dort durch Verkleinerung der Viewport-
- * größe dennoch angezeigt werden könnten
+ * this function is called on certain menu subpages
+ * to prevent elements which are usually hidden in mobile view from being shown nonetheless
+ * by scaling down the viewport from PC size to mobile size 
  */
 function displayOnResize() {
     toggleMobile(false);
@@ -132,7 +131,7 @@ function displayOnResize() {
 
 
 /**
- * Event-Listener für Menü hinzufügen
+ * add event listeners for menu subpage
  */
 function addMenuListeners() {
     addReturnListener();
@@ -141,7 +140,7 @@ function addMenuListeners() {
 
 
 /**
- * Listener für Rückkehr zum Hauptmenü hinzufügen
+ * add event listener for returning from menu subpage to main page
  */
 function addReturnListener() {
     overlay.addEventListener('mouseup', returnToMain);
@@ -149,7 +148,7 @@ function addReturnListener() {
 
 
 /**
- * Listener für Änderung der Viewport-Größe hinzufügen
+ * add resize event listener for menu subpage
  */
 function addResizeListener() {
     window.addEventListener('resize', displayOnResize);
@@ -157,18 +156,18 @@ function addResizeListener() {
 
 
 /**
- * Event-Listener für Menü entfernen
+ * remove menu subpage event listeners
  */
 function removeMenuListeners() {
     overlay.removeEventListener('mouseup', returnToMain);
-    window.addEventListener('resize', displayOnResize);
+    window.removeEventListener('resize', displayOnResize);
 }
 
 
 /**
- * Style für Tastendruck bei Touchscreen-Steuerung
- * @param {String} key - Taste/Button 
- * @param {Boolean} down - true = key aktiv, false = key nicht aktiv 
+ * set style for pressing keys via ingame touchscreen controls
+ * @param {String} key - key/button
+ * @param {Boolean} down - true = key active, false = key inactive 
  */
 function ingameControls(key, down) {
     if (world != null) {
@@ -184,9 +183,9 @@ function ingameControls(key, down) {
 
 
 /**
- * Button-Element anhand von Taste selektieren 
- * @param {String} key - Taste 
- * @returns {Element} Button
+ * select button element according to key
+ * @param {String} key - key
+ * @returns {Element} button
  */
 function getBtnFromKey(key) {
     return document.getElementById('ingame' + key);
