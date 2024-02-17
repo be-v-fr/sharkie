@@ -1,3 +1,6 @@
+/**
+ * fill empty 'animations' JSON with animation data 
+ */
 function initAnimationPaths() {
     animations = {
         'Boss': [
@@ -50,6 +53,9 @@ function initAnimationPaths() {
     };
 }
 
+/**
+ * fill empty 'sounds' JSON with audio data and new audio objects 
+ */
 function initSoundsPaths() {
     sounds = {
         'Boss': {

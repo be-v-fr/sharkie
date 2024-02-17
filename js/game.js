@@ -11,7 +11,7 @@ let settings = {
 
 
 /**
- * Initialisierung
+ * initialize game
  */
 function init() {
     canvas = document.getElementById('canvas');
@@ -25,7 +25,7 @@ function init() {
 
 
 /**
- * Spiel starten
+ * start game by showing loading screen and start loading
  */
 function start() {
     overlay.innerHTML = generateLoadingscreen();
@@ -34,7 +34,7 @@ function start() {
 
 
 /**
- * Bilddateien laden
+ * load images
  */
 function load() {
     const loadingBar = document.getElementById('loadingBar');
@@ -55,7 +55,7 @@ function load() {
 
 
 /**
- * Bilddateien von Klassen laden, die nicht mit dem world-Konstruktor instanziiert werden
+ * load images from classes not instantialized by the World constructor
  */
 function preload() {
     new Bubble(0, 0, false, 0);
@@ -64,8 +64,8 @@ function preload() {
 
 
 /**
- * Ladefortschritt abfragen
- * @returns {Number} prozentualer Fortschritt
+ * request loading progress
+ * @returns {Number} progress as percentage value
  */
 function getLoadingProgress() {
     return 100 * loadingCounter / TOTAL_NR_OF_IMAGES;
@@ -73,8 +73,8 @@ function getLoadingProgress() {
 
 
 /**
- * Abfrage, ob Laden abgeschlossen wurde
- * @returns {Boolean} true = abgeschlossen, false = nicht abgeschlossen
+ * request if loading is complete
+ * @returns {Boolean} true = complete, false = incomplete
  */
 function isLoaded() {
     return loadingCounter >= TOTAL_NR_OF_IMAGES;
@@ -82,7 +82,7 @@ function isLoaded() {
 
 
 /**
- * Ingame-Interface ins Overlay rendern
+ * render ingame interface to overlay
  */
 function renderIngameOverlay() {
     overlay.classList.remove('overlayBg');
@@ -92,7 +92,7 @@ function renderIngameOverlay() {
 
 
 /**
- * Menüseite "Settings" anzeigen
+ * show settings menu page
  */
 function showSettings() {
     overlay.innerHTML = generateMenuSettings();
@@ -102,7 +102,7 @@ function showSettings() {
 
 
 /**
- * Menüseite aufrufen
+ * this function handles going from the main menu page to a subpage
  */
 function goToMenuSubpage() {
     toggleMobile(false);
@@ -112,7 +112,7 @@ function goToMenuSubpage() {
 
 
 /**
- * zurück zum Hauptmenü
+ * this function handles going from a menu subpage back to the main page
  */
 function returnToMain() {
     overlay.innerHTML = generateStartscreen();
@@ -122,8 +122,8 @@ function returnToMain() {
 
 
 /**
- * Sound an/aus (im Menü)
- * @param {Boolean} on - true = an, false = aus
+ * set sound on/off (in menu)
+ * @param {Boolean} on - true = on, false = off
  */
 function setSound(on) {
     settings['sound'] = on;
@@ -134,8 +134,8 @@ function setSound(on) {
 
 
 /**
- * Musik an/aus (im Menü)
- * @param {Boolean} on - true = an, false = aus
+ * set music on/off (in menu)
+ * @param {Boolean} on - true = on, false = off
  */
 function setMenuMusic(on) {
     if (settings['sound']) {
@@ -145,8 +145,8 @@ function setMenuMusic(on) {
 
 
 /**
- * Musik an/aus (ingame)
- * @param {Boolean} on - true = an, false = aus
+ * set music on/off (called both ingame and from menu)
+ * @param {Boolean} on - true = on, false = off
  */
 function setMusic(on) {
     settings['music'] = on;
@@ -162,7 +162,7 @@ function setMusic(on) {
 
 
 /**
- * Sound togglen (ingame)
+ * toggle sound (ingame)
  */
 function toggleIngameSound() {
     const btn = document.getElementById('ingameSoundBtn');
@@ -175,7 +175,7 @@ function toggleIngameSound() {
 
 
 /**
- * Musik togglen (ingame)
+ * toggle music (ingame)
  */
 function toggleIngameMusic() {
     const btn = document.getElementById('ingameMusicBtn');
@@ -187,8 +187,8 @@ function toggleIngameMusic() {
 
 
 /**
- * Schwierigkeit festlegen
- * @param {Boolean} on - true = schwer, false = normal 
+ * set game difficulty
+ * @param {Boolean} on - true = hard, false = normal 
  */
 function setHardMode(on) {
     settings['hardMode'] = on;
@@ -196,8 +196,8 @@ function setHardMode(on) {
 
 
 /**
- * Settings aktualisieren...
- * @param {Boolean} ingame - true = ...im Spiel, false = ...im Menü
+ * update settings buttons and save information after change
+ * @param {Boolean} ingame - true = ...ingame, false = ...in menu
  */
 function updateSettings(ingame) {
     if (ingame) {
@@ -210,7 +210,7 @@ function updateSettings(ingame) {
 
 
 /**
- * Buttons für Ingame-Settings rendern
+ * render ingame settings buttons
  */
 function renderIngameControls() {
     const soundImg = document.getElementById('ingameSoundBtnImg');
@@ -230,7 +230,7 @@ function renderIngameControls() {
 
 
 /**
- * Buttons für Menü-Settings rendern
+ * render menu settings
  */
 function renderMenuSettings() {
     const sound0 = document.getElementById('sound0');
@@ -249,8 +249,8 @@ function renderMenuSettings() {
 
 
 /**
- * bestimmte CSS-Klassen von Buttons der Settings-Menüseite löschen
- * @param {Array} btns - Button-Elemente
+ * delete certain CSS classes from buttons on settings menu subpage
+ * @param {Array} btns - button elements
  */
 function clearSettingsBtnClasses(btns) {
     for (let i = 0; i < btns.length; i++) {
@@ -261,10 +261,10 @@ function clearSettingsBtnClasses(btns) {
 
 
 /**
- * bestimmte CSS-Klassen zu Buttons der Settings-Menüseite zuweisen
- * @param {String} key - Einstellungsparameter (JSON-Key aus settings-Array) 
- * @param {*} btn0 - Button für Einstellung "aus"
- * @param {*} btn1 - Button für Einstellung "an"
+ * add certain CSS classes to buttons on settings menu subpage
+ * @param {String} key - setting parameter (JSON key from 'settings' array) 
+ * @param {*} btn0 - button for setting parameter to 'off'
+ * @param {*} btn1 - button for setting parameter to 'on'
  */
 function styleSettingsBtns(key, btn0, btn1) {
     if (settings[key]) {
@@ -278,7 +278,7 @@ function styleSettingsBtns(key, btn0, btn1) {
 
 
 /**
- * Anleitung anzeigen
+ * show instructions menu subpage
  */
 function showInstructions() {
     overlay.innerHTML = generateInstructions();
@@ -287,8 +287,8 @@ function showInstructions() {
 
 
 /**
- * Endscreen anzeigen
- * @param {String} message - Nachricht 
+ * show endscreen (win/lose)
+ * @param {String} message - endscreen message 
  */
 function showEndscreen(message) {
     overlay.innerHTML = generateEndscreen(message);
@@ -298,7 +298,7 @@ function showEndscreen(message) {
 
 
 /**
- * Spiel beenden
+ * end game by returning from endscreen to startscreen
  */
 function endGame() {
     document.removeEventListener('click', endGame);

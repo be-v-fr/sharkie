@@ -1,6 +1,6 @@
 /**
- * Startbildschirm erzeugen
- * @returns {String} HTML-String
+ * generate startscreen/main menu
+ * @returns {String} HTML string
  */
 function generateStartscreen() {
     return /* html */ `
@@ -12,8 +12,8 @@ function generateStartscreen() {
 
 
 /**
- * Ladebildschirm erzeugen
- * @returns {String} HTML-String
+ * generate loading screen menu subpage
+ * @returns {String} HTML string
  */
 function generateLoadingscreen() {
     return /* html */ `
@@ -27,8 +27,8 @@ function generateLoadingscreen() {
 
 
 /**
- * Anleitung erzeugen
- * @returns {String} HTML-String
+ * generate instructions menu subpage
+ * @returns {String} HTML string
  */
 function generateInstructions() {
     return /* html */ `
@@ -85,8 +85,8 @@ function generateInstructions() {
 
 
 /**
- * Einstellungen (im Menü) erzeugen
- * @returns {String} HTML-String
+ * generate settings menu subpage
+ * @returns {String} HTML string
  */
 function generateMenuSettings() {
     return /* html */ `
@@ -118,8 +118,8 @@ function generateMenuSettings() {
 
 
 /**
- * Ingame-Steuerung erzeugen
- * @returns {String} HTML-String
+ * generate ingame game controls
+ * @returns {String} HTML string
  */
 function generateIngameControls() {
     return /* html */ `
@@ -162,9 +162,9 @@ function generateIngameControls() {
 
 
 /**
- * Event-Listener für Ingame-Steuerung erzeugen
- * @param {String} key - Name des Buttons/der Taste
- * @returns {String} HTML-String
+ * attach event listeners to an ingame control button
+ * @param {String} key - name of button/key
+ * @returns {String} HTML string
  */
 function generateControlListeners(key) {
     return `onmousedown=${generateListenerAction(key, true)} ontouchstart=${generateListenerAction(key, true)} 
@@ -173,10 +173,10 @@ function generateControlListeners(key) {
 
 
 /**
- * Aktionen für Event-Listener erzeugen
- * @param {String} key - Name des Buttons/der Taste
- * @param {Boolean} down - Status der Taste (true = gedrückt, false = nicht gedrückt)
- * @returns {String} HTML-String
+ * generate action triggered by an event listener attached to an ingame control button
+ * @param {String} key - name of button/key
+ * @param {Boolean} down - key status (true = key pressed, false = key not pressed)
+ * @returns {String} HTML string
  */
 function generateListenerAction(key, down) {
     return `"ingameControls('${key}', ${down}); event.preventDefault(); event.stopPropagation()"`;
@@ -184,8 +184,9 @@ function generateListenerAction(key, down) {
 
 
 /**
- * Endscreen erzeugen
- * @returns {String} HTML-String
+ * generate endscreen
+ * @param {string} message - endscreen message
+ * @returns {String} HTML string
  */
 function generateEndscreen(message) {
     return /* html */ `
