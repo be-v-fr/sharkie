@@ -257,10 +257,6 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
-
-}
-
 @media only screen and (max-width: 480px) {
     .instructions {
         font-size: 16px;
