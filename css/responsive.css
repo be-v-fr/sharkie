@@ -97,7 +97,6 @@
 @media only screen and (max-width: 720px) {
     :root {
         --canvasHeightResponsive: calc(100vw * 2 / 3);
-        --footerRightResponsive: 0;
     }
 
     #gameWrapper {
@@ -128,6 +127,7 @@
 
     #pageWrapper {
         padding: 0;
+        position: relative;
     }
 
     h1 {
@@ -136,17 +136,56 @@
         width: 200px;
     }
 
+    h1:hover {
+        font-size: 67px;
+    }
+
     footer {
-        position: fixed;
-        bottom: calc((100vh - var(--canvasHeightResponsive)) / 2 - 8px);
+        position: absolute;
         font-size: 12px;
-        right: var(--footerRightResponsive);
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    #gameWrapper {
+        max-width: 150vh;
+    }
+
+    #title {
+        top: 5vh;
+    }
+
+    .turnDeviceMsg {
+        flex-direction: row;
+        gap: 24px;
+    }
+
+    .menuBtn {
+        font-size: 32px;
+    }
+
+    .menuPageWrapper {
+        max-width: 100%;
+    }
+
+    .ingameControlsWrapper {
+        padding: 24px 48px;
+    }
+
+    .ingameControlsWrapper button img {
+        height: 40px;
+    }
+
+    #ingameSettingsWrapper button img {
+        width: 16px;
+        height: 16px;
     }
 }
 
 @media only screen and (max-width: 640px),
 (max-height: 480px) {
     body {
+        width: 100vw;
         height: 100vh;
     }
 
@@ -218,38 +257,8 @@
     }
 }
 
-@media only screen and (max-height: 480px) {
-    #gameWrapper {
-        max-width: 150vh;
-    }
-}
-
 @media only screen and (max-width: 576px) {
-    .turnDeviceMsg {
-        flex-direction: row;
-        gap: 24px;
-    }
 
-    .menuBtn {
-        font-size: 32px;
-    }
-
-    .menuPageWrapper {
-        max-width: 100%;
-    }
-
-    .ingameControlsWrapper {
-        padding: 24px 48px;
-    }
-
-    .ingameControlsWrapper button img {
-        height: 40px;
-    }
-
-    #ingameSettingsWrapper button img {
-        width: 16px;
-        height: 16px;
-    }
 }
 
 @media only screen and (max-width: 480px) {

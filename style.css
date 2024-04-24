@@ -3,7 +3,8 @@
     --textShadow: 1px 3px 3px rgba(0, 64, 104, 0.6);
     --canvasRadius: 16px;
     --canvasHeightResponsive: 480px;
-    --footerRightResponsive: calc((100vw - 720px) / 2);
+    --canvasWidthResponsive: calc(var(--canvasHeightResponsive) * 3 / 2);
+    --footerRightResponsive: calc((100vw - var(--canvasWidthResponsive)) / 2);
     --cuteFont: 'Cute Font', Arial, Helvetica, sans-serif;
     --regularFont: 'Open Sans', Arial, Helvetica, sans-serif;
     --hoverBg: rgba(0, 32, 64, 0.38);
@@ -153,6 +154,9 @@ canvas {
 }
 
 footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
     font-family: var(--regularFont);
     width: 100%;
     display: flex;
@@ -160,7 +164,7 @@ footer {
 }
 
 #footerContent {
-    padding-right: 8px;
+    padding-right: 12px;
     padding-bottom: 12px;
     display: flex;
     gap: 4px;
