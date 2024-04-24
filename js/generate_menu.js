@@ -48,7 +48,7 @@ function generateInstructions() {
                     </tr>
                     <tr>
                         <td>
-                            <img id="instrSpaceKey" src="./img/buttons/key/space.png">
+                            <img id="instrSpaceKey" class="instrSpaceKey" src="./img/buttons/key/space.png">
                         </td>
                         <td>
                             <div class="tdContainer">    
@@ -72,7 +72,7 @@ function generateInstructions() {
                         <td>
                             <div class="tdContainer">
                                 <img class="toxicBubbleKeys" src="./img/buttons/key/x.png"> + 
-                                <img class="toxicBubbleKeys" src="./img/buttons/key/space.png">
+                                <img class="toxicBubbleKeys instrSpaceKey" src="./img/buttons/key/space.png">
                                 Toxic Bubble
                             </div>
                         </td>
@@ -152,7 +152,7 @@ function generateIngameControls() {
                         <img src="./img/buttons/key/x.png">
                     </button>
                     <button id="ingameSPACE" ${generateControlListeners('SPACE')}>
-                        <img src="./img/buttons/key/space.png">
+                        <img src="./img/buttons/key/attack.png">
                     </button>
                 </div>
             </div>

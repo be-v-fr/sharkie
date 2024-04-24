@@ -5,6 +5,10 @@
 }
 
 @media only screen and (max-width: 1399px) {
+    .instrSpaceKey {
+        content: url('../img/buttons/key/attack.png');
+    }
+
     #ingameSettingsWrapper {
         height: auto;
         padding-top: 8px;
@@ -19,7 +23,6 @@
         justify-content: center !important;
     }
 }
-
 
 .ingameControlsWrapper {
     padding: 8px 12px;
