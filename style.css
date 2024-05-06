@@ -408,3 +408,27 @@ footer {
 .gameOver {
     background: rgba(0, 0, 0, 0.8);
 }
+
+.credits {
+    font-family: var(--regularFont);
+    font-size: 18px;
+}
+
+.credits a {
+    color: aquamarine;
+    transition: 75ms ease;
+}
+
+.credits a:hover {
+    color: aqua;
+    transition: 75ms ease;
+}
+
+#footerContent .disabledLink {
+    color: grey;
+    cursor: not-allowed;
+}
+
+#footerContent .disabledLink:hover {
+    text-decoration: none;
+}

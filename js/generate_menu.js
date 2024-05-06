@@ -185,13 +185,34 @@ function generateListenerAction(key, down) {
 
 /**
  * generate endscreen
- * @param {string} message - endscreen message
+ * @param {String} message - endscreen message
  * @returns {String} HTML string
  */
 function generateEndscreen(message) {
     return /* html */ `
         <div id="endscreen">
             <p class="endscreenMsg">${message}</p>
+        </div>
+    `;
+}
+
+
+/**
+ * generate credits screen
+ * @returns {String} HTML string
+ */
+function generateCredits() {
+    return /* html */ `
+        <div class="menuPageWrapper" onmouseup="event.stopPropagation()">
+            <button class="close" onclick="returnToMain()">X</button>
+            <div class="credits">
+                Background Image by
+                <a href="https://pixabay.com/users/noes_cucho-27675497/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7492390" target="_blank">Juan Agust&#237;n Correa Torrealba</a>
+                from
+                <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7492390" target="_blank">Pixabay</a>.<br>
+                Speaker and music icons from <a href="https://www.flaticon.com/uicons" target="_blank">Flaticon</a>.<br>
+                Landscape mode icon from <a href="https://www.flaticon.com/de/kostenlose-icons/startbildschirm" title="startbildschirm Icons" target="_blank">Flaticon</a>.
+            </div>
         </div>
     `;
 }

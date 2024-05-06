@@ -28,6 +28,7 @@ function init() {
  * start game by showing loading screen and start loading
  */
 function start() {
+    document.getElementById('creditsLink').classList.add('disabledLink');
     overlay.innerHTML = generateLoadingscreen();
     setTimeout(() => load(), 500);
 }
@@ -307,5 +308,17 @@ function endGame() {
     world.ctx.clearRect(0, 0, canvas.width, canvas.height);
     world = null;
     overlay.classList.add('overlayBg');
+    document.getElementById('creditsLink').classList.remove('disabledLink');
     returnToMain();
+}
+
+
+/**
+ * show credits on canvas overlay if not ingame
+ */
+function showCredits() {
+    if (!world) {
+        addMenuListeners();
+        overlay.innerHTML = generateCredits();
+    }
 }
