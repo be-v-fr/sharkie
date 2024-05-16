@@ -15,6 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: 100dvh;
     background-image: url('./img/underwater-7492390.jpg');
     background-size: cover;
     background-repeat: no-repeat;

@@ -126,6 +126,7 @@
     #title {
         position: fixed;
         top: calc((100vh - var(--canvasHeightResponsive)) / 2 + var(--canvasHeightResponsive) / 12);
+        top: calc((100dvh - var(--canvasHeightResponsive)) / 2 + var(--canvasHeightResponsive) / 12);
         z-index: 2;
         width: 100vw;
         display: flex;
@@ -156,10 +157,12 @@
 @media only screen and (max-height: 480px) {
     #gameWrapper {
         max-width: 150vh;
+        max-width: 150dvh;
     }
 
     #title {
         top: 5vh;
+        top: 5dvh;
     }
 
     .turnDeviceMsg {
@@ -194,11 +197,13 @@
     body {
         width: 100vw;
         height: 100vh;
+        height: 100dvh;
     }
 
     #gameWrapper {
         height: var(--canvasHeightResponsive);
         max-height: 100vh;
+        max-height: 100dvh;
     }
 
     canvas,
