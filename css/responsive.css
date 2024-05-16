@@ -72,6 +72,10 @@
         display: initial;
     }
 
+    .hideOnPortrait {
+        display: none;
+    }
+
     .turnDeviceMsg {
         background: rgba(0, 0, 0, 0.4);
         box-shadow: var(--mainShadow);
